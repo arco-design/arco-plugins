@@ -1,7 +1,7 @@
 const micromatch = require('micromatch');
 const { isObject, get, set } = require('lodash');
 const NormalModule = require('webpack/lib/NormalModule');
-const print = require('./print');
+const { print } = require('@arco-plugin/utils');
 
 /**
  * 获取指定路径的值，没有的时候将其设置为指定默认值

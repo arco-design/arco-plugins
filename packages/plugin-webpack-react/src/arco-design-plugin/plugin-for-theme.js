@@ -2,7 +2,7 @@
 const path = require('path');
 const { readFileSync, readdirSync } = require('fs');
 const { merge, cloneDeep, isString, isEmpty } = require('lodash');
-const print = require('./utils/print');
+const { print } = require('@arco-plugin/utils');
 const { getLoader, isMatch, hookNormalModuleLoader, rewriteLessLoaderOptions } = require('./utils');
 const { PLUGIN_NAME } = require('./config');
 const {

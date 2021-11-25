@@ -1,0 +1,41 @@
+{
+  "name": "@arco-plugin/webpack-react",
+  "version": "1.0.0",
+  "description": "arco webpack plugin",
+  "main": "src/index.js",
+  "files": [
+    "src",
+    "package.json",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:arco-design/arco-design-plugins.git",
+    "directory": "packages/plugin-webpack-react"
+  },
+  "keywords": [
+    "arco",
+    "arco-design",
+    "arco-plugin",
+    "plugin",
+    "webpack"
+  ],
+  "author": "arco-design",
+  "license": "ISC",
+  "dependencies": {
+    "@arco-plugin/utils": "workspace:^",
+    "@babel/core": "^7.16.0",
+    "@babel/generator": "^7.16.0",
+    "@babel/parser": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
+    "@babel/preset-typescript": "^7.16.0",
+    "@babel/traverse": "^7.16.3",
+    "babel-plugin-import": "^1.13.3",
+    "chalk": "^4.1.0",
+    "lodash": "^4.17.20",
+    "micromatch": "^4.0.2"
+  },
+  "peerDependencies": {
+    "webpack": "^4.0.0 || ^5.0.0"
+  }
+}
