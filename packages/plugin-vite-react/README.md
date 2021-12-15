@@ -31,6 +31,18 @@ export default {
 }
 ```
 
+```tsx
+// react
+import { Button } from '@arco-design/web-react'
+
+export default () => (
+  <div>
+    <Button type="secondary">Cancel</Button>
+    <Button type="primary">Submit</Button>    
+  </div>
+)
+```
+
 ## Options
 
 The plugin supports the following parameters:
