@@ -1,4 +1,4 @@
-# @byted-motor/vite-plugin-arco-import
+# @arco-plugin/vite-react
 
 ## 特性
 
@@ -9,7 +9,7 @@
 ## 安装
 
 ```bash
-npm i @byted-motor/vite-plugin-arco-import -D
+npm i @arco-plugin/vite-react -D
 ```
 
 ## 用法
@@ -17,7 +17,7 @@ npm i @byted-motor/vite-plugin-arco-import -D
 ```js
 // vite.config.js
 
-import vitePluginArcoImport from '@byted-motor/vite-plugin-arco-import'
+import vitePluginArcoImport from '@arco-plugin/vite-react'
 
 
 export default {

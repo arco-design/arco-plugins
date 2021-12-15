@@ -1,15 +1,15 @@
-# @byted-motor/vite-plugin-arco-import
+# @arco-plugin/vite-react
 
 ## Feature
 
-1. Style lazy load
+1. `样式按需加载`
 2. Theme import
 3. Icon replacement
 
 ## Install
 
 ```bash
-npm i @byted-motor/vite-plugin-arco-import -D
+npm i @arco-plugin/vite-react -D
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ npm i @byted-motor/vite-plugin-arco-import -D
 ```js
 // vite.config.js
 
-import vitePluginArcoImport from '@byted-motor/vite-plugin-arco-import'
+import vitePluginArcoImport from '@arco-plugin/vite-react'
 
 
 export default {
