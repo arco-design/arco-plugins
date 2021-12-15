@@ -1,15 +1,15 @@
-# @arco-plugin/vite-react
+# @byted-motor/vite-plugin-arco-import
 
 ## 特性
 
-1. Style lazy load
-2. Theme import
-3. Icon replacement
+1. `样式按需加载`
+2. `主题引入`
+3. `图标替换`
 
 ## 安装
 
 ```bash
-npm i @arco-plugin/vite-react -D
+npm i @byted-motor/vite-plugin-arco-import -D
 ```
 
 ## 用法
@@ -17,18 +17,30 @@ npm i @arco-plugin/vite-react -D
 ```js
 // vite.config.js
 
-import vitePluginForArco from '@arco-plugin/vite-react'
+import vitePluginArcoImport from '@byted-motor/vite-plugin-arco-import'
 
 
 export default {
   ...
   plugins: [    
-    vitePluginForArco({
+    vitePluginArcoImport({
       theme: '@arco-design/theme-dcd-pc-b',
       iconBox: '@arco-design/iconbox-react-dcd-icon',
     }),
   ],  
 }
+```
+
+```tsx
+// react
+import { Button } from '@arco-design/web-react'
+
+export default () => (
+  <div>
+    <Button type="secondary">Cancel</Button>
+    <Button type="primary">Submit</Button>    
+  </div>
+)
 ```
 
 ## 参数

@@ -1,11 +1,11 @@
-/* eslint-disable no-param-reassign */
 import type { UserConfig } from 'vite';
 
-import { reactLibraryName, vueLibraryName } from './const';
-import { getThemeComponentList, isModExist } from './utils';
+import { fullLessMatchers, globalLessMatchers, componentLessMatchers } from './config';
+import { getThemeComponentList, isModExist, pathMatch } from './utils';
 
-export type Vars = Record<string, any>;
+type Vars = Record<string, any>;
 
+// eslint-disable-next-line import/prefer-default-export
 export function modifyCssConfig(config: UserConfig, theme: string, modifyVars: Vars) {
   config.css = config.css || {};
   const { preprocessorOptions = {} } = config.css;
@@ -27,44 +27,34 @@ export function modifyCssConfig(config: UserConfig, theme: string, modifyVars: V
               } = extra;
 
               // theme global style
-              const globalList = [`${theme}/theme.less`];
+              const themeGlobalCss = `${theme}/theme.less`;
 
-              // arco base syle
-              let reg = new RegExp(
-                `(${reactLibraryName}|${vueLibraryName})/(es|lib)/style/index\\.less[^/]*$`
-              );
-              let matches = filename.match(reg);
+              // arco global syle
+              let matches = pathMatch(filename, globalLessMatchers);
               if (matches) {
-                globalList.forEach((it) => {
-                  src += `; @import '${it}';`;
-                });
+                src += `; @import '${themeGlobalCss}';`;
                 return src;
               }
 
               // arco full style
-              reg = new RegExp(
-                `(${reactLibraryName}|${vueLibraryName})/dist/(css/index|arco)\\.less[^/]*$`
-              );
-              matches = filename.match(reg);
+              matches = pathMatch(filename, fullLessMatchers);
               if (matches) {
                 const componentsLess = `${theme}/component.less`;
+                const list = [themeGlobalCss];
                 if (isModExist(componentsLess)) {
-                  globalList.push(componentsLess);
+                  list.push(componentsLess);
                 }
-                globalList.forEach((it) => {
+                list.forEach((it) => {
                   src += `; @import '${it}';`;
                 });
                 return src;
               }
 
               // arco component style
-              reg = new RegExp(
-                `(${reactLibraryName}|${vueLibraryName})/es/([^/]+)/style/index\\.less[^/]*$`
-              );
-              matches = filename.match(reg);
-              if (matches) {
-                if (getThemeComponentList(theme).includes(matches[1])) {
-                  src += `; @import '${theme}/components/${matches[1]}/index.less';`;
+              const componentName = pathMatch(filename, componentLessMatchers);
+              if (componentName) {
+                if (getThemeComponentList(theme).includes(componentName)) {
+                  src += `; @import '${theme}/components/${componentName}/index.less';`;
                 }
               }
               return src;
