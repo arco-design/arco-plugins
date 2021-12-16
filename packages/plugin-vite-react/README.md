@@ -2,9 +2,9 @@
 
 ## Feature
 
-1. `样式按需加载`
-2. Theme import
-3. Icon replacement
+1. `Style lazy load`
+2. `Theme import`
+3. `Icon replacement`
 
 ## Install
 
