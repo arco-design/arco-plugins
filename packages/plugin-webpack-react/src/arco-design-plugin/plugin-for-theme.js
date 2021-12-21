@@ -89,7 +89,7 @@ class ArcoWebpackPluginForTheme {
       let source = getFileSource(filePath);
       if (!source) return;
 
-      if (options?.importLessPath) {
+      if (options && options.importLessPath) {
         source = `;\n@import '~${filePath}';`;
       }
 
