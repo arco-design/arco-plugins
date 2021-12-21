@@ -23,7 +23,7 @@
   "author": "arco-design",
   "license": "ISC",
   "dependencies": {
-    "@arco-plugins/utils": "workspace:^",
+    "@arco-plugins/utils": "^1.0.0",
     "@babel/core": "^7.16.0",
     "@babel/generator": "^7.16.0",
     "@babel/parser": "^7.16.4",
