@@ -85,7 +85,7 @@ function transformImport(source, options) {
 
   const transformResult = babel.transformSync(
     source,
-    merge({}, ..._options.babelConfig, {
+    merge({}, _options.babelConfig, {
       filename: '',
       presets: babelPresets,
       plugins: babelPlugins,

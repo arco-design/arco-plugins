@@ -2,7 +2,7 @@
 const path = require('path');
 const { readFileSync, readdirSync } = require('fs');
 const { merge, cloneDeep, isString, isEmpty } = require('lodash');
-const { print } = require('@arco-plugins/utils');
+const { print, getFileSource } = require('@arco-plugins/utils');
 const { getLoader, isMatch, hookNormalModuleLoader, rewriteLessLoaderOptions } = require('./utils');
 const { PLUGIN_NAME } = require('./config');
 const {
@@ -77,17 +77,21 @@ class ArcoWebpackPluginForTheme {
    */
   hookForGlobalStyle() {
     if (!this.options.theme) return;
-    this.addAppendLoader(globalLessMatchers, `${this.options.theme}/theme.less`);
+    this.addAppendLoader(globalLessMatchers, `${this.options.theme}/theme.less`, {
+      importLessPath: true,
+    });
     this.addAppendLoader(globalCssMatchers, `${this.options.theme}/theme.css`);
   }
 
   // 将 filePath 中的内容添加到 match 的文件中
-  addAppendLoader(matcher, filePath) {
+  addAppendLoader(matcher, filePath, options) {
     try {
-      const fileAbsolutePath = require.resolve(filePath);
-      let source = readFileSync(fileAbsolutePath);
-      source = source.toString();
+      let source = getFileSource(filePath);
       if (!source) return;
+
+      if (options?.importLessPath) {
+        source = `;\n@import '~${filePath}';`;
+      }
 
       const appendLoader = require.resolve('./loaders/append');
       hookNormalModuleLoader(this.compiler, PLUGIN_NAME, (_loaderContext, module, resource) => {
@@ -115,7 +119,10 @@ class ArcoWebpackPluginForTheme {
     componentList.forEach((componentName) => {
       this.addAppendLoader(
         componentLessMatchers(componentName),
-        `${this.options.theme}/components/${componentName}/index.less`
+        `${this.options.theme}/components/${componentName}/index.less`,
+        {
+          importLessPath: true,
+        }
       );
       this.addAppendLoader(
         componentCssMatchers(componentName),
