@@ -1,6 +1,6 @@
 {
   "name": "@arco-plugins/vite-react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "For Vite build, load Arco Design styles on demand",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
