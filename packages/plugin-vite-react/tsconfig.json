@@ -1,20 +1,21 @@
 {
   "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./lib",
+    "declarationDir": "./types",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "jsx": "react",
     "noUnusedParameters": true,
     "noUnusedLocals": true,
-    "module": "es2020",
-    "target": "es5",
+    "module": "commonjs",
+    "target": "esnext",
     "declaration": true,
-    "outDir": "es",
-    "lib": ["es5", "dom"],
-    "types": ["node", "jest"],
+    "lib": ["esnext", "dom"],
+    "types": ["node"],
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }

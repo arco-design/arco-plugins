@@ -33,11 +33,20 @@ export function getThemeComponentList(theme: string) {
   if (!componentsListObj[theme]) {
     try {
       const packageRootDir = dirname(require.resolve(`${theme}/package.json`));
-      const themeComponentDirPath = `${packageRootDir}/components`;
-      componentsListObj[theme] = readdirSync(themeComponentDirPath) || [];
+      const dirPath = `${packageRootDir}/components`;
+      componentsListObj[theme] = readdirSync(dirPath) || [];
     } catch (error) {
       componentsListObj[theme] = [];
     }
   }
   return componentsListObj[theme];
+}
+
+// filePath match
+export function pathMatch(path: string, conf: [string, number?]): false | string {
+  const [regStr, order = 0] = conf;
+  const reg = new RegExp(regStr);
+  const matches = path.match(reg);
+  if (!matches) return false;
+  return matches[order];
 }
