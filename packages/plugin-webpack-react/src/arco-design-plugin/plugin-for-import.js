@@ -1,7 +1,7 @@
 const { isAbsolute, join } = require('path');
 const { merge } = require('lodash');
-const { arrify } = require('@arco-plugin/utils');
-const { glob } = require('@arco-plugin/utils');
+const { arrify } = require('@arco-plugins/utils');
+const { glob } = require('@arco-plugins/utils');
 const { getBabelPlugins } = require('./utils/transform-import');
 
 const { parseFiles, parseFoldersToGlobs } = glob;

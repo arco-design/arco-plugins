@@ -1,6 +1,6 @@
-# @arco-plugin/webpack-react
+# @arco-plugins/webpack-react
 
-`@arco-plugin/webpack-react` 是协助处理 arco 使用问题的 webpack 插件。
+`@arco-plugins/webpack-react` 是协助处理 arco 使用问题的 webpack 插件。
 
 ## 特性
 
@@ -19,10 +19,10 @@
 
 ```shell
 # npm
-$ npm install -D @arco-plugin/webpack-react
+$ npm install -D @arco-plugins/webpack-react
 
 # yarn
-$ yarn add @arco-plugin/webpack-react
+$ yarn add @arco-plugins/webpack-react
 ```
 
 ## 用法
@@ -30,7 +30,7 @@ $ yarn add @arco-plugin/webpack-react
 使用方式是在 webpack config 文件中加入以下内容：
 
 ```js
-const ArcoWebpackPlugin = require('@arco-plugin/webpack-react');
+const ArcoWebpackPlugin = require('@arco-plugins/webpack-react');
 
 // webpack config
 {

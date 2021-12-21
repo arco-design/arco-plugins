@@ -1,5 +1,5 @@
 {
-  "name": "@arco-plugin/vite-react",
+  "name": "@arco-plugins/vite-react",
   "version": "1.0.0",
   "description": "For Vite build, load Arco Design styles on demand",
   "main": "lib/index.js",
@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:arco-design/arco-design-plugins.git",
+    "url": "git@github.com:arco-design/arco-plugins.git",
     "directory": "packages/plugin-vite-react"
   },
   "keywords": [

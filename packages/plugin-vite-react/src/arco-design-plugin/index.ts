@@ -1,9 +1,7 @@
 import type { Plugin, ResolvedConfig, UserConfig, ConfigEnv } from 'vite';
-import type { Plugin as ESbuildPlugin } from 'esbuild/lib/main';
 import { modifyCssConfig } from './less';
 import { modifyIconConfig, loadIcon } from './icon';
 import { transformCssFile, transformJsFiles } from './transform';
-import { libraryName } from './config';
 
 const pkg = require('../../package.json');
 
@@ -43,33 +41,6 @@ export default function vitePluginArcoImport(options: PluginOption = {}): Plugin
 
       // iconbox
       modifyIconConfig(config, iconBoxLib);
-
-      const plugin: ESbuildPlugin = {
-        name: 'test',
-        setup(build) {
-          console.log('originjs:commonjs');
-          build.onLoad(
-            {
-              filter: new RegExp(`${libraryName}/lib/index.js`),
-              namespace: 'file',
-            },
-            async ({ path }) => {
-              console.log('path', path);
-              // const code = fs.readFileSync(id).toString();
-              // let result = lib_1.transformRequire(code, id);
-              // if (result.replaced) {
-              //   console.log('id', id);
-              //   return {
-              //     contents: result.code,
-              //     loader: 'js',
-              //   };
-              // }
-              return null;
-            }
-          );
-        },
-      };
-      config.optimizeDeps.esbuildOptions.plugins.push(plugin);
     },
     async load(id: string) {
       const res = loadIcon(id, iconBox, iconBoxLib);

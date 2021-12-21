@@ -5,17 +5,17 @@ __metadata:
   version: 5
   cacheKey: 8
 
-"@arco-plugin/utils@workspace:^, @arco-plugin/utils@workspace:packages/utils":
+"@arco-plugins/utils@workspace:^, @arco-plugins/utils@workspace:packages/utils":
   version: 0.0.0-use.local
-  resolution: "@arco-plugin/utils@workspace:packages/utils"
+  resolution: "@arco-plugins/utils@workspace:packages/utils"
   dependencies:
     chalk: ^4.1.2
   languageName: unknown
   linkType: soft
 
-"@arco-plugin/vite-react@workspace:packages/plugin-vite-react":
+"@arco-plugins/vite-react@workspace:packages/plugin-vite-react":
   version: 0.0.0-use.local
-  resolution: "@arco-plugin/vite-react@workspace:packages/plugin-vite-react"
+  resolution: "@arco-plugins/vite-react@workspace:packages/plugin-vite-react"
   dependencies:
     "@babel/generator": ^7.12.11
     "@babel/helper-module-imports": ^7.12.5
@@ -28,11 +28,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@arco-plugin/webpack-react@workspace:packages/plugin-webpack-react":
+"@arco-plugins/webpack-react@workspace:packages/plugin-webpack-react":
   version: 0.0.0-use.local
-  resolution: "@arco-plugin/webpack-react@workspace:packages/plugin-webpack-react"
+  resolution: "@arco-plugins/webpack-react@workspace:packages/plugin-webpack-react"
   dependencies:
-    "@arco-plugin/utils": "workspace:^"
+    "@arco-plugins/utils": "workspace:^"
     "@babel/core": ^7.16.0
     "@babel/generator": ^7.16.0
     "@babel/parser": ^7.16.4
@@ -811,9 +811,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"arco-design-plugins@workspace:.":
+"arco-plugins@workspace:.":
   version: 0.0.0-use.local
-  resolution: "arco-design-plugins@workspace:."
+  resolution: "arco-plugins@workspace:."
   dependencies:
     "@typescript-eslint/eslint-plugin": ^5.4.0
     "@typescript-eslint/parser": ^5.4.0

@@ -1,6 +1,6 @@
-# @arco-plugin/webpack-react
+# @arco-plugins/webpack-react
 
-`@arco-plugin/webpack-react` is a webpack plugin to help deal with arco usage issues. 
+`@arco-plugins/webpack-react` is a webpack plugin to help deal with arco usage issues. 
 
 ## Feature
 
@@ -18,10 +18,10 @@ Use npm/yarn to install the plugin:
 
 ```shell
 # npm
-$ npm install -D @arco-plugin/webpack-react
+$ npm install -D @arco-plugins/webpack-react
 
 # yarn
-$ yarn add @arco-plugin/webpack-react
+$ yarn add @arco-plugins/webpack-react
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ $ yarn add @arco-plugin/webpack-react
 To to the plugin, add the following code in webpack config:
 
 ```js
-const ArcoWebpackPlugin = require('@arco-plugin/webpack-react');
+const ArcoWebpackPlugin = require('@arco-plugins/webpack-react');
 
 // webpack config
 {
