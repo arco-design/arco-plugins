@@ -1,21 +1,12 @@
 {
-  "name": "@arco-design/webpack-plugin",
-  "version": "1.7.0",
-  "description": "arco webpack plugin",
-  "main": "src/index.js",
-  "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "prepublishOnly": "npm run lint"
-  },
-  "files": [
-    "src",
-    "package.json",
-    "README.md"
+  "name": "arco-plugins",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:arco-design/arco-webpack-plugin.git"
+  "engines": {
+    "node": ">=12.0.0"
   },
   "husky": {
     "hooks": {
@@ -23,7 +14,7 @@
     }
   },
   "lint-staged": {
-    "*.ts": [
+    "packages/*/src/**/*.{ts,js}": [
       "eslint",
       "prettier --write"
     ]
@@ -32,11 +23,14 @@
     "arco",
     "arco-design",
     "webpack",
+    "vite",
     "plugin"
   ],
   "author": "arco-design",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.15.0",
@@ -45,14 +39,5 @@
     "husky": "^4.3.0",
     "lint-staged": "^10.5.0",
     "prettier": "^2.1.2"
-  },
-  "dependencies": {
-    "babel-plugin-import": "^1.0.0",
-    "chalk": "^4.1.0",
-    "lodash": "^4.17.20",
-    "micromatch": "^4.0.2"
-  },
-  "peerDependencies": {
-    "webpack": "^4.0.0 || ^5.0.0"
   }
 }

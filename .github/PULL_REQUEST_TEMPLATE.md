@@ -1,7 +1,7 @@
 <!--
   Thanks so much for your PR and contribution.
   
-  Before submitting, please make sure to follow the Pull Request Guidelines: https://github.com/arco-design/arco-webpack-plugin/blob/master/CONTRIBUTING.md
+  Before submitting, please make sure to follow the Pull Request Guidelines: https://github.com/arco-design/arco-design-pro/blob/master/CONTRIBUTING.md
 -->
 
 <!-- Put an `x` in "[ ]" to check a box) -->
@@ -36,8 +36,8 @@
 
 ## Changelog
 
-| Component | Changelog(CN) | Changelog(EN) | Related issues | 
-| --------- | ------------- | ------------- | -------------- |
+| Changelog(CN) | Changelog(EN) | Related issues | 
+| ------------- | ------------- | -------------- |
 
 ## Checklist:
 
