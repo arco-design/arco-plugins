@@ -1,4 +1,4 @@
-# @arco-plugin/vite-react
+# @arco-plugins/vite-react
 
 ## Feature
 
@@ -9,7 +9,7 @@
 ## Install
 
 ```bash
-npm i @arco-plugin/vite-react -D
+npm i @arco-plugins/vite-react -D
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ npm i @arco-plugin/vite-react -D
 ```js
 // vite.config.js
 
-import vitePluginForArco from '@arco-plugin/vite-react'
+import vitePluginForArco from '@arco-plugins/vite-react'
 
 
 export default {

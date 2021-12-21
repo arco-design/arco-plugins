@@ -1,5 +1,5 @@
 {
-  "name": "@arco-plugin/webpack-react",
+  "name": "@arco-plugins/webpack-react",
   "version": "1.0.0",
   "description": "arco webpack plugin",
   "main": "src/index.js",
@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:arco-design/arco-design-plugins.git",
+    "url": "git@github.com:arco-design/arco-plugins.git",
     "directory": "packages/plugin-webpack-react"
   },
   "keywords": [
@@ -23,7 +23,7 @@
   "author": "arco-design",
   "license": "ISC",
   "dependencies": {
-    "@arco-plugin/utils": "workspace:^",
+    "@arco-plugins/utils": "workspace:^",
     "@babel/core": "^7.16.0",
     "@babel/generator": "^7.16.0",
     "@babel/parser": "^7.16.4",
