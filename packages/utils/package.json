@@ -4,9 +4,7 @@
   "description": "utils for arco design plugins",
   "main": "src/index.js",
   "files": [
-    "src",
-    "package.json",
-    "README.md"
+    "src"
   ],
   "repository": {
     "type": "git",
@@ -21,7 +19,7 @@
     "utils"
   ],
   "author": "arco-design",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.2"
   }

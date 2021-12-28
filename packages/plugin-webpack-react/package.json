@@ -4,9 +4,7 @@
   "description": "arco webpack plugin",
   "main": "src/index.js",
   "files": [
-    "src",
-    "package.json",
-    "README.md"
+    "src"
   ],
   "repository": {
     "type": "git",
@@ -21,7 +19,7 @@
     "webpack"
   ],
   "author": "arco-design",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@arco-plugins/utils": "^1.0.1",
     "@babel/core": "^7.16.0",
