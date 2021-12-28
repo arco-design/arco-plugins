@@ -1,6 +1,6 @@
 {
   "name": "@arco-plugins/utils",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "utils for arco design plugins",
   "main": "src/index.js",
   "files": [

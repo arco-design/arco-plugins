@@ -1,6 +1,6 @@
 {
   "name": "@arco-plugins/webpack-react",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "arco webpack plugin",
   "main": "src/index.js",
   "files": [
@@ -21,7 +21,7 @@
   "author": "arco-design",
   "license": "MIT",
   "dependencies": {
-    "@arco-plugins/utils": "^1.0.1",
+    "@arco-plugins/utils": "^1.0.2",
     "@babel/core": "^7.16.0",
     "@babel/generator": "^7.16.0",
     "@babel/parser": "^7.16.4",
