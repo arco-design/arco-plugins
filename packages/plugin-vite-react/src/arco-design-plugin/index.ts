@@ -40,7 +40,7 @@ export default function vitePluginArcoImport(options: PluginOption = {}): Plugin
       modifyCssConfig(config, theme, modifyVars);
 
       // iconbox
-      modifyIconConfig(config, iconBoxLib);
+      modifyIconConfig(config, iconBox, iconBoxLib);
     },
     async load(id: string) {
       const res = loadIcon(id, iconBox, iconBoxLib);
