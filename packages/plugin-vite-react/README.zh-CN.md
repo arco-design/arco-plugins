@@ -23,10 +23,7 @@ import vitePluginForArco from '@arco-plugins/vite-react'
 export default {
   ...
   plugins: [
-    vitePluginForArco({
-      theme: '@arco-design/theme-dcd-pc-b',
-      iconBox: '@arco-design/iconbox-react-dcd-icon',
-    }),
+    vitePluginForArco(options),
   ],
 }
 ```
