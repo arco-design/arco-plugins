@@ -22,55 +22,47 @@ import vitePluginForArco from '@arco-plugins/vite-react'
 
 export default {
   ...
-  plugins: [    
-    vitePluginForArco({
-      theme: '@arco-design/theme-dcd-pc-b',
-      iconBox: '@arco-design/iconbox-react-dcd-icon',
-    }),
-  ],  
+  plugins: [
+    vitePluginForArco(options),
+  ],
 }
 ```
 
 ```tsx
 // react
-import { Button } from '@arco-design/web-react'
+import { Button } from '@arco-design/web-react';
 
 export default () => (
   <div>
     <Button type="secondary">Cancel</Button>
-    <Button type="primary">Submit</Button>    
+    <Button type="primary">Submit</Button>
   </div>
-)
+);
 ```
 
 ## Options
 
 The plugin supports the following parameters:
 
-|Params|Type|Default Value|Description|
-|:--:|:--:|:-----:|:----------|
-|**`theme`**|`{String}`|`-`|Theme package name|
-|**`iconBox`**|`{String}`|`-`|Icon library package name|
-|**`modifyVars`**|`{Object}`|`{}`|Less variables|
-|**`style`**|`{'css'\|Boolean}`|`true`| Style import method|
+|      Params      |        Type        | Default Value | Description               |
+| :--------------: | :----------------: | :-----------: | :------------------------ |
+|   **`theme`**    |     `{String}`     |      `-`      | Theme package name        |
+|  **`iconBox`**   |     `{String}`     |      `-`      | Icon library package name |
+| **`modifyVars`** |     `{Object}`     |     `{}`      | Less variables            |
+|   **`style`**    | `{'css'\|Boolean}` |    `true`     | Style import method       |
 
 **Style import methods **
 
 `style: true` will import less file
 
 ```js
-import '@arco-design/web-react/Affix/style'
+import '@arco-design/web-react/Affix/style';
 ```
 
 `style: 'css'` will import css file
 
 ```js
-import '@arco-design/web-react/Affix/style/css'
+import '@arco-design/web-react/Affix/style/css';
 ```
 
 `style: false` will not import any style file
-
-
-** Tips **
-
- During development,The iconBox may not effect the icons built in Arco components(e.g. the icon of Alert).
