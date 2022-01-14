@@ -1,4 +1,22 @@
-# plugins for arco-design
+# arco-design plugin library
+
+A collection of plugins serving the Arco ecosystem.
+
+## Background
+
+The purpose of the plugin is to solve the problem of using the Arco component library and connect ecological products from the architectural level to minimize the use cost.
+
+## Features
+
+The main functions are as follows:
+
+1. `Load on demand`: Components, icons and styles are loaded on demand in one step.
+2. `Theme import`: The product of the style configuration platform, it only needs to be imported on the plugin to take effect.
+3. `Icon Replacement`: Specify the package name of the icon library, and the plugin will read the icons in the package and replace the icons with the same name used in the component library.
+
+## Plugin list
+
+The functions of different architectures are different due to different progress. Go to the plugin details page to find more useful functions:
 
 1. [webpack plugin](./packages/plugin-webpack-react/README.md)
 2. [vite plugin](./packages/plugin-vite-react/README.md)
