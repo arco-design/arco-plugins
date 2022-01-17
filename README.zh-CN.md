@@ -20,3 +20,17 @@
 
 1. [webpack plugin](./packages/plugin-webpack-react/README.md)
 2. [vite plugin](./packages/plugin-vite-react/README.md)
+
+
+## 参与贡献
+
+
+贡献之前请先阅读 [行为准则](./CODE_OF_CONDUCT.md) 和 [贡献指南](./CONTRIBUTING.zh-CN.md)。
+
+感谢所有为 ArcoDesign 做过贡献的人!
+
+<a href="https://github.com/arco-design/arco-plugins/graphs/contributors"><img src="https://contrib.rocks/image?repo=arco-design/arco-plugins" /></a>
+
+## License
+
+[MIT 协议](./LICENSE)
