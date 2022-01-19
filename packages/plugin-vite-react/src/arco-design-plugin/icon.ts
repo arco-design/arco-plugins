@@ -1,7 +1,7 @@
 import type { UserConfig } from 'vite';
 import type { PluginBuild, OnLoadArgs } from 'esbuild';
 
-import { iconComponentMatchers, libraryName } from './config';
+import { iconListMatchers, iconComponentMatchers, libraryName } from './config';
 import { pathMatch } from './utils';
 
 const filter = new RegExp(`${libraryName}/icon/react-icon/([^/]+)/index\\.js$`);
@@ -14,6 +14,11 @@ export function loadIcon(id: string, iconBox: string, iconBoxLib: any) {
   const componentName = pathMatch(id, iconComponentMatchers);
   if (componentName && iconBoxLib[componentName]) {
     return `export { default } from  '${iconBox}/esm/${componentName}/index.js'`;
+  }
+
+  // cjs -> es
+  if (pathMatch(id, iconListMatchers)) {
+    return `export * from  './index.es.js'`;
   }
 }
 
