@@ -31,14 +31,19 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
+    "axios": "^0.25.0",
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.1.4",
+    "fs-extra": "^10.0.0",
     "husky": "^4.3.0",
+    "inquirer": "^8.2.0",
     "lerna": "^3.22.1",
     "lint-staged": "^10.5.0",
+    "moment": "^2.29.1",
+    "nunjucks": "^3.2.3",
     "prettier": "^2.1.2"
   }
 }
