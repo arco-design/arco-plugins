@@ -1,10 +1,10 @@
 import type { UserConfig } from 'vite';
 import type { PluginBuild, OnLoadArgs } from 'esbuild';
 
-import { iconListMatchers, iconComponentMatchers, libraryName } from './config';
+import { iconListMatchers, iconComponentMatchers } from './config';
 import { pathMatch } from './utils';
 
-const filter = new RegExp(`${libraryName}/icon/react-icon/([^/]+)/index\\.js$`);
+const filter = new RegExp(`(${iconListMatchers[0]})|(${iconComponentMatchers[0]})`);
 
 export function loadIcon(id: string, iconBox: string, iconBoxLib: any) {
   if (!iconBox || !iconBoxLib) {
@@ -26,15 +26,8 @@ export function modifyIconConfig(config: UserConfig, iconBox: string, iconBoxLib
   if (!iconBox || !iconBoxLib) {
     return;
   }
-
+  // Pre-Bundling
   config.optimizeDeps = config.optimizeDeps || {};
-
-  // Avoid Dependency Pre-Bundling
-  config.optimizeDeps.exclude = config.optimizeDeps.exclude || [];
-  if (!config.optimizeDeps.exclude.includes(`${libraryName}/icon`)) {
-    config.optimizeDeps.exclude.push(`${libraryName}/icon`);
-  }
-  // Built-in Icon
   config.optimizeDeps.esbuildOptions = config.optimizeDeps.esbuildOptions || {};
   config.optimizeDeps.esbuildOptions.plugins = config.optimizeDeps.esbuildOptions.plugins || [];
   config.optimizeDeps.esbuildOptions.plugins.push({
