@@ -70,12 +70,12 @@ export function transformJsFiles({
       if (types.isImportDeclaration(node)) {
         const { value } = node.source;
         if (value === libraryName) {
-          // lazy load (css files don't support layload with theme)
+          // lazy load (css files don't support lazy load with theme)
           if (styleOptimization && (style !== 'css' || !theme)) {
             node.specifiers.forEach((spec) => {
               if (types.isImportSpecifier(spec)) {
                 const importedName = (spec as Specifier).imported.name;
-                const stylePath = `${value}/es/${importedName}/style/${
+                const stylePath = `${libraryName}/es/${importedName}/style/${
                   style === 'css' ? 'css.js' : 'index.js'
                 }`;
                 addSideEffect(path, stylePath);
@@ -84,11 +84,11 @@ export function transformJsFiles({
           }
           // import css bundle file
           else if (style === 'css') {
-            addSideEffect(path, `${value}/dist/css/arco.css`);
+            addSideEffect(path, `${libraryName}/dist/css/arco.css`);
           }
           // import less bundle file
           else {
-            addSideEffect(path, `${value}/dist/css/index.less`);
+            addSideEffect(path, `${libraryName}/dist/css/index.less`);
           }
         }
       }

@@ -2,7 +2,7 @@ type Matchers = [string, number?];
 
 export const libraryName = '@arco-design/web-react';
 
-export const iconListMatchers: Matchers = [`${libraryName}/icon/index\\.js[^/]*$`];
+export const iconCjsListMatchers: Matchers = [`${libraryName}/icon/index\\.js[^/]*$`];
 
 export const iconComponentMatchers: Matchers = [
   `${libraryName}/icon/react-icon/([^/]+)/index\\.js[^/]*$`,

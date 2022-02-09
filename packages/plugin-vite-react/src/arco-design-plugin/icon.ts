@@ -1,10 +1,10 @@
 import type { UserConfig } from 'vite';
 import type { PluginBuild, OnLoadArgs } from 'esbuild';
 
-import { iconListMatchers, iconComponentMatchers } from './config';
+import { iconCjsListMatchers, iconComponentMatchers } from './config';
 import { pathMatch } from './utils';
 
-const filter = new RegExp(`(${iconListMatchers[0]})|(${iconComponentMatchers[0]})`);
+const filter = new RegExp(`(${iconCjsListMatchers[0]})|(${iconComponentMatchers[0]})`);
 
 export function loadIcon(id: string, iconBox: string, iconBoxLib: any) {
   if (!iconBox || !iconBoxLib) {
@@ -17,7 +17,7 @@ export function loadIcon(id: string, iconBox: string, iconBoxLib: any) {
   }
 
   // cjs -> es
-  if (pathMatch(id, iconListMatchers)) {
+  if (pathMatch(id, iconCjsListMatchers)) {
     return `export * from  './index.es.js'`;
   }
 }
