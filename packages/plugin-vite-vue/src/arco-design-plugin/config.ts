@@ -1,15 +1,15 @@
 type Matchers = [string, number?];
 
-export const libraryName = '@arco-design/web-react';
+export const libraryName = '@arco-design/web-vue';
 
-export const iconCjsListMatchers: Matchers = [`${libraryName}/icon/index\\.js[^/]*$`];
+export const iconCjsListMatchers: Matchers = [`${libraryName}/lib/icon/index\\.js[^/]*$`];
 
 export const iconComponentMatchers: Matchers = [
-  `${libraryName}/icon/react-icon/([^/]+)/index\\.js[^/]*$`,
-  1,
+  `${libraryName}/(es|lib)/icon/([^/]+)/index\\.js[^/]*$`,
+  2,
 ];
 
-export const fullLessMatchers: Matchers = [`${libraryName}/dist/css/index\\.less[^/]*$`];
+export const fullLessMatchers: Matchers = [`${libraryName}/dist/arco\\.less[^/]*$`];
 
 export const globalLessMatchers: Matchers = [`${libraryName}/(es|lib)/style/index\\.less[^/]*$`];
 
@@ -18,7 +18,7 @@ export const componentLessMatchers: Matchers = [
   2,
 ];
 
-export const fullCssMatchers: Matchers = [`${libraryName}/dist/css/arco\\.css[^/]*$`];
+export const fullCssMatchers: Matchers = [`${libraryName}/dist/arco\\.(min\\.)?css[^/]*$`];
 
 export const globalCssMatchers: Matchers = [`${libraryName}/(es|lib)/style/index\\.css[^/]*$`];
 

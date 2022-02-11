@@ -18,7 +18,7 @@ export function loadIcon(id: string, iconBox: string, iconBoxLib: any) {
 
   // cjs -> es
   if (pathMatch(id, iconCjsListMatchers)) {
-    return `export * from  './index.es.js'`;
+    return `export * from  '../es/index.js'`;
   }
 }
 

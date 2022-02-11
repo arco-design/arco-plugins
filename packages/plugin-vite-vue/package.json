@@ -1,0 +1,42 @@
+{
+  "name": "@arco-plugins/vite-vue",
+  "version": "1.0.0",
+  "description": "For Vite build, load Arco Design styles on demand",
+  "main": "lib/index.js",
+  "types": "types/index.d.ts",
+  "files": [
+    "lib",
+    "types"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:arco-design/arco-plugins.git",
+    "directory": "packages/plugin-vite-vue"
+  },
+  "keywords": [
+    "arco",
+    "arco-design",
+    "arco-plugin",
+    "plugin",
+    "vite"
+  ],
+  "scripts": {
+    "clean": "rm -fr lib types",
+    "compile": "npm run clean && npx tsc",
+    "prepublishOnly": "npm run compile"
+  },
+  "author": "arco-design",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/generator": "^7.12.11",
+    "@babel/helper-module-imports": "^7.12.5",
+    "@babel/parser": "^7.12.11",
+    "@babel/traverse": "^7.12.12",
+    "@babel/types": "^7.12.12",
+    "@types/node": "^16.11.10"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.2",
+    "vite": "^2.6.14"
+  }
+}
