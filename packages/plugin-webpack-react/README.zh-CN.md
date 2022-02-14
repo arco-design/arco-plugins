@@ -53,6 +53,7 @@ const ArcoWebpackPlugin = require('@arco-plugins/webpack-react');
 |**`style`**|`{String\|Boolean}`|`true`| 样式引入方式|
 |**`removeFontFace`**|`{Boolean}`|`false`| 去掉组件库自带的字体文件 |
 |**`defaultLanguage`**|`{string}`|`-`| 替换默认的语言，[语言列表](https://arco.design/react/docs/i18n#%E6%94%AF%E6%8C%81%E7%9A%84%E8%AF%AD%E8%A8%80) |
+|**`webpackImplementation`**|`{webpack}`|`-`| 指定使用的 webpack 实例 |
 
 **样式引入方式**
 
