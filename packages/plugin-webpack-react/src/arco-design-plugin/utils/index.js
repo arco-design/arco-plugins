@@ -1,6 +1,6 @@
 const micromatch = require('micromatch');
 const { isObject, get, set } = require('lodash');
-const NormalModule = require('webpack/lib/NormalModule');
+const webpack = require('webpack');
 const { print } = require('@arco-plugins/utils');
 
 /**
@@ -36,10 +36,15 @@ function hookNormalModuleLoader(compiler, pluginName, callback) {
     const i = resource.indexOf('?');
     callback(context, module, i < 0 ? resource : resource.substr(0, i));
   };
+  const webpackImplementation =
+    global.__arcowebpackplugin__.options.webpackImplementation || webpack;
   compiler.hooks.compilation.tap(pluginName, (compilation) => {
-    if (NormalModule.getCompilationHooks) {
+    if (webpackImplementation.NormalModule.getCompilationHooks) {
       // for webpack 5
-      NormalModule.getCompilationHooks(compilation).loader.tap(pluginName, hookHandler);
+      webpackImplementation.NormalModule.getCompilationHooks(compilation).loader.tap(
+        pluginName,
+        hookHandler
+      );
     } else if (compilation.hooks) {
       // for webpack 4
       compilation.hooks.normalModuleLoader.tap(pluginName, hookHandler);

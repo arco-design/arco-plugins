@@ -7,6 +7,7 @@ const PluginForReplaceDefaultLanguage = require('./plugin-for-replace-default-la
 
 class ArcoWebpackPlugin {
   constructor(options) {
+    global.__arcowebpackplugin__ = { options: options || {} };
     this.options = options;
     this.pluginForTheme = new PluginForTheme(options);
     this.pluginForImport = new PluginForImport(options);
