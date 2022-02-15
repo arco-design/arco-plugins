@@ -9,3 +9,13 @@
 🐛 BugFix
 
 - Fix the problem of cannot find @babel/preset-typescript
+
+## 1.1.1
+
+`2022-02-15`
+
+
+🐛 BugFix
+
+- Fix the problem of getCompilationHooks is undefined
+
