@@ -39,7 +39,10 @@ function hookNormalModuleLoader(compiler, pluginName, callback) {
   const webpackImplementation =
     global.__arcowebpackplugin__.options.webpackImplementation || webpack;
   compiler.hooks.compilation.tap(pluginName, (compilation) => {
-    if (webpackImplementation.NormalModule.getCompilationHooks) {
+    if (
+      webpackImplementation.NormalModule &&
+      webpackImplementation.NormalModule.getCompilationHooks
+    ) {
       // for webpack 5
       webpackImplementation.NormalModule.getCompilationHooks(compilation).loader.tap(
         pluginName,
