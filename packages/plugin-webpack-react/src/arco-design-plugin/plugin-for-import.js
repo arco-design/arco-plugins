@@ -6,7 +6,7 @@ const { getBabelPlugins } = require('./utils/transform-import');
 
 const { parseFiles, parseFoldersToGlobs } = glob;
 
-const { getLoader, hookNormalModuleLoader, isMatch } = require('./utils');
+const { getLoader, hookNormalModuleLoader, isMatch, getLoaderIndex } = require('./utils');
 const { PLUGIN_NAME } = require('./config');
 
 /**
@@ -39,7 +39,15 @@ class ArcoWebpackPluginForImport {
     hookNormalModuleLoader(compiler, PLUGIN_NAME, (_loaderContext, module, resource) => {
       if (isMatch(resource, fileMatchers) && !getLoader(module.loaders, loader)) {
         const loaders = module.loaders;
-        loaders.push({
+        const babelLoaderIndex = getLoaderIndex(loaders, 'babel-loader');
+        const tsLoaderIndex = getLoaderIndex(loaders, 'ts-loader');
+        let insertIndex = loaders.length - 1;
+        if (babelLoaderIndex > -1) {
+          insertIndex = babelLoaderIndex + 1;
+        } else if (tsLoaderIndex > -1) {
+          insertIndex = (tsLoaderIndex || 1) - 1;
+        }
+        loaders.splice(insertIndex, 0, {
           loader,
           options: {
             style: this.options.style,

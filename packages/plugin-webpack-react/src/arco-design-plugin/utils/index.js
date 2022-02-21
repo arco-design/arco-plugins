@@ -70,6 +70,17 @@ function getLoader(loaders, loaderName) {
 }
 
 /**
+ * 返回指定的名称的loader的位置
+ * @param {loader[]} loaders
+ * @param {string} loaderName
+ * @returns {number}
+ */
+function getLoaderIndex(loaders, loaderName) {
+  if (!Array.isArray(loaders) || !loaders.length) return -1;
+  return loaders.findIndex((item) => item.loader.indexOf(loaderName) > -1);
+}
+
+/**
  * 删除一个 babel 插件
  * @param {LoaderConfig} babelLoader
  * @param {Function} filterMethod
@@ -152,4 +163,5 @@ module.exports = {
   rewriteLessLoaderOptions,
   printError,
   isMatch,
+  getLoaderIndex,
 };
