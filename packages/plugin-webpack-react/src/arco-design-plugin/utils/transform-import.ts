@@ -1,6 +1,7 @@
-const babel = require('@babel/core');
-const { merge } = require('lodash');
-const babelConfig = require('../config/babel.config');
+import babel from '@babel/core';
+import { merge } from 'lodash';
+import babelConfig from '../config/babel.config';
+
 const { ARCO_DESIGN_COMPONENT_NAME, ARCO_DESIGN_ICON_NAME } = require('../config');
 
 const babelPluginImport = require.resolve('babel-plugin-import');
@@ -56,14 +57,14 @@ function getTransformOptions(options) {
     {
       libraryDirectory: 'es',
       style: true,
-      iconbox: '',
+      iconBox: '',
       babelConfig: {},
     },
     options || {}
   );
 }
 
-function getBabelPlugins(options) {
+export function getBabelPlugins(options) {
   const _options = getTransformOptions(options);
 
   return [
@@ -72,14 +73,14 @@ function getBabelPlugins(options) {
       libraryDirectory: _options.libraryDirectory,
       style: _options.style,
     }),
-    ...getIconBoxImportPlugins(_options.iconbox),
+    ...getIconBoxImportPlugins(_options.iconBox),
   ];
 }
 
-function transformImport(source, options) {
+export function transformImport(source, options) {
   const _options = getTransformOptions(options);
 
-  const babelPlugins = getBabelPlugins();
+  const babelPlugins = getBabelPlugins(options);
 
   const babelPresets = [...babelConfig.presets, ...(_options.babelConfig.presets || [])];
 
@@ -94,8 +95,3 @@ function transformImport(source, options) {
 
   return transformResult.code;
 }
-
-module.exports = {
-  getBabelPlugins,
-  transformImport,
-};

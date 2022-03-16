@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./lib",
+    "declaration": true,
+    "moduleResolution": "node",
+    "module": "CommonJS",
+    "target": "esnext"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

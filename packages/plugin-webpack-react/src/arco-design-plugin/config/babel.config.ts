@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   presets: [
     [
       require.resolve('@babel/preset-typescript'),

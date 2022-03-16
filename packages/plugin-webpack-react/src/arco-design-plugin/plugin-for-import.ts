@@ -1,20 +1,32 @@
-const { isAbsolute, join } = require('path');
-const { merge } = require('lodash');
-const { arrify } = require('@arco-plugins/utils');
-const { glob } = require('@arco-plugins/utils');
-const { getBabelPlugins } = require('./utils/transform-import');
+import { isAbsolute, join } from 'path';
+import { merge } from 'lodash';
+import { arrify, glob } from '@arco-plugins/utils';
+import { Compiler } from 'webpack';
+import { getBabelPlugins } from './utils/transform-import';
+import { getLoader, hookNormalModuleLoader, isMatch, getLoaderIndex } from './utils';
+import { PLUGIN_NAME } from './config';
 
 const { parseFiles, parseFoldersToGlobs } = glob;
 
-const { getLoader, hookNormalModuleLoader, isMatch, getLoaderIndex } = require('./utils');
-const { PLUGIN_NAME } = require('./config');
+interface ImportPluginOptions {
+  context?: string;
+  include: string[];
+  extensions: string[];
+  style: string | boolean;
+  libraryDirectory: string;
+  iconBox: string;
+  babelConfig: object;
+}
 
 /**
  * 给匹配的文件的 babel-loader 增加 babel-plugin-import
  */
+export class ImportPlugin {
+  options: ImportPluginOptions;
 
-class ArcoWebpackPluginForImport {
-  constructor(options) {
+  babelPlugins: any[];
+
+  constructor(options: Partial<ImportPluginOptions>) {
     this.options = merge(
       {
         include: ['src'],
@@ -30,7 +42,7 @@ class ArcoWebpackPluginForImport {
     this.babelPlugins = getBabelPlugins(this.options);
   }
 
-  apply(compiler) {
+  apply(compiler: Compiler) {
     const include = parseFiles(this.options.include, this.getContext(compiler));
     const extensions = arrify(this.options.extensions);
     const fileMatchers = parseFoldersToGlobs(include, extensions);
@@ -52,9 +64,11 @@ class ArcoWebpackPluginForImport {
           options: {
             style: this.options.style,
             libraryDirectory: this.options.libraryDirectory,
-            iconbox: this.options.iconbox,
+            iconBox: this.options.iconBox,
             babelConfig: this.options.babelConfig,
           },
+          ident: null,
+          type: null,
         });
         module.loaders = loaders;
       }
@@ -66,7 +80,7 @@ class ArcoWebpackPluginForImport {
    * @param {Compiler} compiler
    * @returns {string}
    */
-  getContext(compiler) {
+  getContext(compiler: Compiler) {
     if (!this.options.context) {
       return String(compiler.options.context);
     }
@@ -82,5 +96,3 @@ class ArcoWebpackPluginForImport {
     return this.babelPlugins.slice(0);
   }
 }
-
-module.exports = ArcoWebpackPluginForImport;

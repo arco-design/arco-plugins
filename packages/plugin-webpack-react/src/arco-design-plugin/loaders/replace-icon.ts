@@ -1,14 +1,15 @@
-const path = require('path');
-const parser = require('@babel/parser');
-const traverse = require('@babel/traverse').default;
-const generate = require('@babel/generator').default;
-const loaderUtils = require('loader-utils');
-const { printError } = require('../utils');
+import { dirname, join, basename } from 'path';
+import { parse } from '@babel/parser';
+import traverse from '@babel/traverse';
+import generate from '@babel/generator';
+import { getOptions } from 'loader-utils';
+import { LoaderDefinitionFunction } from 'webpack';
+import { printError } from '../utils';
 
 // 替换Arco组件库内部的图标
-module.exports = function ReplaceArcoIcon(content) {
+const ReplaceIconLoader: LoaderDefinitionFunction = function (content) {
   // iconBox 是图标库
-  const { iconBox } = loaderUtils.getOptions(this);
+  const { iconBox } = getOptions(this) as unknown as { iconBox: string };
   // 引用iconbox的图标包
   let IconBoxLib;
 
@@ -22,21 +23,21 @@ module.exports = function ReplaceArcoIcon(content) {
     return content;
   }
 
-  const ast = parser.parse(content, {
+  const ast = parse(content, {
     sourceType: 'module',
   });
 
-  const dirname = path.dirname(this.resourcePath);
+  const dir = dirname(this.resourcePath);
 
   traverse(ast, {
     // 找到依赖关系
     ImportDeclaration(source) {
       const { node } = source;
       // 被引入的文件路径全名
-      const importedFilename = path.join(dirname, node.source.value);
+      const importedFilename = join(dir, node.source.value);
       // 拿到路径存入对象中
       if (importedFilename.indexOf('@arco-design/web-react/icon/react-icon/') > -1) {
-        const iconName = path.basename(node.source.value);
+        const iconName = basename(node.source.value);
         if (IconBoxLib[iconName]) {
           // 存在可以替换图标
           node.source.value = `${iconBox}/esm/${iconName}`;
@@ -47,3 +48,6 @@ module.exports = function ReplaceArcoIcon(content) {
 
   return generate(ast).code;
 };
+
+module.exports = ReplaceIconLoader;
+module.exports.default = ReplaceIconLoader;

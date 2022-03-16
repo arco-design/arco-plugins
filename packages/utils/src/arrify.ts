@@ -1,10 +1,13 @@
+function isIterator(val: any): val is { [Symbol.iterator]() } {
+  return typeof val[Symbol.iterator] === 'function';
+}
+
 /**
  * 将传入的内容转化为数组
  * @param {any} value
- * @returns {array}
+ * @returns {array<any>}
  */
-
-const arrify = (value) => {
+export function arrify<T = any>(value: T | T[]): T[] {
   if (value === null || value === undefined) {
     return [];
   }
@@ -17,11 +20,9 @@ const arrify = (value) => {
     return [value];
   }
 
-  if (typeof value[Symbol.iterator] === 'function') {
+  if (isIterator(value)) {
     return [...value];
   }
 
   return [value];
-};
-
-module.exports = arrify;
+}

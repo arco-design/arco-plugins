@@ -1,6 +1,6 @@
-const { statSync } = require('fs');
-const { isAbsolute } = require('path');
-const arrify = require('./arrify');
+import { statSync } from 'fs';
+import { isAbsolute } from 'path';
+import { arrify } from './arrify';
 
 const UNESCAPED_GLOB_SYMBOLS_RE = /(\\?)([()*?[\]{|}]|^!|[!+@](?=\())/g;
 
@@ -9,7 +9,7 @@ const UNESCAPED_GLOB_SYMBOLS_RE = /(\\?)([()*?[\]{|}]|^!|[!+@](?=\())/g;
  * @param {string} str
  * @returns {string}
  */
-function replaceBackslashes(str) {
+function replaceBackslashes(str: string) {
   return str.replace(/\\/g, '/');
 }
 
@@ -19,7 +19,7 @@ function replaceBackslashes(str) {
  * @param {string} context
  * @returns {string[]}
  */
-function parseFiles(files, context) {
+export function parseFiles(files: string | string[], context: string) {
   return arrify(files).map((file) =>
     isAbsolute(file)
       ? file
@@ -36,7 +36,7 @@ function parseFiles(files, context) {
  * @param {string|string[]} extensions
  * @returns {string[]}
  */
-function parseFoldersToGlobs(patterns, extensions) {
+export function parseFoldersToGlobs(patterns: string | string[], extensions: string[]) {
   const extensionsGlob = arrify(extensions).map((extension) => extension.replace(/^\./u, ''));
 
   return arrify(patterns)
@@ -55,8 +55,3 @@ function parseFoldersToGlobs(patterns, extensions) {
       return pattern;
     });
 }
-
-module.exports = {
-  parseFiles,
-  parseFoldersToGlobs,
-};

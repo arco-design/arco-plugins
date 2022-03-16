@@ -1,9 +1,13 @@
-const { cloneDeep, merge } = require('lodash');
-const { getLoader, hookNormalModuleLoader, isMatch } = require('./utils');
-const { PLUGIN_NAME } = require('./config');
-const { esLocalDefaultMatchers, libLocalDefaultMatchers } = require('./config/matchers');
+import { cloneDeep, merge } from 'lodash';
+import { getLoader, hookNormalModuleLoader, isMatch } from './utils';
+import { PLUGIN_NAME } from './config';
+import { esLocalDefaultMatchers, libLocalDefaultMatchers } from './config/matchers';
 
-class ArcoWebpackPluginForReplaceDefaultLanguage {
+export class ReplaceDefaultLanguagePlugin {
+  options: {
+    defaultLanguage: string;
+  };
+
   constructor(options) {
     this.options = merge(
       {
@@ -43,5 +47,3 @@ class ArcoWebpackPluginForReplaceDefaultLanguage {
     });
   }
 }
-
-module.exports = ArcoWebpackPluginForReplaceDefaultLanguage;

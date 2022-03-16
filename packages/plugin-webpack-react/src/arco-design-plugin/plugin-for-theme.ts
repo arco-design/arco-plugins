@@ -1,19 +1,26 @@
 /* eslint-disable no-empty */
-const path = require('path');
-const { readFileSync, readdirSync } = require('fs');
-const { merge, cloneDeep, isString, isEmpty } = require('lodash');
-const { print, getFileSource } = require('@arco-plugins/utils');
-const { getLoader, isMatch, hookNormalModuleLoader, rewriteLessLoaderOptions } = require('./utils');
-const { PLUGIN_NAME } = require('./config');
-const {
+import path from 'path';
+import { readFileSync, readdirSync } from 'fs';
+import { merge, cloneDeep, isString, isEmpty } from 'lodash';
+import { print, getFileSource } from '@arco-plugins/utils';
+import { Compiler } from 'webpack';
+import { getLoader, isMatch, hookNormalModuleLoader, rewriteLessLoaderOptions } from './utils';
+import { PLUGIN_NAME } from './config';
+import {
   lessMatchers,
   globalLessMatchers,
   globalCssMatchers,
   componentCssMatchers,
   componentLessMatchers,
-} = require('./config/matchers');
+} from './config/matchers';
 
-class ArcoWebpackPluginForTheme {
+export class ThemePlugin {
+  options: {
+    theme: string;
+    modifyVars: Record<string, string>;
+  };
+  compiler: Compiler;
+
   constructor(options) {
     this.options = merge(
       {
@@ -84,7 +91,7 @@ class ArcoWebpackPluginForTheme {
   }
 
   // 将 filePath 中的内容添加到 match 的文件中
-  addAppendLoader(matcher, filePath, options) {
+  addAppendLoader(matcher, filePath, options?: { importLessPath: boolean }) {
     try {
       let source = getFileSource(filePath);
       if (!source) return;
@@ -187,5 +194,3 @@ class ArcoWebpackPluginForTheme {
     return obj;
   }
 }
-
-module.exports = ArcoWebpackPluginForTheme;

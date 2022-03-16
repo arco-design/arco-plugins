@@ -1,6 +1,10 @@
-const path = require('path');
+import path from 'path';
 
-class ArcoPluginForReplaceIcon {
+export class ReplaceIconPlugin {
+  options: {
+    iconBox: string;
+  };
+
   constructor(options) {
     this.options = options || {};
   }
@@ -27,5 +31,3 @@ class ArcoPluginForReplaceIcon {
     });
   }
 }
-
-module.exports = ArcoPluginForReplaceIcon;

@@ -1,9 +1,9 @@
-const { cloneDeep } = require('lodash');
-const { getLoader, hookNormalModuleLoader, isMatch } = require('./utils');
-const { PLUGIN_NAME } = require('./config');
-const { globalLessMatchers } = require('./config/matchers');
+import { cloneDeep } from 'lodash';
+import { getLoader, hookNormalModuleLoader, isMatch } from './utils';
+import { PLUGIN_NAME } from './config';
+import { globalLessMatchers } from './config/matchers';
 
-class ArcoWebpackPluginForRemoveFontFace {
+export class RemoveFontFacePlugin {
   apply(compiler) {
     const loader = require.resolve('./loaders/remove-font-face');
     hookNormalModuleLoader(compiler, PLUGIN_NAME, (_loaderContext, module, resource) => {
@@ -17,5 +17,3 @@ class ArcoWebpackPluginForRemoveFontFace {
     });
   }
 }
-
-module.exports = ArcoWebpackPluginForRemoveFontFace;

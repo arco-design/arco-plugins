@@ -1,6 +1,6 @@
-const chalk = require('chalk');
+import * as chalk from 'chalk';
 
-function log(...args) {
+export function log(...args) {
   console.log(...args);
 }
 
@@ -29,5 +29,3 @@ log.divider = (level = 'info') => {
   const logger = log[level] || log.info;
   logger('---------------------------------------------------------------------------------------');
 };
-
-module.exports = log;

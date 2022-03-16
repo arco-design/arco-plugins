@@ -1,7 +1,7 @@
-const micromatch = require('micromatch');
-const { isObject, get, set } = require('lodash');
-const webpack = require('webpack');
-const { print } = require('@arco-plugins/utils');
+import webpack, { Compiler, NormalModule } from 'webpack';
+import micromatch from 'micromatch';
+import { isObject, get, set } from 'lodash';
+import { print } from '@arco-plugins/utils';
 
 /**
  * 获取指定路径的值，没有的时候将其设置为指定默认值
@@ -11,7 +11,12 @@ const { print } = require('@arco-plugins/utils');
  * @param {any} defaultValue
  * @return {any}
  */
-function getAndSetWhen(src, path, checkFn, defaultValue) {
+function getAndSetWhen(
+  src: object,
+  path: string,
+  checkFn: (val: any) => boolean,
+  defaultValue: any
+) {
   if (!isObject(src)) return;
   const res = get(src, path);
 
@@ -29,7 +34,11 @@ function getAndSetWhen(src, path, checkFn, defaultValue) {
  * @param {string} pluginName
  * @param {Function} callback
  */
-function hookNormalModuleLoader(compiler, pluginName, callback) {
+export function hookNormalModuleLoader(
+  compiler: Compiler,
+  pluginName: string,
+  callback: (context: any, module: NormalModule, resource: string) => void
+) {
   const hookHandler = (context, module) => {
     const { resource } = module;
     if (!resource) return;
@@ -37,7 +46,8 @@ function hookNormalModuleLoader(compiler, pluginName, callback) {
     callback(context, module, i < 0 ? resource : resource.substr(0, i));
   };
   const webpackImplementation =
-    global.__arcowebpackplugin__.options.webpackImplementation || webpack;
+    (global.__arcowebpackplugin__.options.webpackImplementation as typeof webpack | undefined) ||
+    webpack;
   compiler.hooks.compilation.tap(pluginName, (compilation) => {
     if (
       webpackImplementation.NormalModule &&
@@ -51,9 +61,9 @@ function hookNormalModuleLoader(compiler, pluginName, callback) {
     } else if (compilation.hooks) {
       // for webpack 4
       compilation.hooks.normalModuleLoader.tap(pluginName, hookHandler);
-    } else if (compilation.plugin) {
+    } else if ((compilation as any).plugin) {
       // for webpack 3
-      compilation.plugin('normal-module-loader', hookHandler);
+      (compilation as any).plugin('normal-module-loader', hookHandler);
     }
   });
 }
@@ -64,7 +74,7 @@ function hookNormalModuleLoader(compiler, pluginName, callback) {
  * @param {string} loaderName
  * @returns {loader}
  */
-function getLoader(loaders, loaderName) {
+export function getLoader(loaders, loaderName) {
   if (!Array.isArray(loaders) || !loaders.length) return;
   return loaders.find((item) => item.loader.indexOf(loaderName) > -1);
 }
@@ -75,7 +85,7 @@ function getLoader(loaders, loaderName) {
  * @param {string} loaderName
  * @returns {number}
  */
-function getLoaderIndex(loaders, loaderName) {
+export function getLoaderIndex(loaders, loaderName) {
   if (!Array.isArray(loaders) || !loaders.length) return -1;
   return loaders.findIndex((item) => item.loader.indexOf(loaderName) > -1);
 }
@@ -85,7 +95,7 @@ function getLoaderIndex(loaders, loaderName) {
  * @param {LoaderConfig} babelLoader
  * @param {Function} filterMethod
  */
-function deleteBabelPlugin(babelLoader, match) {
+export function deleteBabelPlugin(babelLoader, match) {
   if (!babelLoader) return;
 
   const plugins = get(babelLoader, 'options.plugins');
@@ -105,7 +115,7 @@ function deleteBabelPlugin(babelLoader, match) {
  * @param {LoaderConfig} babelLoader
  * @param {loader plugin options} pluginOptions
  */
-function injectBabelPlugin(babelLoader, pluginOptions) {
+export function injectBabelPlugin(babelLoader, pluginOptions) {
   if (!babelLoader) return;
 
   const plugins = getAndSetWhen(babelLoader, 'options.plugins', Array.isArray, []);
@@ -121,7 +131,7 @@ function injectBabelPlugin(babelLoader, pluginOptions) {
  * @param {loaderConfig} lessLoader
  * @param {lessLoader.options} options
  */
-function rewriteLessLoaderOptions(lessLoader, options) {
+export function rewriteLessLoaderOptions(lessLoader, options) {
   if (!lessLoader) return;
 
   // less-loader 6.0 之后 less 的配置放到了 options.lessOptions。这边简单的通过判断原本的配置中是否存在 lessOptions 来决定用谁
@@ -138,7 +148,7 @@ function rewriteLessLoaderOptions(lessLoader, options) {
 /**
  * 打印错误信息
  */
-function printError(error) {
+export function printError(error) {
   if (error) {
     print.error(`[arco-design/webpack-plugin]: ${error}`);
   }
@@ -150,18 +160,7 @@ function printError(error) {
  * @param {string} fileMatchers
  * @returns boolean
  */
-function isMatch(resource, fileMatchers) {
+export function isMatch(resource, fileMatchers) {
   // 因为 resource中含有 . 符号时候默认会忽略匹配，所以设置 dot: true
   return micromatch.isMatch(resource, fileMatchers, { dot: true });
 }
-
-module.exports = {
-  getLoader,
-  hookNormalModuleLoader,
-  injectBabelPlugin,
-  deleteBabelPlugin,
-  rewriteLessLoaderOptions,
-  printError,
-  isMatch,
-  getLoaderIndex,
-};
