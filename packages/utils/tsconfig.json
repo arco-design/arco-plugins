@@ -5,7 +5,11 @@
     "declaration": true,
     "moduleResolution": "node",
     "module": "CommonJS",
-    "target": "esnext"
+    "target": "esnext",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "types": ["node"]
   },
   "include": ["src"],
   "exclude": ["node_modules"]
