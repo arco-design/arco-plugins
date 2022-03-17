@@ -1,6 +1,6 @@
 {
   "name": "@arco-plugins/utils",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "utils for arco design plugins",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
