@@ -1,4 +1,4 @@
-import babel from '@babel/core';
+import { transformSync } from '@babel/core';
 import { merge } from 'lodash';
 import babelConfig from '../config/babel.config';
 
@@ -84,7 +84,7 @@ export function transformImport(source, options) {
 
   const babelPresets = [...babelConfig.presets, ...(_options.babelConfig.presets || [])];
 
-  const transformResult = babel.transformSync(
+  const transformResult = transformSync(
     source,
     merge({}, _options.babelConfig, {
       filename: '',
