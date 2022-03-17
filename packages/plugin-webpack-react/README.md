@@ -53,6 +53,7 @@ The plugin supports the following parameters:
 |**`removeFontFace`**|`{Boolean}`|`false`| Whether to remove the font file that comes with the component library |
 |**`defaultLanguage`**|`{string}`|`-`| Replace the default language，[language list](https://arco.design/react/docs/i18n#%E6%94%AF%E6%8C%81%E7%9A%84%E8%AF%AD%E8%A8%80)|
 |**`webpackImplementation`**|`{webpack}`|`-`| Specifying which webpack implementation to use |
+|**`themeOptions`**|`{include: string[]}`|`-`| File directory where the less variable takes effect |
 
 **Style import methods **
 
