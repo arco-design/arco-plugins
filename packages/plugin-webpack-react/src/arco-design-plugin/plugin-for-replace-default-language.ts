@@ -1,20 +1,14 @@
-import { cloneDeep, merge } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { getLoader, hookNormalModuleLoader, isMatch } from './utils';
 import { PLUGIN_NAME } from './config';
 import { esLocalDefaultMatchers, libLocalDefaultMatchers } from './config/matchers';
+import { ArcoDesignPluginOptions } from './interface';
 
 export class ReplaceDefaultLanguagePlugin {
-  options: {
-    defaultLanguage: string;
-  };
+  options: ArcoDesignPluginOptions;
 
-  constructor(options) {
-    this.options = merge(
-      {
-        defaultLanguage: '',
-      },
-      options
-    );
+  constructor(options: ArcoDesignPluginOptions) {
+    this.options = options;
   }
 
   apply(compiler) {
@@ -26,6 +20,8 @@ export class ReplaceDefaultLanguagePlugin {
         const loaders = cloneDeep(module.loaders || []);
         loaders.push({
           loader,
+          ident: null,
+          type: null,
           options: {
             defaultLanguage: this.options.defaultLanguage,
             type: 'es',
@@ -37,6 +33,8 @@ export class ReplaceDefaultLanguagePlugin {
         const loaders = cloneDeep(module.loaders || []);
         loaders.push({
           loader,
+          ident: null,
+          type: null,
           options: {
             defaultLanguage: this.options.defaultLanguage,
             type: 'lib',

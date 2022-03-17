@@ -1,34 +1,31 @@
 /* eslint-disable no-empty */
 import path from 'path';
 import { readFileSync, readdirSync } from 'fs';
-import { merge, cloneDeep, isString, isEmpty } from 'lodash';
-import { print, getFileSource } from '@arco-plugins/utils';
+import { cloneDeep, isString, isEmpty } from 'lodash';
+import { print, getFileSource, glob } from '@arco-plugins/utils';
 import { Compiler } from 'webpack';
-import { getLoader, isMatch, hookNormalModuleLoader, rewriteLessLoaderOptions } from './utils';
+import {
+  getLoader,
+  isMatch,
+  hookNormalModuleLoader,
+  rewriteLessLoaderOptions,
+  getContext,
+} from './utils';
 import { PLUGIN_NAME } from './config';
 import {
-  lessMatchers,
   globalLessMatchers,
   globalCssMatchers,
   componentCssMatchers,
   componentLessMatchers,
 } from './config/matchers';
+import { ArcoDesignPluginOptions } from './interface';
 
 export class ThemePlugin {
-  options: {
-    theme: string;
-    modifyVars: Record<string, string>;
-  };
+  options: ArcoDesignPluginOptions;
   compiler: Compiler;
 
-  constructor(options) {
-    this.options = merge(
-      {
-        theme: '',
-        modifyVars: {},
-      },
-      options
-    );
+  constructor(options: ArcoDesignPluginOptions) {
+    this.options = options;
   }
 
   apply(compiler) {
@@ -49,9 +46,14 @@ export class ThemePlugin {
 
     const cachedMatchResult = {};
     let noLessLoaderWarning = '';
+    const include = glob.parseFiles(
+      this.options.themeOptions.include,
+      getContext(this.compiler, this.options.context)
+    );
+    const fileMatchers = glob.parseFoldersToGlobs(include, ['less']);
 
     hookNormalModuleLoader(this.compiler, PLUGIN_NAME, (_loaderContext, module, resource) => {
-      cachedMatchResult[resource] = isMatch(resource, lessMatchers);
+      cachedMatchResult[resource] = isMatch(resource, fileMatchers);
       if (cachedMatchResult[resource] === undefined) {
       }
       if (cachedMatchResult[resource]) {
@@ -90,32 +92,6 @@ export class ThemePlugin {
     this.addAppendLoader(globalCssMatchers, `${this.options.theme}/theme.css`);
   }
 
-  // 将 filePath 中的内容添加到 match 的文件中
-  addAppendLoader(matcher, filePath, options?: { importLessPath: boolean }) {
-    try {
-      let source = getFileSource(filePath);
-      if (!source) return;
-
-      if (options && options.importLessPath) {
-        source = `;\n@import '~${filePath}';`;
-      }
-
-      const appendLoader = require.resolve('./loaders/append');
-      hookNormalModuleLoader(this.compiler, PLUGIN_NAME, (_loaderContext, module, resource) => {
-        if (isMatch(resource, matcher) && !getLoader(module.loaders, appendLoader)) {
-          const loaders = cloneDeep(module.loaders || []);
-          loaders.push({
-            loader: appendLoader,
-            options: {
-              additionContent: source,
-            },
-          });
-          module.loaders = loaders;
-        }
-      });
-    } catch (error) {}
-  }
-
   /**
    * 读取组件的样式文件，附加到各组件的 index.less 和 index.css
    */
@@ -136,6 +112,34 @@ export class ThemePlugin {
         `${this.options.theme}/components/${componentName}/index.css`
       );
     });
+  }
+
+  // 将 filePath 中的内容添加到 match 的文件中
+  addAppendLoader(matcher, filePath, options?: { importLessPath: boolean }) {
+    try {
+      let source = getFileSource(filePath);
+      if (!source) return;
+
+      if (options && options.importLessPath) {
+        source = `;\n@import '~${filePath}';`;
+      }
+
+      const appendLoader = require.resolve('./loaders/append');
+      hookNormalModuleLoader(this.compiler, PLUGIN_NAME, (_loaderContext, module, resource) => {
+        if (isMatch(resource, matcher) && !getLoader(module.loaders, appendLoader)) {
+          const loaders = cloneDeep(module.loaders || []);
+          loaders.push({
+            loader: appendLoader,
+            options: {
+              additionContent: source,
+            },
+            ident: null,
+            type: null,
+          });
+          module.loaders = loaders;
+        }
+      });
+    } catch (error) {}
   }
 
   /** 读取组件配置目录 */

@@ -2,6 +2,7 @@ import webpack, { Compiler, NormalModule } from 'webpack';
 import micromatch from 'micromatch';
 import { isObject, get, set } from 'lodash';
 import { print } from '@arco-plugins/utils';
+import { isAbsolute, join } from 'path';
 
 /**
  * 获取指定路径的值，没有的时候将其设置为指定默认值
@@ -46,7 +47,7 @@ export function hookNormalModuleLoader(
     callback(context, module, i < 0 ? resource : resource.substr(0, i));
   };
   const webpackImplementation =
-    (global.__arcowebpackplugin__.options.webpackImplementation as typeof webpack | undefined) ||
+    (global.arcoDesignPlugin.options.webpackImplementation as typeof webpack | undefined) ||
     webpack;
   compiler.hooks.compilation.tap(pluginName, (compilation) => {
     if (
@@ -163,4 +164,21 @@ export function printError(error) {
 export function isMatch(resource, fileMatchers) {
   // 因为 resource中含有 . 符号时候默认会忽略匹配，所以设置 dot: true
   return micromatch.isMatch(resource, fileMatchers, { dot: true });
+}
+
+/**
+ * 获取上下文的决对路径，默认为 compiler.context 即 webpackConfig.context
+ * @param {Compiler} compiler
+ * @returns {string}
+ */
+export function getContext(compiler: Compiler, context?: string) {
+  if (!context) {
+    return String(compiler.options.context);
+  }
+
+  if (!isAbsolute(context)) {
+    return join(String(compiler.options.context), context);
+  }
+
+  return context;
 }

@@ -11,6 +11,9 @@ export class RemoveFontFacePlugin {
         const loaders = cloneDeep(module.loaders || []);
         loaders.push({
           loader,
+          ident: null,
+          type: null,
+          options: {},
         });
         module.loaders = loaders;
       }

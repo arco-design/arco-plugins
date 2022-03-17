@@ -1,20 +1,14 @@
 import path from 'path';
+import { ArcoDesignPluginOptions } from './interface';
 
 export class ReplaceIconPlugin {
-  options: {
-    iconBox: string;
-  };
+  options: ArcoDesignPluginOptions;
 
-  constructor(options) {
-    this.options = options || {};
+  constructor(options: ArcoDesignPluginOptions) {
+    this.options = options;
   }
 
   apply(compiler) {
-    this.addReplaceIconLoader(compiler);
-  }
-
-  // 针对 arco-design 组件库添加图标替换loader
-  addReplaceIconLoader(compiler) {
     if (!this.options.iconBox) return;
 
     compiler.options.module.rules.unshift({
