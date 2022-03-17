@@ -1,3 +1,11 @@
+## 1.3.0
+
+`2022-03-17`
+
+### 🆕 Feature
+
+- Replace property  `themeOption` with `varsInjectScope`
+
 ## 1.2.0
 
 `2022-03-17`

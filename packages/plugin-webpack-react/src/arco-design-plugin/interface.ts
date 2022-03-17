@@ -11,9 +11,7 @@ export interface ArcoDesignPluginOptions {
   removeFontFace?: boolean;
   defaultLanguage?: string;
   theme?: string;
-  themeOptions: {
-    include: string[];
-  };
   modifyVars?: Record<string, string>;
   webpackImplementation?: typeof webpack;
+  varsInjectScope: string[];
 }

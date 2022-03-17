@@ -26,9 +26,7 @@ export class ArcoDesignPlugin {
       },
       options,
       {
-        themeOptions: {
-          include: [libraryRootPath, ...(options.themeOptions?.include || [])],
-        },
+        varsInjectScope: [libraryRootPath, ...(options.varsInjectScope || [])],
       }
     );
     global.arcoDesignPlugin = { options: resolveOptions };

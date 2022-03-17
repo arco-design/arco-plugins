@@ -47,7 +47,7 @@ export class ThemePlugin {
     const cachedMatchResult = {};
     let noLessLoaderWarning = '';
     const include = glob.parseFiles(
-      this.options.themeOptions.include,
+      this.options.varsInjectScope,
       getContext(this.compiler, this.options.context)
     );
     const fileMatchers = glob.parseFoldersToGlobs(include, ['less']);

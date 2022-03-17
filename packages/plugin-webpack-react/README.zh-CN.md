@@ -12,7 +12,6 @@
 4. `图标替换`：指定图标库的包名，插件会读取包内图标对组件库内用到的同名的图标进行替换。
 5. `替换默认语言`：组件库的默认导入的语言包是中文，这就决定了打包产物中一定会包含中文，如果不想要中文，就可以利用这个参数来将其替换为你需要的语言。
 6. `获取按需加载的babel插件配置`：按需加载的实现是通过往 babel 注入 babel-plugin-import 配置来实现，这些配置开放出来供大家取用，可通过 `(new ArcoWebpackPlugin()).pluginForImport().getBabelPlugins()` 获取。
-|**`themeOptions`**|`{include: string[]}`|`-`| less 变量生效的范围 |
 
 ## 安装
 
@@ -55,6 +54,7 @@ const ArcoWebpackPlugin = require('@arco-plugins/webpack-react');
 |**`removeFontFace`**|`{Boolean}`|`false`| 去掉组件库自带的字体文件 |
 |**`defaultLanguage`**|`{string}`|`-`| 替换默认的语言，[语言列表](https://arco.design/react/docs/i18n#%E6%94%AF%E6%8C%81%E7%9A%84%E8%AF%AD%E8%A8%80) |
 |**`webpackImplementation`**|`{webpack}`|`-`| 指定使用的 webpack 实例 |
+|**`varsInjectScope`**|`string[]`|`-`| less 变量（modifyVars 和主题包的变量）注入的范围 |
 
 **样式引入方式**
 
