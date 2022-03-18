@@ -7,7 +7,6 @@ import { RemoveFontFacePlugin } from './plugin-for-remove-font-face';
 import { ReplaceIconPlugin } from './plugin-for-replace-icon';
 import { ReplaceDefaultLanguagePlugin } from './plugin-for-replace-default-language';
 import { ArcoDesignPluginOptions } from './interface';
-import { libraryRootPath } from './config/matchers';
 
 export class ArcoDesignPlugin {
   options: ArcoDesignPluginOptions;
@@ -24,10 +23,7 @@ export class ArcoDesignPlugin {
         style: true,
         libraryDirectory: 'es',
       },
-      options,
-      {
-        varsInjectScope: [libraryRootPath, ...(options.varsInjectScope || [])],
-      }
+      options
     );
     global.arcoDesignPlugin = { options: resolveOptions };
     this.options = resolveOptions;

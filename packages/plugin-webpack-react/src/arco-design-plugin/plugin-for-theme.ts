@@ -17,6 +17,7 @@ import {
   globalCssMatchers,
   componentCssMatchers,
   componentLessMatchers,
+  lessMatchers,
 } from './config/matchers';
 import { ArcoDesignPluginOptions } from './interface';
 
@@ -47,10 +48,10 @@ export class ThemePlugin {
     const cachedMatchResult = {};
     let noLessLoaderWarning = '';
     const include = glob.parseFiles(
-      this.options.varsInjectScope,
+      this.options.varsInjectScope || [],
       getContext(this.compiler, this.options.context)
     );
-    const fileMatchers = glob.parseFoldersToGlobs(include, ['less']);
+    const fileMatchers = [lessMatchers, ...glob.parseFoldersToGlobs(include, ['less'])];
 
     hookNormalModuleLoader(this.compiler, PLUGIN_NAME, (_loaderContext, module, resource) => {
       cachedMatchResult[resource] = isMatch(resource, fileMatchers);

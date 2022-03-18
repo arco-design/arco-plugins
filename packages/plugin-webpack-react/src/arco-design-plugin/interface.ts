@@ -13,5 +13,5 @@ export interface ArcoDesignPluginOptions {
   theme?: string;
   modifyVars?: Record<string, string>;
   webpackImplementation?: typeof webpack;
-  varsInjectScope: string[];
+  varsInjectScope?: string[];
 }
