@@ -13,10 +13,11 @@ interface PluginOption {
   iconBox?: string; // Icon library package name
   modifyVars?: Vars; // less modifyVars
   style?: Style; // Style lazy load
+  varsInjectScope?: string[]; // Less vars inject
 }
 
 export default function vitePluginArcoImport(options: PluginOption = {}): Plugin {
-  const { theme = '', iconBox = '', modifyVars = {}, style = true } = options;
+  const { theme = '', iconBox = '', modifyVars = {}, style = true, varsInjectScope = [] } = options;
   let styleOptimization: boolean;
   let iconBoxLib: any;
   let resolvedConfig: ResolvedConfig;
@@ -37,7 +38,7 @@ export default function vitePluginArcoImport(options: PluginOption = {}): Plugin
       styleOptimization = command === 'build';
 
       // css preprocessorOptions
-      modifyCssConfig(config, theme, modifyVars);
+      modifyCssConfig(pkg.name, config, theme, modifyVars, varsInjectScope);
 
       // iconbox
       modifyIconConfig(config, iconBox, iconBoxLib);

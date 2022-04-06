@@ -1,5 +1,5 @@
 import { readFileSync, readdirSync } from 'fs';
-import { dirname } from 'path';
+import { dirname, extname, resolve, sep, win32, posix } from 'path';
 
 // read file content
 export function readFileStrSync(path: string): false | string {
@@ -42,11 +42,36 @@ export function getThemeComponentList(theme: string) {
   return componentsListObj[theme];
 }
 
+export const parse2PosixPath = (path: string) =>
+  sep === win32.sep ? path.replaceAll(win32.sep, posix.sep) : path;
+
 // filePath match
-export function pathMatch(path: string, conf: [string, number?]): false | string {
+export function pathMatch(path: string, conf: [string | RegExp, number?]): false | string {
   const [regStr, order = 0] = conf;
   const reg = new RegExp(regStr);
-  const matches = path.match(reg);
+  const posixPath = parse2PosixPath(path);
+  const matches = posixPath.match(reg);
   if (!matches) return false;
   return matches[order];
+}
+
+export function parseInclude2RegExp(folders: string[] = [], context?: string) {
+  if (!folders.length) return false;
+  context = context || process.cwd();
+  return new RegExp(
+    `^${folders
+      .map((folder) => {
+        const absolutePath = parse2PosixPath(resolve(context, folder));
+        const idx = absolutePath.indexOf('/node_modules/');
+        const len = '/node_modules/'.length;
+        const isFolder = extname(absolutePath) === '';
+        if (idx > -1) {
+          const prexPath = absolutePath.slice(0, idx + len);
+          const packagePath = absolutePath.slice(idx + len);
+          return `(${prexPath}(\\.pnpm/.+/)?${packagePath}${isFolder ? '/' : ''})`;
+        }
+        return `(${absolutePath}${isFolder ? '/' : ''})`;
+      })
+      .join('|')}`
+  );
 }

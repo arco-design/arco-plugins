@@ -9,6 +9,8 @@ export const iconComponentMatchers: Matchers = [
   1,
 ];
 
+export const lessMatchers: Matchers = [`${libraryName}/.+\\.less[^/]*$`];
+
 export const fullLessMatchers: Matchers = [`${libraryName}/dist/css/index\\.less[^/]*$`];
 
 export const globalLessMatchers: Matchers = [`${libraryName}/(es|lib)/style/index\\.less[^/]*$`];
