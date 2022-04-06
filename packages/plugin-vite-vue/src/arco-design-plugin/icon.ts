@@ -11,14 +11,20 @@ export function loadIcon(id: string, iconBox: string, iconBoxLib: any) {
     return;
   }
 
-  const componentName = pathMatch(id, iconComponentMatchers);
-  if (componentName && iconBoxLib[componentName]) {
-    return `export { default } from  '${iconBox}/esm/${componentName}/index.js'`;
-  }
-
   // cjs -> es
   if (pathMatch(id, iconCjsListMatchers)) {
     return `export * from  '../es/index.js'`;
+  }
+
+  let componentName = pathMatch(id, iconComponentMatchers);
+  if (componentName) {
+    // icon-edit => IconEdit
+    componentName = componentName.replace(/((^|-)([a-z]))/g, (_match, _p1, _p2, p3) =>
+      p3.toUpperCase()
+    );
+    if (iconBoxLib[componentName]) {
+      return `export { default } from  '${iconBox}/esm/${componentName}/index.js'`;
+    }
   }
 }
 

@@ -11,14 +11,14 @@ export function loadIcon(id: string, iconBox: string, iconBoxLib: any) {
     return;
   }
 
-  const componentName = pathMatch(id, iconComponentMatchers);
-  if (componentName && iconBoxLib[componentName]) {
-    return `export { default } from  '${iconBox}/esm/${componentName}/index.js'`;
-  }
-
   // cjs -> es
   if (pathMatch(id, iconCjsListMatchers)) {
     return `export * from  './index.es.js'`;
+  }
+
+  const componentName = pathMatch(id, iconComponentMatchers);
+  if (componentName && iconBoxLib[componentName]) {
+    return `export { default } from  '${iconBox}/esm/${componentName}/index.js'`;
   }
 }
 
