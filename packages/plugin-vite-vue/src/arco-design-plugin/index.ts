@@ -13,6 +13,7 @@ interface PluginOption {
   iconBox?: string; // Icon library package name
   modifyVars?: Vars; // less modifyVars
   style?: Style; // Style lazy load
+  varsInjectScope?: string[]; // Less vars inject
   componentPrefix?: string;
 }
 
@@ -22,6 +23,7 @@ export default function vitePluginArcoImport(options: PluginOption = {}): Plugin
     iconBox = '',
     modifyVars = {},
     style = true,
+    varsInjectScope = [],
     componentPrefix = 'a',
   } = options;
   let styleOptimization: boolean;
@@ -33,7 +35,7 @@ export default function vitePluginArcoImport(options: PluginOption = {}): Plugin
     try {
       iconBoxLib = require(iconBox); // eslint-disable-line
     } catch (e) {
-      console.error(`IconBox ${iconBox} not existed`);
+      throw new Error(`IconBox ${iconBox} not existed`);
     }
   }
   return {
@@ -44,7 +46,7 @@ export default function vitePluginArcoImport(options: PluginOption = {}): Plugin
       styleOptimization = command === 'build';
 
       // css preprocessorOptions
-      modifyCssConfig(config, theme, modifyVars);
+      modifyCssConfig(pkg.name, config, theme, modifyVars, varsInjectScope);
 
       // iconbox
       modifyIconConfig(config, iconBox, iconBoxLib);

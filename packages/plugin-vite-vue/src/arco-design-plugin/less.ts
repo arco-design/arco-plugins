@@ -1,22 +1,42 @@
 import type { UserConfig } from 'vite';
-
-import { fullLessMatchers, globalLessMatchers, componentLessMatchers } from './config';
-import { getThemeComponentList, isModExist, pathMatch } from './utils';
+import { writeFileSync } from 'fs';
+import { lessMatchers, globalLessMatchers, componentLessMatchers } from './config';
+import { getThemeComponentList, pathMatch, readFileStrSync, parseInclude2RegExp } from './utils';
 
 type Vars = Record<string, any>;
 
 // eslint-disable-next-line import/prefer-default-export
-export function modifyCssConfig(config: UserConfig, theme: string, modifyVars: Vars) {
+export function modifyCssConfig(
+  pkgName: string,
+  config: UserConfig,
+  theme: string,
+  modifyVars: Vars,
+  varsInjectScope: string[]
+) {
+  let modifyLess: string | boolean = '';
+  if (theme) {
+    modifyLess = readFileStrSync(`${theme}/tokens.less`);
+    if (modifyLess === false) {
+      throw new Error(`Theme ${theme} not existed`);
+    }
+  }
+  Object.entries(modifyVars).forEach(([k, v]) => {
+    modifyLess += `@${k}:${v};`;
+  });
+
   config.css = config.css || {};
-  const { preprocessorOptions = {} } = config.css;
+  config.css.preprocessorOptions = config.css.preprocessorOptions || {};
+
+  const { preprocessorOptions } = config.css;
   preprocessorOptions.less = preprocessorOptions.less || {};
   preprocessorOptions.less.javascriptEnabled = true;
-  preprocessorOptions.less.modifyVars = preprocessorOptions.less.modifyVars || {};
-  if (theme) {
-    preprocessorOptions.less.modifyVars.hack = preprocessorOptions.less.modifyVars.hack || '';
-    preprocessorOptions.less.modifyVars.hack += `; @import "${theme}/tokens.less";`;
+  if (modifyLess) {
+    writeFileSync(`${__dirname}/../../.tokens.less`, modifyLess, {
+      flag: 'w',
+    });
+    const modifyLessFile = `${pkgName}/.tokens.less`;
+    const includeRegExp = parseInclude2RegExp(varsInjectScope);
     preprocessorOptions.less.plugins = preprocessorOptions.less.plugins || [];
-
     preprocessorOptions.less.plugins.push({
       install(_lessObj: any, pluginManager: any) {
         pluginManager.addPreProcessor(
@@ -26,37 +46,30 @@ export function modifyCssConfig(config: UserConfig, theme: string, modifyVars: V
                 fileInfo: { filename },
               } = extra;
 
-              // theme global style
-              const themeGlobalCss = `${theme}/theme.less`;
+              // arco less vars inject
+              const varsInjectMatch =
+                pathMatch(filename, lessMatchers) ||
+                (includeRegExp && pathMatch(filename, [includeRegExp]));
+              if (!varsInjectMatch) return src;
 
-              // arco global syle
-              let matches = pathMatch(filename, globalLessMatchers);
-              if (matches) {
-                src += `; @import '${themeGlobalCss}';`;
-                return src;
-              }
-
-              // arco full style
-              matches = pathMatch(filename, fullLessMatchers);
-              if (matches) {
-                const componentsLess = `${theme}/component.less`;
-                const list = [themeGlobalCss];
-                if (isModExist(componentsLess)) {
-                  list.push(componentsLess);
+              if (theme) {
+                // arco global style
+                const globalMatch = pathMatch(filename, globalLessMatchers);
+                if (globalMatch) {
+                  src += `; @import '${theme}/theme.less';`;
                 }
-                list.forEach((it) => {
-                  src += `; @import '${it}';`;
-                });
-                return src;
-              }
 
-              // arco component style
-              const componentName = pathMatch(filename, componentLessMatchers);
-              if (componentName) {
-                if (getThemeComponentList(theme).includes(componentName)) {
-                  src += `; @import '${theme}/components/${componentName}/index.less';`;
+                // arco component style
+                const componentName = pathMatch(filename, componentLessMatchers);
+                if (componentName) {
+                  if (getThemeComponentList(theme).includes(componentName)) {
+                    src += `; @import '${theme}/components/${componentName}/index.less';`;
+                  }
                 }
               }
+
+              src += `; @import '${modifyLessFile}';`;
+
               return src;
             },
           },
@@ -65,6 +78,4 @@ export function modifyCssConfig(config: UserConfig, theme: string, modifyVars: V
       },
     });
   }
-  Object.assign(preprocessorOptions.less.modifyVars, modifyVars);
-  config.css.preprocessorOptions = preprocessorOptions;
 }

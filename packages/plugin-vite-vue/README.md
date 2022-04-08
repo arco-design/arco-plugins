@@ -49,10 +49,11 @@ The plugin supports the following parameters:
 
 |        Params         |        Type        | Default Value | Description               |
 | :-------------------: | :----------------: | :-----------: | :------------------------ |
-|      **`theme`**      |     `{String}`     |      `-`      | Theme package name        |
-|     **`iconBox`**     |     `{String}`     |      `-`      | Icon library package name |
+|      **`theme`**      |     `{String}`     |      `''`      | Theme package name        |
+|     **`iconBox`**     |     `{String}`     |      `''`      | Icon library package name |
 |   **`modifyVars`**    |     `{Object}`     |     `{}`      | Less variables            |
 |      **`style`**      | `{'css'\|Boolean}` |    `true`     | Style import method       |
+|**`varsInjectScope`**|`{string[]}`|`[]`| Scope of injection of less variables (modifyVars and the theme package's variables) |
 | **`componentPrefix`** |     `{String}`     |      `a`      | componentPrefix           |
 
 **Style import methods **

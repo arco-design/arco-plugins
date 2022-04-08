@@ -46,10 +46,11 @@ export default () => (
 
 |      参数名      |        类型        | 默认值 | 描述         |
 | :--------------: | :----------------: | :----: | :----------- |
-|   **`theme`**    |     `{String}`     |  `-`   | 主题包名     |
-|  **`iconBox`**   |     `{String}`     |  `-`   | 图标库包名   |
+|   **`theme`**    |     `{String}`     |  `''`   | 主题包名     |
+|  **`iconBox`**   |     `{String}`     |  `''`   | 图标库包名   |
 | **`modifyVars`** |     `{Object}`     |  `{}`  | Less 变量    |
 |   **`style`**    | `{'css'\|Boolean}` | `true` | 样式引入方式 |
+|**`varsInjectScope`**|`string[]`|`[]`| less 变量（modifyVars 和主题包的变量）注入的范围 |
 
 **样式引入方式 **
 
