@@ -35,7 +35,7 @@ export default function vitePluginArcoImport(options: PluginOption = {}): Plugin
     try {
       iconBoxLib = require(iconBox); // eslint-disable-line
     } catch (e) {
-      console.error(`IconBox ${iconBox} not existed`);
+      throw new Error(`IconBox ${iconBox} not existed`);
     }
   }
   return {

@@ -17,8 +17,7 @@ export function modifyCssConfig(
   if (theme) {
     modifyLess = readFileStrSync(`${theme}/tokens.less`);
     if (modifyLess === false) {
-      console.error(`Theme ${theme} not existed`);
-      return;
+      throw new Error(`Theme ${theme} not existed`);
     }
   }
   Object.entries(modifyVars).forEach(([k, v]) => {
