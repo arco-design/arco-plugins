@@ -1,3 +1,5 @@
-import plugin from './arco-design-plugin';
+import vitePluginForArco from './arco-design-plugin';
 
-export default plugin;
+export default vitePluginForArco;
+
+export { vitePluginForArco };
