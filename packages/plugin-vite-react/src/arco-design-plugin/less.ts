@@ -11,7 +11,7 @@ export function modifyCssConfig(
   config: UserConfig,
   theme: string,
   modifyVars: Vars,
-  varsInjectScope: string[]
+  varsInjectScope: (string | RegExp)[]
 ) {
   let modifyLess: string | boolean = '';
   if (theme) {
