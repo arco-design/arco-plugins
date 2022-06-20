@@ -45,7 +45,6 @@ export class ThemePlugin {
     const vars = { ...themeVars, ...modifyVars };
     if (isEmpty(vars)) return;
 
-    const cachedMatchResult = {};
     let noLessLoaderWarning = '';
     const include = glob.parseFiles(
       this.options.varsInjectScope || [],
@@ -54,10 +53,7 @@ export class ThemePlugin {
     const fileMatchers = [lessMatchers, ...glob.parseFoldersToGlobs(include, ['less'])];
 
     hookNormalModuleLoader(this.compiler, PLUGIN_NAME, (_loaderContext, module, resource) => {
-      cachedMatchResult[resource] = isMatch(resource, fileMatchers);
-      if (cachedMatchResult[resource] === undefined) {
-      }
-      if (cachedMatchResult[resource]) {
+      if (isMatch(resource, fileMatchers)) {
         const loaders = cloneDeep(module.loaders);
         const lessLoader = getLoader(loaders, 'less-loader');
 
