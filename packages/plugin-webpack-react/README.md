@@ -44,7 +44,7 @@ The plugin supports the following parameters:
 
 |Params|Type|Default Value|Description|
 |:--:|:--:|:-----:|:----------|
-|**`include`**|`{(String | RegExp)[]}`|`['src']`|File directory used by bebel-plugin-import|
+|**`include`**|`{(String\|RegExp)[]}`|`['src']`|File directory used by bebel-plugin-import|
 |**`extensions`**|`{String[]}`|`['js', 'jsx', 'ts', 'tsx']`| File suffix used by bebel-plugin-import |
 |**`theme`**|`{String}`|`-`|Theme package name|
 |**`iconBox`**|`{String}`|`-`|Icon library package name|
@@ -53,7 +53,7 @@ The plugin supports the following parameters:
 |**`removeFontFace`**|`{Boolean}`|`false`| Whether to remove the font file that comes with the component library |
 |**`defaultLanguage`**|`{string}`|`-`| Replace the default language，[language list](https://arco.design/react/docs/i18n#%E6%94%AF%E6%8C%81%E7%9A%84%E8%AF%AD%E8%A8%80)|
 |**`webpackImplementation`**|`{webpack}`|`-`| Specifying which webpack implementation to use |
-|**`varsInjectScope`**|`{(String | RegExp)[]}`|`-`| Scope of injection of less variables (modifyVars and the theme package's variables) |
+|**`varsInjectScope`**|`{(String\|RegExp)[]}`|`-`| Scope of injection of less variables (modifyVars and the theme package's variables) |
 
 **Style import methods **
 
