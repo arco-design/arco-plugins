@@ -1,3 +1,12 @@
+## 1.4.1
+
+`2022-06-22`
+
+
+💎 Enhancement
+
+- Built-in adaptation to pnpm's path format
+  
 ## 1.4.0
 
 `2022-06-22`
