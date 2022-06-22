@@ -55,23 +55,36 @@ export function pathMatch(path: string, conf: [string | RegExp, number?]): false
   return matches[order];
 }
 
-export function parseInclude2RegExp(folders: string[] = [], context?: string) {
-  if (!folders.length) return false;
+export function parseInclude2RegExp(include: (string | RegExp)[] = [], context?: string) {
+  if (include.length === 0) return false;
   context = context || process.cwd();
-  return new RegExp(
-    `^${folders
-      .map((folder) => {
-        const absolutePath = parse2PosixPath(resolve(context, folder));
-        const idx = absolutePath.indexOf('/node_modules/');
-        const len = '/node_modules/'.length;
-        const isFolder = extname(absolutePath) === '';
-        if (idx > -1) {
-          const prexPath = absolutePath.slice(0, idx + len);
-          const packagePath = absolutePath.slice(idx + len);
-          return `(${prexPath}(\\.pnpm/.+/)?${packagePath}${isFolder ? '/' : ''})`;
+  const regStrList = [];
+  const folders = include
+    .map((el) => {
+      if (el instanceof RegExp) {
+        const regStr = el.toString();
+        if (regStr.slice(-1) === '/') {
+          regStrList.push(`(${regStr.slice(1, -1)})`);
         }
-        return `(${absolutePath}${isFolder ? '/' : ''})`;
-      })
-      .join('|')}`
-  );
+        return false;
+      }
+      const absolutePath = parse2PosixPath(resolve(context, el));
+      const idx = absolutePath.indexOf('/node_modules/');
+      const len = '/node_modules/'.length;
+      const isFolder = extname(absolutePath) === '';
+      if (idx > -1) {
+        const prexPath = absolutePath.slice(0, idx + len);
+        const packagePath = absolutePath.slice(idx + len);
+        return `(${prexPath}(\\.pnpm/.+/)?${packagePath}${isFolder ? '/' : ''})`;
+      }
+      return `(${absolutePath}${isFolder ? '/' : ''})`;
+    })
+    .filter((el) => el !== false);
+  if (folders.length) {
+    regStrList.push(`(^${folders.join('|')})`);
+  }
+  if (regStrList.length > 0) {
+    return new RegExp(regStrList.join('|'));
+  }
+  return false;
 }

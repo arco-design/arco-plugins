@@ -13,7 +13,7 @@ interface PluginOption {
   iconBox?: string; // Icon library package name
   modifyVars?: Vars; // less modifyVars
   style?: Style; // Style lazy load
-  varsInjectScope?: string[]; // Less vars inject
+  varsInjectScope?: (string | RegExp)[]; // Less vars inject
 }
 
 export default function vitePluginArcoImport(options: PluginOption = {}): Plugin {
