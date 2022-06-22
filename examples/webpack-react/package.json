@@ -30,6 +30,8 @@
   },
   "dependencies": {
     "@arco-design/web-react": "^2.35.1",
+    "@arco-themes/react-plugin-test": "^0.0.1",
+    "example-component-a": "workspace:^",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }

@@ -52,8 +52,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@arco-plugins/utils@workspace:packages/utils"
   dependencies:
+    "@types/lodash": ^4.14.180
+    "@types/micromatch": ^4.0.2
     "@types/node": ^17.0.21
     chalk: ^4.1.2
+    lodash: ^4.17.20
+    micromatch: ^4.0.2
     typescript: ^4.5.2
   languageName: unknown
   linkType: soft
@@ -101,18 +105,25 @@ __metadata:
     "@babel/traverse": ^7.16.3
     "@types/loader-utils": ^2.0.3
     "@types/lodash": ^4.14.180
-    "@types/micromatch": ^4.0.2
     "@types/node": ^17.0.21
     babel-plugin-import: ^1.13.3
     chalk: ^4.1.0
     lodash: ^4.17.20
-    micromatch: ^4.0.2
     typescript: ^4.5.2
     webpack: ^5.70.0
   peerDependencies:
     webpack: ^4.0.0 || ^5.0.0
   languageName: unknown
   linkType: soft
+
+"@arco-themes/react-plugin-test@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "@arco-themes/react-plugin-test@npm:0.0.1"
+  peerDependencies:
+    "@arco-design/web-react": ^2.35.1
+  checksum: 5bdd0c0634160504b48e1a5dcec0faad9d86f5954bc89653ffb261124fb597ce5591c56138d493cb3ab29246e9bbeb36acf86c4230eaa46b57a68679ed179f5f
+  languageName: node
+  linkType: hard
 
 "@babel/code-frame@npm:7.12.11":
   version: 7.12.11
@@ -3318,6 +3329,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/prop-types@npm:*":
+  version: 15.7.5
+  resolution: "@types/prop-types@npm:15.7.5"
+  checksum: 5b43b8b15415e1f298243165f1d44390403bb2bd42e662bca3b5b5633fdd39c938e91b7fce3a9483699db0f7a715d08cef220c121f723a634972fdf596aec980
+  languageName: node
+  linkType: hard
+
 "@types/qs@npm:*":
   version: 6.9.7
   resolution: "@types/qs@npm:6.9.7"
@@ -3332,10 +3350,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react@npm:^18.0.14":
+  version: 18.0.14
+  resolution: "@types/react@npm:18.0.14"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: 608eb57a383eedc54c79949673e5e8314f6b0c61542bff58721c8c47a18c23e2832e77c656050c2c2c004b62cf25582136c7c56fe1b6263a285c065fae31dbcf
+  languageName: node
+  linkType: hard
+
 "@types/retry@npm:0.12.0":
   version: 0.12.0
   resolution: "@types/retry@npm:0.12.0"
   checksum: 61a072c7639f6e8126588bf1eb1ce8835f2cb9c2aba795c4491cf6310e013267b0c8488039857c261c387e9728c1b43205099223f160bb6a76b4374f741b5603
+  languageName: node
+  linkType: hard
+
+"@types/scheduler@npm:*":
+  version: 0.16.2
+  resolution: "@types/scheduler@npm:0.16.2"
+  checksum: b6b4dcfeae6deba2e06a70941860fb1435730576d3689225a421280b7742318d1548b3d22c1f66ab68e414f346a9542f29240bc955b6332c5b11e561077583bc
   languageName: node
   linkType: hard
 
@@ -6672,12 +6708,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"example-component-a@workspace:^, example-component-a@workspace:examples/component-a":
+  version: 0.0.0-use.local
+  resolution: "example-component-a@workspace:examples/component-a"
+  dependencies:
+    "@arco-design/web-react": ^2.35.1
+    "@types/react": ^18.0.14
+    react: ^18.2.0
+    typescript: ^4.5.2
+  peerDependencies:
+    "@arco-design/web-react": ^2.35.1
+    react: ^18.2.0
+  languageName: unknown
+  linkType: soft
+
 "example-webpack-react@workspace:examples/webpack-react":
   version: 0.0.0-use.local
   resolution: "example-webpack-react@workspace:examples/webpack-react"
   dependencies:
     "@arco-design/web-react": ^2.35.1
     "@arco-plugins/webpack-react": "workspace:^"
+    "@arco-themes/react-plugin-test": ^0.0.1
     "@babel/core": ^7.14.3
     "@babel/plugin-proposal-class-properties": ^7.14.5
     "@babel/plugin-proposal-export-default-from": ^7.14.5
@@ -6688,6 +6739,7 @@ __metadata:
     "@babel/preset-react": ^7.13.13
     babel-loader: ^8.2.5
     css-loader: ^6.7.1
+    example-component-a: "workspace:^"
     html-webpack-plugin: ^5.5.0
     less: ^4.1.3
     less-loader: ^11.0.0

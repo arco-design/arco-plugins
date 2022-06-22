@@ -1,5 +1,4 @@
 import webpack, { Compiler, NormalModule } from 'webpack';
-import micromatch from 'micromatch';
 import { isObject, get, set } from 'lodash';
 import { print } from '@arco-plugins/utils';
 import { isAbsolute, join } from 'path';
@@ -153,17 +152,6 @@ export function printError(error) {
   if (error) {
     print.error(`[arco-design/webpack-plugin]: ${error}`);
   }
-}
-
-/**
- * 返回是否文件路径匹配
- * @param {string} resource
- * @param {string} fileMatchers
- * @returns boolean
- */
-export function isMatch(resource, fileMatchers) {
-  // 因为 resource中含有 . 符号时候默认会忽略匹配，所以设置 dot: true
-  return micromatch.isMatch(resource, fileMatchers, { dot: true });
 }
 
 /**

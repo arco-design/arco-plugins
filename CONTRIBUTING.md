@@ -20,11 +20,11 @@ Every significant change is documented in the changelog file.
 
 ## Reporting Issues
 
-We use [Github issues](https://github.com/arco-design/arco-design-vue/issues) for bug reports and feature requests. Before reporting an issue, please make sure you have searched for similar [issues](https://github.com/arco-design/arco-design-vue/issues) as they may have been already answered or being fixed. A new issue should be submitted via [issue helper](https://arco.design/issue-helper?repo=arco-design-vue). For bug reporting, please include the minimum code that can be used to reproduce the problem. For feature request, please specify what changes you want and what behavior you expect.
+We use [Github issues](https://github.com/arco-design/arco-plugins/issues) for bug reports and feature requests. Before reporting an issue, please make sure you have searched for similar [issues](https://github.com/arco-design/arco-plugins/issues) as they may have been already answered or being fixed. A new issue should be submitted via [issue helper](https://arco.design/issue-helper?repo=arco-plugins). For bug reporting, please include the minimum code that can be used to reproduce the problem. For feature request, please specify what changes you want and what behavior you expect.
 
 ## Sending a pull request
 
-1. Fork [the repository](https://github.com/arco-design/arco-design-vue) and create your branch from `main`. For new feature, please submit your changes directly to the `feature` branch. Other changes should go against `main` branch.
+1. Fork [the repository](https://github.com/arco-design/arco-plugins) and create your branch from `main`. For new feature, please submit your changes directly to the `feature` branch. Other changes should go against `main` branch.
 2. Use `npm install -g` to install basic packages such as `lerna` and `yarn`.
 3. Use `yarn install` to install the dependencies of each package in `workspaces` (If you encounter a `YN0018` error, you can use `YARN_CHECKSUM_BEHAVIOR=update yarn` to install).
 4. Make changes to the codebase. Please add tests if applicable.

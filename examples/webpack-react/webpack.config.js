@@ -47,7 +47,9 @@ module.exports = {
       inject: 'body',
     }),
     new ArcoWebpackPlugin({
+      include: ['src', /\/components\//, '../component-a'],
       webpackImplementation: webpack,
+      theme: '@arco-themes/react-plugin-test',
     }),
   ],
 };

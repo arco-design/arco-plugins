@@ -11,6 +11,8 @@ import {
   Rate,
   Empty,
 } from '@arco-design/web-react';
+import { ComponentA } from 'example-component-a';
+import { MimeComponent } from '../components/mime-component/index.jsx';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
         <Switch />
         <Rate />
         <Empty />
+        <ComponentA />
+        <MimeComponent />
       </Space>
     </div>
   );
