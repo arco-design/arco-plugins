@@ -2,7 +2,7 @@ import webpack from 'webpack';
 
 export interface ArcoDesignPluginOptions {
   context?: string;
-  include: string[];
+  include: (string | RegExp)[];
   extensions: string[];
   style: string | boolean;
   libraryDirectory: string;
@@ -13,5 +13,5 @@ export interface ArcoDesignPluginOptions {
   theme?: string;
   modifyVars?: Record<string, string>;
   webpackImplementation?: typeof webpack;
-  varsInjectScope?: string[];
+  varsInjectScope?: (string | RegExp)[];
 }

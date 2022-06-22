@@ -1,3 +1,12 @@
+## 1.4.0
+
+`2022-06-22`
+
+
+💎 Enhancement
+
+- `include` and `varsInjectScope` supports regular expressions.
+
 ## 1.3.1
 
 `2022-03-18`

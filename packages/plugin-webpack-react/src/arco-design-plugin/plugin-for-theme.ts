@@ -2,15 +2,9 @@
 import path from 'path';
 import { readFileSync, readdirSync } from 'fs';
 import { cloneDeep, isString, isEmpty } from 'lodash';
-import { print, getFileSource, glob } from '@arco-plugins/utils';
+import { print, getFileSource, pathUtils } from '@arco-plugins/utils';
 import { Compiler } from 'webpack';
-import {
-  getLoader,
-  isMatch,
-  hookNormalModuleLoader,
-  rewriteLessLoaderOptions,
-  getContext,
-} from './utils';
+import { getLoader, hookNormalModuleLoader, rewriteLessLoaderOptions, getContext } from './utils';
 import { PLUGIN_NAME } from './config';
 import {
   globalLessMatchers,
@@ -45,19 +39,17 @@ export class ThemePlugin {
     const vars = { ...themeVars, ...modifyVars };
     if (isEmpty(vars)) return;
 
-    const cachedMatchResult = {};
     let noLessLoaderWarning = '';
-    const include = glob.parseFiles(
-      this.options.varsInjectScope || [],
-      getContext(this.compiler, this.options.context)
-    );
-    const fileMatchers = [lessMatchers, ...glob.parseFoldersToGlobs(include, ['less'])];
+    const context = getContext(this.compiler, this.options.context);
+    const include = this.options.varsInjectScope || [];
+    const isMatch = pathUtils.matcher(include, {
+      extraGlobPattern: lessMatchers,
+      extensions: ['.less'],
+      cwd: context,
+    });
 
     hookNormalModuleLoader(this.compiler, PLUGIN_NAME, (_loaderContext, module, resource) => {
-      cachedMatchResult[resource] = isMatch(resource, fileMatchers);
-      if (cachedMatchResult[resource] === undefined) {
-      }
-      if (cachedMatchResult[resource]) {
+      if (isMatch(resource)) {
         const loaders = cloneDeep(module.loaders);
         const lessLoader = getLoader(loaders, 'less-loader');
 
@@ -127,7 +119,7 @@ export class ThemePlugin {
 
       const appendLoader = require.resolve('./loaders/append');
       hookNormalModuleLoader(this.compiler, PLUGIN_NAME, (_loaderContext, module, resource) => {
-        if (isMatch(resource, matcher) && !getLoader(module.loaders, appendLoader)) {
+        if (pathUtils.isMatch(resource, matcher) && !getLoader(module.loaders, appendLoader)) {
           const loaders = cloneDeep(module.loaders || []);
           loaders.push({
             loader: appendLoader,

@@ -1,11 +1,9 @@
-import { arrify, glob } from '@arco-plugins/utils';
+import { arrify, pathUtils } from '@arco-plugins/utils';
 import { Compiler } from 'webpack';
 import { getBabelPlugins } from './utils/transform-import';
-import { getLoader, hookNormalModuleLoader, isMatch, getLoaderIndex, getContext } from './utils';
+import { getLoader, hookNormalModuleLoader, getLoaderIndex, getContext } from './utils';
 import { PLUGIN_NAME } from './config';
 import { ArcoDesignPluginOptions } from './interface';
-
-const { parseFiles, parseFoldersToGlobs } = glob;
 /**
  * 给匹配的文件的 babel-loader 增加 babel-plugin-import
  */
@@ -20,13 +18,13 @@ export class ImportPlugin {
   }
 
   apply(compiler: Compiler) {
-    const include = parseFiles(this.options.include, getContext(compiler, this.options.context));
+    const { include } = this.options;
+    const context = getContext(compiler, this.options.context);
     const extensions = arrify(this.options.extensions);
-    const fileMatchers = parseFoldersToGlobs(include, extensions);
-
+    const isMatch = pathUtils.matcher(include, { extensions, cwd: context });
     const loader = require.resolve('./loaders/transform-import');
     hookNormalModuleLoader(compiler, PLUGIN_NAME, (_loaderContext, module, resource) => {
-      if (isMatch(resource, fileMatchers) && !getLoader(module.loaders, loader)) {
+      if (isMatch(resource) && !getLoader(module.loaders, loader)) {
         const loaders = module.loaders;
         const babelLoaderIndex = getLoaderIndex(loaders, 'babel-loader');
         const tsLoaderIndex = getLoaderIndex(loaders, 'ts-loader');

@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 
 export { arrify } from './arrify';
-export * as glob from './glob';
+export * as pathUtils from './pathUtils';
 export { log as print } from './print';
 
 export function getFileSource(filePath) {

@@ -2,8 +2,12 @@
   "name": "arco-plugins",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "dev:webpack-react": "yarn workspace example-webpack-react dev"
+  },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "examples/*"
   ],
   "engines": {
     "node": ">=12.0.0"

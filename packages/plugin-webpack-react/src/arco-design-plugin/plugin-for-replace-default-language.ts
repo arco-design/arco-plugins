@@ -1,5 +1,6 @@
 import { cloneDeep } from 'lodash';
-import { getLoader, hookNormalModuleLoader, isMatch } from './utils';
+import { pathUtils } from '@arco-plugins/utils';
+import { getLoader, hookNormalModuleLoader } from './utils';
 import { PLUGIN_NAME } from './config';
 import { esLocalDefaultMatchers, libLocalDefaultMatchers } from './config/matchers';
 import { ArcoDesignPluginOptions } from './interface';
@@ -16,7 +17,10 @@ export class ReplaceDefaultLanguagePlugin {
 
     const loader = require.resolve('./loaders/replace-default-language');
     hookNormalModuleLoader(compiler, PLUGIN_NAME, (_loaderContext, module, resource) => {
-      if (isMatch(resource, esLocalDefaultMatchers) && !getLoader(module.loaders, loader)) {
+      if (
+        pathUtils.isMatch(resource, esLocalDefaultMatchers) &&
+        !getLoader(module.loaders, loader)
+      ) {
         const loaders = cloneDeep(module.loaders || []);
         loaders.push({
           loader,
@@ -29,7 +33,10 @@ export class ReplaceDefaultLanguagePlugin {
         });
         module.loaders = loaders;
       }
-      if (isMatch(resource, libLocalDefaultMatchers) && !getLoader(module.loaders, loader)) {
+      if (
+        pathUtils.isMatch(resource, libLocalDefaultMatchers) &&
+        !getLoader(module.loaders, loader)
+      ) {
         const loaders = cloneDeep(module.loaders || []);
         loaders.push({
           loader,
