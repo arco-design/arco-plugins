@@ -1,10 +1,11 @@
-import { resolve } from 'path';
+import { extname, resolve } from 'path';
 import { isString, isRegExp } from 'lodash';
 import micromatch from 'micromatch';
 
 import { arrify } from './arrify';
 
 const UNESCAPED_GLOB_SYMBOLS_RE = /(\\?)([()*?[\]{|}]|^!|[!+@](?=\())/g;
+const NODE_MODULES_REGEXP = /(\/node_modules\/)/;
 
 /**
  * 替换反斜杠
@@ -44,7 +45,15 @@ function absoluteGlobPatterns(patterns: string | string[], context: string) {
  * @returns {string[]}
  */
 function parseToGlobPatterns(patterns: string | string[], context: string) {
-  return absoluteGlobPatterns(patterns, context).map((p) => p.replace(/[/\\]?$/u, `/**`));
+  return absoluteGlobPatterns(patterns, context).reduce((result, p) => {
+    const isFolder = !extname(p);
+    const g = isFolder ? p.replace(/[/\\]?$/u, `/**`) : p;
+    result.push(g);
+    if (NODE_MODULES_REGEXP.test(g)) {
+      result.push(g.replace(NODE_MODULES_REGEXP, (_, $1) => `${$1}.pnpm/**${$1}`));
+    }
+    return result;
+  }, [] as string[]);
 }
 
 function splitStrAndRegExp(pattern: string | RegExp | (string | RegExp)[]) {
@@ -83,7 +92,12 @@ export function matcher(
   const { strings, regExps } = splitStrAndRegExp(pattern);
   const patternsForGlob = [
     ...arrify(extraGlobPattern),
-    ...(cwd ? strings.map((p) => parseToGlobPatterns(p, cwd)[0]) : strings),
+    ...(cwd
+      ? strings.reduce((res, p) => {
+          res.push(...parseToGlobPatterns(p, cwd));
+          return res;
+        }, [] as string[])
+      : strings),
   ];
   // 因为 resource中含有 . 符号时候默认会忽略匹配，所以设置 dot: true
   const globMatchOptions: micromatch.Options = {
