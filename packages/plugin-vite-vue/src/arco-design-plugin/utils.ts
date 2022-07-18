@@ -110,9 +110,9 @@ function getComponentDirList(libraryName: string) {
 }
 
 export function getVueComponentDir(libraryName: string, name: string, prefix: string) {
-  const _name = name.toLowerCase();
+  const _name = name.replace(/[A-Z]/g, (w) => `-${w.toLowerCase()}`).replace(/^-/, '');
   const _prefix = `${prefix.toLowerCase()}-`;
-  if (name.indexOf(_prefix) !== 0) {
+  if (_name.indexOf(_prefix) !== 0) {
     return '';
   }
   const arr = _name.substring(_prefix.length).split('-');
