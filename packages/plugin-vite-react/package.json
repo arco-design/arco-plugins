@@ -22,8 +22,8 @@
   ],
   "scripts": {
     "clean": "rm -fr lib types",
-    "compile": "npm run clean && npx tsc",
-    "prepublishOnly": "npm run compile"
+    "compile": "yarn clean && npx tsc",
+    "prepublishOnly": "yarn compile"
   },
   "author": "arco-design",
   "license": "MIT",

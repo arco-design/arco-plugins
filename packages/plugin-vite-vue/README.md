@@ -6,6 +6,8 @@
 2. `Theme import`
 3. `Icon replacement`
 
+> `Style lazy load` doesn't work during development for better experience.
+
 ## Install
 
 ```bash

@@ -6,6 +6,8 @@
 2. `Theme import`
 3. `Icon replacement`
 
+> `Style lazy load` doesn't work during development for better experience.
+
 ## Install
 
 ```bash
@@ -18,7 +20,6 @@ npm i @arco-plugins/vite-react -D
 // vite.config.js
 
 import vitePluginForArco from '@arco-plugins/vite-react'
-
 
 export default {
   ...

@@ -6,6 +6,8 @@
 2. `主题引入`
 3. `图标替换`
 
+> 为了开发体验，开发环境下样式为全量引入
+
 ## 安装
 
 ```bash
@@ -18,7 +20,6 @@ npm i @arco-plugins/vite-react -D
 // vite.config.js
 
 import vitePluginForArco from '@arco-plugins/vite-react'
-
 
 export default {
   ...
