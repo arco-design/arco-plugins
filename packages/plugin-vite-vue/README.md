@@ -19,7 +19,6 @@ npm i @arco-plugins/vite-vue -D
 
 import vitePluginForArco from '@arco-plugins/vite-vue'
 
-
 export default {
   ...
   plugins: [
