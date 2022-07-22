@@ -34,7 +34,6 @@ export default {
 import { Button } from '@arco-design/web-vue';
 </script>
 
-
 <template>
   <div>
     <Button type="secondary">Cancel</Button>
