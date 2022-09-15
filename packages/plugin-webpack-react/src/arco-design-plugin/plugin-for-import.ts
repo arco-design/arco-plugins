@@ -30,7 +30,7 @@ export class ImportPlugin {
         const tsLoaderIndex = getLoaderIndex(loaders, 'ts-loader');
         let insertIndex = loaders.length - 1;
         if (babelLoaderIndex > -1) {
-          insertIndex = babelLoaderIndex + 1;
+          insertIndex = babelLoaderIndex;
         } else if (tsLoaderIndex > -1) {
           insertIndex = (tsLoaderIndex || 1) - 1;
         }
