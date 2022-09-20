@@ -68,7 +68,15 @@ export function transformJsFiles({
     enter(path: NodePath) {
       const { node } = path;
       // <a-input-number></a-input-number>  <a-timeline-item></a-timeline-item> <component is="a-timeline-item"></component>
-      if (/\.(vue)$/.test(id) && types.isCallExpression(node)) {
+      if (
+        /**
+         * support <script lang="jsx">
+         * @path *.vue?vue&type=script&lang.jsx
+         * @path *.vue?vue&type=script&setup=true&lang.jsx
+         */
+        /\.vue(\?vue&type=script(&setup=true)?&lang.[jt]sx)?$/.test(id) &&
+        types.isCallExpression(node)
+      ) {
         const { callee, arguments: args } = node as any;
         const funcName = callee.name;
         const importedName = args?.[0]?.value;
