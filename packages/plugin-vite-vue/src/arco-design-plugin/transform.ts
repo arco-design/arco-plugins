@@ -74,7 +74,7 @@ export function transformJsFiles({
          * @path *.vue?vue&type=script&lang.jsx
          * @path *.vue?vue&type=script&setup=true&lang.jsx
          */
-        /\.vue(\?vue&type=script(&setup=true)?&lang.[jt]sx)?$/.test(id) &&
+        /\.vue(\?vue&type=script(&setup=true)?&lang.[jt]s(x)?)?$/.test(id) &&
         types.isCallExpression(node)
       ) {
         const { callee, arguments: args } = node as any;
