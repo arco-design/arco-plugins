@@ -20,7 +20,7 @@ __metadata:
   resolution: "@arco-design/color@npm:0.4.0"
   dependencies:
     color: ^3.1.3
-  checksum: 2e9e8a6c0992f12006011e11c42fee0acb3b7cc6ece69ce0b902f2b6071668cb71df09f95610df4606468168f00380d47c276ccbcbe82647bd293bd44b22eddd
+  checksum: b728a8d3e50f6074988b92b7f4f1c57e1ef285674411c2303995b502ecb5f67fb99de5714a9364765810de1f9c2a75272b3f34895c931c58e137d62302b362b1
   languageName: node
   linkType: hard
 
@@ -48,7 +48,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arco-plugins/utils@^1.1.2, @arco-plugins/utils@workspace:packages/utils":
+"@arco-plugins/utils@^1.2.1, @arco-plugins/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@arco-plugins/utils@workspace:packages/utils"
   dependencies:
@@ -92,11 +92,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@arco-plugins/webpack-react@workspace:^, @arco-plugins/webpack-react@workspace:packages/plugin-webpack-react":
+"@arco-plugins/webpack-react@^1.4.0, @arco-plugins/webpack-react@workspace:packages/plugin-webpack-react":
   version: 0.0.0-use.local
   resolution: "@arco-plugins/webpack-react@workspace:packages/plugin-webpack-react"
   dependencies:
-    "@arco-plugins/utils": ^1.1.2
+    "@arco-plugins/utils": ^1.2.1
     "@babel/core": ^7.16.0
     "@babel/generator": ^7.16.0
     "@babel/parser": ^7.16.4
@@ -6708,7 +6708,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"example-component-a@workspace:^, example-component-a@workspace:examples/component-a":
+"example-component-a@^1.0.0, example-component-a@workspace:examples/component-a":
   version: 0.0.0-use.local
   resolution: "example-component-a@workspace:examples/component-a"
   dependencies:
@@ -6727,7 +6727,7 @@ __metadata:
   resolution: "example-webpack-react@workspace:examples/webpack-react"
   dependencies:
     "@arco-design/web-react": ^2.35.1
-    "@arco-plugins/webpack-react": "workspace:^"
+    "@arco-plugins/webpack-react": ^1.4.0
     "@arco-themes/react-plugin-test": ^0.0.1
     "@babel/core": ^7.14.3
     "@babel/plugin-proposal-class-properties": ^7.14.5
@@ -6739,7 +6739,7 @@ __metadata:
     "@babel/preset-react": ^7.13.13
     babel-loader: ^8.2.5
     css-loader: ^6.7.1
-    example-component-a: "workspace:^"
+    example-component-a: ^1.0.0
     html-webpack-plugin: ^5.5.0
     less: ^4.1.3
     less-loader: ^11.0.0
