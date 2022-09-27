@@ -87,7 +87,6 @@ export function transformImport(source, options) {
   const transformResult = transformSync(
     source,
     merge({}, _options.babelConfig, {
-      filename: '',
       presets: babelPresets,
       plugins: babelPlugins,
     })
