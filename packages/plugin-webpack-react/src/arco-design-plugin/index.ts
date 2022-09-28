@@ -12,6 +12,7 @@ export class ArcoDesignPlugin {
   options: ArcoDesignPluginOptions;
   themePluginInstance: WebpackPluginInstance;
   importPluginInstance: WebpackPluginInstance;
+  pluginForImport?: WebpackPluginInstance;
   removeFontFacePluginInstance?: WebpackPluginInstance;
   replaceIconPluginInstance?: WebpackPluginInstance;
   replaceDefaultLanguagePluginInstance?: WebpackPluginInstance;
@@ -29,6 +30,8 @@ export class ArcoDesignPlugin {
     this.options = resolveOptions;
     this.themePluginInstance = new ThemePlugin(resolveOptions);
     this.importPluginInstance = new ImportPlugin(resolveOptions);
+    // Compatible with `(new ArcoWebpackPlugin()).pluginForImport.getBabelPlugins()` usage
+    this.pluginForImport = this.importPluginInstance;
     if (resolveOptions.removeFontFace) {
       this.removeFontFacePluginInstance = new RemoveFontFacePlugin();
     }
