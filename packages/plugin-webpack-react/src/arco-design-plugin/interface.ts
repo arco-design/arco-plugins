@@ -14,4 +14,5 @@ export interface ArcoDesignPluginOptions {
   modifyVars?: Record<string, string>;
   webpackImplementation?: typeof webpack;
   varsInjectScope?: (string | RegExp)[];
+  modifyBabelLoader?: boolean;
 }
