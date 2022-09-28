@@ -1,3 +1,16 @@
+## 1.4.2
+
+`2022-09-28`
+
+💎 Enhancement
+
+- Optimization When the user already has babel-loader, modify the babel configuration directly instead of introducing a new loader
+
+🐛 BugFix
+
+- Fixed the bug that the user-defined babel plugin could not get the source code path due to the introduction of the plugin
+
+
 ## 1.4.1
 
 `2022-06-22`
