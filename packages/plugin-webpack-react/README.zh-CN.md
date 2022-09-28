@@ -55,6 +55,7 @@ const ArcoWebpackPlugin = require('@arco-plugins/webpack-react');
 |**`defaultLanguage`**|`{string}`|`-`| 替换默认的语言，[语言列表](https://arco.design/react/docs/i18n#%E6%94%AF%E6%8C%81%E7%9A%84%E8%AF%AD%E8%A8%80) |
 |**`webpackImplementation`**|`{webpack}`|`-`| 指定使用的 webpack 实例 |
 |**`varsInjectScope`**|`{(String\|RegExp)[]}`|`-`| less 变量（modifyVars 和主题包的变量）注入的范围 |
+|**`modifyBabelLoader`**|`{Boolean}`|`false`| 如果有 babel-loader 则添加 babel-plugin-import 插件，否则添加新的 loader |
 
 **样式引入方式**
 

@@ -5,9 +5,10 @@ import babelConfig from '../config/babel.config';
 const { ARCO_DESIGN_COMPONENT_NAME, ARCO_DESIGN_ICON_NAME } = require('../config');
 
 const babelPluginImport = require.resolve('babel-plugin-import');
+const babelPluginFlagPrefix = '__arco_babel_plugin__';
 
 function getBabelPluginFlag(suffix) {
-  return `__arco_babel_plugin__${suffix}`;
+  return `${babelPluginFlagPrefix}${suffix}`;
 }
 
 // babel plugins for component library
@@ -87,11 +88,25 @@ export function transformImport(source, options) {
   const transformResult = transformSync(
     source,
     merge({}, _options.babelConfig, {
-      filename: '',
       presets: babelPresets,
       plugins: babelPlugins,
     })
   );
 
   return transformResult.code;
+}
+
+export function modifyBabelLoader(loader, options) {
+  const { options: loaderOptions } = loader;
+  if (loaderOptions?.plugins?.some((item) => item[2]?.startsWith(babelPluginFlagPrefix))) {
+    return;
+  }
+  const { babelConfig: config } = options;
+  const plugins = getBabelPlugins(options);
+  loader.options = {
+    ...loaderOptions,
+    ...config,
+    presets: [...(loaderOptions.presets || []), ...(config?.presets || [])],
+    plugins,
+  };
 }

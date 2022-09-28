@@ -1,6 +1,6 @@
 import { arrify, pathUtils } from '@arco-plugins/utils';
 import { Compiler } from 'webpack';
-import { getBabelPlugins } from './utils/transform-import';
+import { getBabelPlugins, modifyBabelLoader } from './utils/transform-import';
 import { getLoader, hookNormalModuleLoader, getLoaderIndex, getContext } from './utils';
 import { PLUGIN_NAME } from './config';
 import { ArcoDesignPluginOptions } from './interface';
@@ -28,20 +28,25 @@ export class ImportPlugin {
         const loaders = module.loaders;
         const babelLoaderIndex = getLoaderIndex(loaders, 'babel-loader');
         const tsLoaderIndex = getLoaderIndex(loaders, 'ts-loader');
+        const options = {
+          style: this.options.style,
+          libraryDirectory: this.options.libraryDirectory,
+          iconBox: this.options.iconBox,
+          babelConfig: this.options.babelConfig,
+        };
         let insertIndex = loaders.length - 1;
         if (babelLoaderIndex > -1) {
+          if (this.options.modifyBabelLoader) {
+            modifyBabelLoader(loaders[babelLoaderIndex], options);
+            return;
+          }
           insertIndex = babelLoaderIndex + 1;
         } else if (tsLoaderIndex > -1) {
           insertIndex = (tsLoaderIndex || 1) - 1;
         }
         loaders.splice(insertIndex, 0, {
           loader,
-          options: {
-            style: this.options.style,
-            libraryDirectory: this.options.libraryDirectory,
-            iconBox: this.options.iconBox,
-            babelConfig: this.options.babelConfig,
-          },
+          options,
           ident: null,
           type: null,
         });
