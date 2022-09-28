@@ -5,12 +5,10 @@ import babelConfig from '../config/babel.config';
 const { ARCO_DESIGN_COMPONENT_NAME, ARCO_DESIGN_ICON_NAME } = require('../config');
 
 const babelPluginImport = require.resolve('babel-plugin-import');
-const babelPluginFlag: string[] = [];
+const babelPluginFlagPrefix = '__arco_babel_plugin__';
 
 function getBabelPluginFlag(suffix) {
-  const flag = `__arco_babel_plugin__${suffix}`;
-  babelPluginFlag.push(flag);
-  return flag;
+  return `${babelPluginFlagPrefix}${suffix}`;
 }
 
 // babel plugins for component library
@@ -100,7 +98,7 @@ export function transformImport(source, options) {
 
 export function modifyBabelLoader(loader, options) {
   const { options: loaderOptions } = loader;
-  if (loaderOptions?.plugins?.some((item) => babelPluginFlag.includes(item[2]))) {
+  if (loaderOptions?.plugins?.some((item) => item[2]?.startsWith(babelPluginFlagPrefix))) {
     return;
   }
   const { babelConfig: config } = options;
