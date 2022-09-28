@@ -12,6 +12,7 @@ export class ArcoDesignPlugin {
   options: ArcoDesignPluginOptions;
   themePluginInstance: WebpackPluginInstance;
   importPluginInstance: WebpackPluginInstance;
+  pluginForImport?: WebpackPluginInstance;
   removeFontFacePluginInstance?: WebpackPluginInstance;
   replaceIconPluginInstance?: WebpackPluginInstance;
   replaceDefaultLanguagePluginInstance?: WebpackPluginInstance;
