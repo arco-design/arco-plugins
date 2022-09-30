@@ -16,8 +16,7 @@ const modExistObj: Record<string, boolean> = {};
 export function isModExist(path: string) {
   if (modExistObj[path] === undefined) {
     try {
-      const resolvedPath = require.resolve(path);
-      readFileSync(resolvedPath);
+      require.resolve(path);
       modExistObj[path] = true;
     } catch (error) {
       modExistObj[path] = false;
