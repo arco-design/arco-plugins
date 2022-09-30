@@ -20,8 +20,7 @@ const modExistObj: Record<string, boolean> = {};
 export function isModExist(path: string) {
   if (modExistObj[path] === undefined) {
     try {
-      const resolvedPath = require.resolve(path);
-      readFileSync(resolvedPath);
+      require.resolve(path);
       modExistObj[path] = true;
     } catch (error) {
       modExistObj[path] = false;
@@ -149,7 +148,7 @@ export function importStyle({
   if (styleOptimization && (style !== 'css' || !theme)) {
     componentDirs.forEach((dir) => {
       const stylePath = `${libraryName}/es/${dir}/style/${style === 'css' ? 'css.js' : 'index.js'}`;
-      addSideEffect(path, stylePath);
+      if (isModExist(stylePath)) addSideEffect(path, stylePath);
     });
   }
   // import css bundle file

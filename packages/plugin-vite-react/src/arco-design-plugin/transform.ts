@@ -5,7 +5,7 @@ import generate from '@babel/generator';
 import { addSideEffect } from '@babel/helper-module-imports';
 
 import { libraryName, fullCssMatchers } from './config';
-import { pathMatch, readFileStrSync } from './utils';
+import { isModExist, pathMatch, readFileStrSync } from './utils';
 
 interface Specifier {
   imported: {
@@ -78,7 +78,7 @@ export function transformJsFiles({
                 const stylePath = `${libraryName}/es/${importedName}/style/${
                   style === 'css' ? 'css.js' : 'index.js'
                 }`;
-                addSideEffect(path, stylePath);
+                if (isModExist(stylePath)) addSideEffect(path, stylePath);
               }
             });
           }
