@@ -1,7 +1,14 @@
 import { readFileSync, readdirSync } from 'fs';
-import { dirname, extname, resolve, sep, win32, posix } from 'path';
-import { addSideEffect } from '@babel/helper-module-imports';
-import { NodePath } from '@babel/traverse';
+import { dirname, extname, resolve, sep, win32, posix, join } from 'path';
+import { addNamed, addSideEffect } from '@babel/helper-module-imports';
+import traverse, { NodePath } from '@babel/traverse';
+import { parse } from '@babel/parser';
+import {
+  isExportSpecifier,
+  isIdentifier,
+  isStringLiteral,
+  isTSPropertySignature,
+} from '@babel/types';
 
 type Style = boolean | 'css';
 
@@ -13,20 +20,6 @@ export function readFileStrSync(path: string): false | string {
   } catch (error) {
     return false;
   }
-}
-
-// check if a module existed
-const modExistObj: Record<string, boolean> = {};
-export function isModExist(path: string) {
-  if (modExistObj[path] === undefined) {
-    try {
-      require.resolve(path);
-      modExistObj[path] = true;
-    } catch (error) {
-      modExistObj[path] = false;
-    }
-  }
-  return modExistObj[path];
 }
 
 // the theme package's component list
@@ -92,41 +85,119 @@ export function parseInclude2RegExp(include: (string | RegExp)[] = [], context?:
   return false;
 }
 
-// component directories
-const dirListObj: Record<string, string[]> = {};
-function getComponentDirList(libraryName: string) {
-  if (!libraryName) return [];
-  if (!dirListObj[libraryName]) {
+// component config
+const componentConfigRecord: {
+  [libraryName: string]: {
+    [componentName: string]: { dir: string; styleDir?: string } | undefined;
+  };
+} = {};
+export function getComponentConfig(libraryName: string, componentName: string) {
+  if (!componentConfigRecord[libraryName]) {
+    componentConfigRecord[libraryName] = {};
     try {
       const packageRootDir = dirname(require.resolve(`${libraryName}/package.json`));
-      const dirPath = `${packageRootDir}/es`;
-      dirListObj[libraryName] = readdirSync(dirPath) || [];
-    } catch (error) {
-      dirListObj[libraryName] = [];
-    }
+      // 获取已声明的组件
+      const componentNameSet = new Set<string>();
+      const componentsDeclaration = readFileSync(
+        join(packageRootDir, 'es/components.d.ts'),
+        'utf8'
+      );
+      const componentsDeclarationAst = parse(componentsDeclaration, {
+        sourceType: 'module',
+        plugins: ['typescript'],
+      });
+      traverse(componentsDeclarationAst, {
+        TSInterfaceDeclaration: ({ node }) => {
+          if (node.id.name === 'GlobalComponents') {
+            node.body.body.forEach((item) => {
+              if (isTSPropertySignature(item) && isIdentifier(item.key)) {
+                const _componentName = item.key.name.replace(/^A/, '');
+                componentNameSet.add(_componentName);
+              }
+            });
+          }
+        },
+      });
+      // 生成组件配置
+      const indexDeclaration = readFileSync(join(packageRootDir, 'es/index.d.ts'), 'utf8');
+      const indexDeclarationAst = parse(indexDeclaration, {
+        sourceType: 'module',
+        plugins: ['typescript'],
+      });
+      traverse(indexDeclarationAst, {
+        ExportNamedDeclaration: ({ node }) => {
+          if (node.exportKind === 'value' && isStringLiteral(node.source)) {
+            const componentDir = join(libraryName, 'es', node.source.value).replace(/\\/g, '/');
+            node.specifiers.forEach((item) => {
+              if (isExportSpecifier(item) && isIdentifier(item.exported)) {
+                const _componentName = item.exported.name;
+                if (componentNameSet.has(_componentName)) {
+                  componentConfigRecord[libraryName][_componentName] = {
+                    dir: libraryName,
+                    styleDir: `${componentDir}/style`,
+                  };
+                }
+              }
+            });
+          }
+        },
+      });
+      // 生成图标组件配置
+      try {
+        const iconComponentsDeclaration = readFileSync(
+          join(packageRootDir, 'es/icon/icon-components.d.ts'),
+          'utf8'
+        );
+        const iconComponentsDeclarationAst = parse(iconComponentsDeclaration, {
+          sourceType: 'module',
+          plugins: ['typescript'],
+        });
+        traverse(iconComponentsDeclarationAst, {
+          TSInterfaceDeclaration: ({ node }) => {
+            if (node.id.name === 'GlobalComponents') {
+              node.body.body.forEach((item) => {
+                if (isTSPropertySignature(item) && isIdentifier(item.key)) {
+                  const _componentName = item.key.name;
+                  componentConfigRecord[libraryName][_componentName] = {
+                    dir: `${libraryName}/es/icon`,
+                  };
+                }
+              });
+            }
+          },
+        });
+      } catch (error) {
+        // 旧版本组件库没有 icon-components.d.ts 声明文件，直接从目录中获取组件路径
+        readdirSync(join(packageRootDir, 'es/icon'), { withFileTypes: true })
+          .filter((file) => file.isDirectory())
+          .map((file) => file.name)
+          .forEach((fileName) => {
+            // icon-github => IconGithub
+            const _componentName = fileName.replace(/(^|-)[a-z]/g, (w) =>
+              w.replace('-', '').toUpperCase()
+            );
+            componentConfigRecord[libraryName][_componentName] = {
+              dir: `${libraryName}/es/icon`,
+            };
+          });
+      }
+      // eslint-disable-next-line no-empty
+    } catch (error) {}
   }
-  return dirListObj[libraryName];
+  return componentConfigRecord[libraryName][componentName];
 }
 
-export function getVueComponentDir(libraryName: string, name: string, prefix: string) {
-  const _name = name.replace(/[A-Z]/g, (w) => `-${w.toLowerCase()}`).replace(/^-/, '');
-  const _prefix = `${prefix.toLowerCase()}-`;
-  if (_name.indexOf(_prefix) !== 0) {
-    return '';
-  }
-  const arr = _name.substring(_prefix.length).split('-');
-  const list = getComponentDirList(libraryName);
-  let dir = '';
-  let temp = '';
-  while (arr.length) {
-    temp = arr.join('-');
-    if (list.includes(temp)) {
-      dir = temp;
-      break;
-    }
-    arr.pop();
-  }
-  return dir;
+export function importComponent({
+  path,
+  componentDir,
+  componentName,
+}: {
+  path: NodePath;
+  componentDir: string;
+  componentName: string;
+}) {
+  const imported = addNamed(path, componentName, componentDir);
+  path.replaceWith(imported);
 }
 
 export function importStyle({
@@ -144,11 +215,12 @@ export function importStyle({
   theme: string;
   libraryName: string;
 }) {
+  if (componentDirs.length === 0) return;
   // lazy load (css files don't support lazy load with theme)
   if (styleOptimization && (style !== 'css' || !theme)) {
     componentDirs.forEach((dir) => {
-      const stylePath = `${libraryName}/es/${dir}/style/${style === 'css' ? 'css.js' : 'index.js'}`;
-      if (isModExist(stylePath)) addSideEffect(path, stylePath);
+      const stylePath = `${dir}/${style === 'css' ? 'css.js' : 'index.js'}`;
+      addSideEffect(path, stylePath);
     });
   }
   // import css bundle file
