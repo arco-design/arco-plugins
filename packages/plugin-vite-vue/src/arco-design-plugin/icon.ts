@@ -2,7 +2,7 @@ import type { UserConfig } from 'vite';
 import type { PluginBuild, OnLoadArgs } from 'esbuild';
 
 import { iconCjsListMatchers, iconComponentMatchers } from './config';
-import { pathMatch } from './utils';
+import { kebabCaseToPascalCase, pathMatch } from './utils';
 
 const filter = new RegExp(`(${iconCjsListMatchers[0]})|(${iconComponentMatchers[0]})`);
 
@@ -19,9 +19,7 @@ export function loadIcon(id: string, iconBox: string, iconBoxLib: any) {
   let componentName = pathMatch(id, iconComponentMatchers);
   if (componentName) {
     // icon-edit => IconEdit
-    componentName = componentName.replace(/((^|-)([a-z]))/g, (_match, _p1, _p2, p3) =>
-      p3.toUpperCase()
-    );
+    componentName = kebabCaseToPascalCase(componentName);
     if (iconBoxLib[componentName]) {
       return `export { default } from  '${iconBox}/esm/${componentName}/index.js'`;
     }

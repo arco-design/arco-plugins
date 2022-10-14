@@ -8,6 +8,7 @@ import {
   getComponentConfig,
   importComponent,
   importStyle,
+  kebabCaseToPascalCase,
   pathMatch,
   readFileStrSync,
 } from './utils';
@@ -53,6 +54,7 @@ export function transformJsFiles({
   styleOptimization,
   sourceMaps,
   componentPrefix,
+  iconPrefix,
 }: {
   code: string;
   id: string;
@@ -61,6 +63,7 @@ export function transformJsFiles({
   styleOptimization: boolean;
   sourceMaps: boolean;
   componentPrefix: string;
+  iconPrefix: string;
 }): TransformedResult {
   if (style === false || !/\.(js|jsx|ts|tsx|vue)$/.test(id)) {
     return undefined;
@@ -79,12 +82,22 @@ export function transformJsFiles({
         const funcName = callee.name;
         const importedName = args?.[0]?.value;
         // a-input-number => InputNumber
-        const componentName =
-          typeof importedName === 'string'
-            ? importedName
-                .replace(new RegExp(`^${componentPrefix}-`), '')
-                .replace(/(^|-)[a-z]/g, (w) => w.replace('-', '').toUpperCase())
-            : undefined;
+        // AInputNumber => InputNumber
+        let componentName: string;
+        if (importedName === 'string') {
+          // to PascalCase
+          componentName = kebabCaseToPascalCase(importedName);
+          const componentRegExp = new RegExp(`^${kebabCaseToPascalCase(componentPrefix)}[A-Z]`);
+          const iconComponentRegExp = new RegExp(`^${kebabCaseToPascalCase(iconPrefix)}[A-Z]`);
+          // restore component name
+          if (componentRegExp.test(componentName)) {
+            componentName = componentName.replace(componentRegExp, (match) => match.slice(-1));
+          }
+          // restore icon component name
+          else if (iconComponentRegExp.test(componentName)) {
+            componentName = componentName.replace(iconComponentRegExp, (match) => match.slice(-1));
+          }
+        }
         if (
           !componentName ||
           !['_resolveComponent', '_resolveDynamicComponent'].includes(funcName)
@@ -93,7 +106,7 @@ export function transformJsFiles({
         }
         const componentConfig = getComponentConfig(libraryName, componentName);
         if (componentConfig) {
-          // 导入组件，此处会触发下面 import 方式的逻辑，所以不需要再导入样式
+          // the following import logic will be triggered here, so there is no need to import style
           importComponent({
             path,
             componentDir: componentConfig.dir,
