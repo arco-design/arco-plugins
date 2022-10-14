@@ -84,7 +84,7 @@ export function transformJsFiles({
         // a-input-number => InputNumber
         // AInputNumber => InputNumber
         let componentName: string;
-        if (importedName === 'string') {
+        if (typeof importedName === 'string') {
           // to PascalCase
           componentName = kebabCaseToPascalCase(importedName);
           const componentRegExp = new RegExp(`^${kebabCaseToPascalCase(componentPrefix)}[A-Z]`);

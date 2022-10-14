@@ -1,3 +1,12 @@
+## 1.4.2
+
+`2022-10-15`
+
+🐛 BugFix
+
+- Fix the problem of automatic import component recognition
+
+
 ## 1.4.1
 
 `2022-10-14`
