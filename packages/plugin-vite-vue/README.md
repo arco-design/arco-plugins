@@ -29,8 +29,24 @@ export default {
 }
 ```
 
+```diff
+// main.js
+
+import { createApp } from 'vue'
+- import ArcoVue from '@arco-design/web-vue';
+- import ArcoVueIcon from '@arco-design/web-vue/es/icon';
+import App from './App.vue';
+- import '@arco-design/web-vue/dist/arco.css';
+
+const app = createApp(App);
+- app.use(ArcoVue);
+- app.use(ArcoVueIcon);
+app.mount('#app');
+```
+
 ```tsx
-// vue
+// *.vue
+
 <script setup>
 import { Button } from '@arco-design/web-vue';
 </script>
@@ -48,14 +64,15 @@ import { Button } from '@arco-design/web-vue';
 
 The plugin supports the following parameters:
 
-|        Params         |        Type        | Default Value | Description               |
-| :-------------------: | :----------------: | :-----------: | :------------------------ |
-|      **`theme`**      |     `{String}`     |      `''`      | Theme package name        |
-|     **`iconBox`**     |     `{String}`     |      `''`      | Icon library package name |
-|   **`modifyVars`**    |     `{Object}`     |     `{}`      | Less variables            |
-|      **`style`**      | `{'css'\|Boolean}` |    `true`     | Style import method       |
-|**`varsInjectScope`**|`{(string\|RegExp)[]}`|`[]`| Scope of injection of less variables (modifyVars and the theme package's variables) |
-| **`componentPrefix`** |     `{String}`     |      `a`      | componentPrefix           |
+|        Params         |          Type          | Default Value | Description                                                                         |
+| :-------------------: | :--------------------: | :-----------: | :---------------------------------------------------------------------------------- |
+|      **`theme`**      |       `{String}`       |      `-`      | Theme package name                                                                  |
+|     **`iconBox`**     |       `{String}`       |      `-`      | Icon library package name                                                           |
+|   **`modifyVars`**    |       `{Object}`       |      `-`      | Less variables                                                                      |
+|      **`style`**      |   `{'css'\|Boolean}`   |    `true`     | Style import method                                                                 |
+| **`varsInjectScope`** | `{(string\|RegExp)[]}` |      `-`      | Scope of injection of less variables (modifyVars and the theme package's variables) |
+| **`componentPrefix`** |       `{String}`       |     `'a'`     | Component prefix                                                                    |
+|   **`iconPrefix`**    |       `{String}`       |      `-`      | Icon component prefix                                                               |
 
 **Style import methods **
 

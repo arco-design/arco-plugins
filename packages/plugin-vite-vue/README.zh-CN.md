@@ -1,4 +1,4 @@
-# @arco-plugins/vite-react
+# @arco-plugins/vite-vue
 
 ## 特性
 
@@ -29,17 +29,33 @@ export default {
 }
 ```
 
+```diff
+// main.js
+
+import { createApp } from 'vue'
+- import ArcoVue from '@arco-design/web-vue';
+- import ArcoVueIcon from '@arco-design/web-vue/es/icon';
+import App from './App.vue';
+- import '@arco-design/web-vue/dist/arco.css';
+
+const app = createApp(App);
+- app.use(ArcoVue);
+- app.use(ArcoVueIcon);
+app.mount('#app');
+```
+
 ```tsx
-// vue
+// *.vue
+
 <script setup>
 import { Button } from '@arco-design/web-vue';
 </script>
 
 <template>
   <div>
-    <Button type="secondary">Cancel</Button>
-    <a-button type="primary">Submit</a-button>
-    <component is="a-button" loading>Loading</component>
+    <Button type="secondary">取消</Button>
+    <a-button type="primary">提交</a-button>
+    <component is="a-button" loading>加载中</component>
   </div>
 </template>
 ```
@@ -48,14 +64,15 @@ import { Button } from '@arco-design/web-vue';
 
 插件支持以下参数:
 
-|        参数名         |        类型        | 默认值 | 描述         |
-| :-------------------: | :----------------: | :----: | :----------- |
-|      **`theme`**      |     `{String}`     |  `''`   | 主题包名     |
-|     **`iconBox`**     |     `{String}`     |  `''`   | 图标库包名   |
-|   **`modifyVars`**    |     `{Object}`     |  `{}`  | Less 变量    |
-|      **`style`**      | `{'css'\|Boolean}` | `true` | 样式引入方式 |
-|**`varsInjectScope`**|`string[]`|`[]`| less 变量（modifyVars 和主题包的变量）注入的范围 |
-| **`componentPrefix`** |     `{String}`     |  `a`   | 组件前缀     |
+|        参数名         |        类型        | 默认值 | 描述                                             |
+| :-------------------: | :----------------: | :----: | :----------------------------------------------- |
+|      **`theme`**      |     `{String}`     |  `-`   | 主题包名                                         |
+|     **`iconBox`**     |     `{String}`     |  `-`   | 图标库包名                                       |
+|   **`modifyVars`**    |     `{Object}`     |  `-`   | Less 变量                                        |
+|      **`style`**      | `{'css'\|Boolean}` | `true` | 样式引入方式                                     |
+| **`varsInjectScope`** |     `string[]`     |  `-`   | less 变量（modifyVars 和主题包的变量）注入的范围 |
+| **`componentPrefix`** |     `{String}`     | `'a'`  | 组件前缀                                         |
+|   **`iconPrefix`**    |     `{String}`     |  `-`   | 图标组件前缀                                     |
 
 **样式引入方式 **
 

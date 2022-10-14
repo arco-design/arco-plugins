@@ -15,6 +15,7 @@ interface PluginOption {
   style?: Style; // Style lazy load
   varsInjectScope?: (string | RegExp)[]; // Less vars inject
   componentPrefix?: string;
+  iconPrefix?: string;
 }
 
 export default function vitePluginArcoImport(options: PluginOption = {}): Plugin {
@@ -25,6 +26,7 @@ export default function vitePluginArcoImport(options: PluginOption = {}): Plugin
     style = true,
     varsInjectScope = [],
     componentPrefix = 'a',
+    iconPrefix = '',
   } = options;
   let styleOptimization: boolean;
   let iconBoxLib: any;
@@ -83,6 +85,7 @@ export default function vitePluginArcoImport(options: PluginOption = {}): Plugin
         styleOptimization,
         sourceMaps: isDevelopment || Boolean(resolvedConfig?.build?.sourcemap),
         componentPrefix,
+        iconPrefix,
       });
     },
   };

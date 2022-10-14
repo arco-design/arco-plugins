@@ -3,12 +3,7 @@ import { dirname, extname, resolve, sep, win32, posix, join } from 'path';
 import { addNamed, addSideEffect } from '@babel/helper-module-imports';
 import traverse, { NodePath } from '@babel/traverse';
 import { parse } from '@babel/parser';
-import {
-  isExportSpecifier,
-  isIdentifier,
-  isStringLiteral,
-  isTSPropertySignature,
-} from '@babel/types';
+import { isExportSpecifier, isIdentifier, isStringLiteral } from '@babel/types';
 
 type Style = boolean | 'css';
 
@@ -85,6 +80,15 @@ export function parseInclude2RegExp(include: (string | RegExp)[] = [], context?:
   return false;
 }
 
+export function isPascalCase(name: string) {
+  return /^[A-Z][A-Za-z]*$/.test(name);
+}
+
+// kebab-case to PascalCase
+export function kebabCaseToPascalCase(name: string) {
+  return name.replace(/(^|-)([A-Za-z])/g, (_match, _p1, p2) => p2.toUpperCase());
+}
+
 // component config
 const componentConfigRecord: {
   [libraryName: string]: {
@@ -96,29 +100,7 @@ export function getComponentConfig(libraryName: string, componentName: string) {
     componentConfigRecord[libraryName] = {};
     try {
       const packageRootDir = dirname(require.resolve(`${libraryName}/package.json`));
-      // 获取已声明的组件
-      const componentNameSet = new Set<string>();
-      const componentsDeclaration = readFileSync(
-        join(packageRootDir, 'es/components.d.ts'),
-        'utf8'
-      );
-      const componentsDeclarationAst = parse(componentsDeclaration, {
-        sourceType: 'module',
-        plugins: ['typescript'],
-      });
-      traverse(componentsDeclarationAst, {
-        TSInterfaceDeclaration: ({ node }) => {
-          if (node.id.name === 'GlobalComponents') {
-            node.body.body.forEach((item) => {
-              if (isTSPropertySignature(item) && isIdentifier(item.key)) {
-                const _componentName = item.key.name.replace(/^A/, '');
-                componentNameSet.add(_componentName);
-              }
-            });
-          }
-        },
-      });
-      // 生成组件配置
+      // generate component config
       const indexDeclaration = readFileSync(join(packageRootDir, 'es/index.d.ts'), 'utf8');
       const indexDeclarationAst = parse(indexDeclaration, {
         sourceType: 'module',
@@ -126,12 +108,15 @@ export function getComponentConfig(libraryName: string, componentName: string) {
       });
       traverse(indexDeclarationAst, {
         ExportNamedDeclaration: ({ node }) => {
+          // when the exported item is a value (non type)
           if (node.exportKind === 'value' && isStringLiteral(node.source)) {
             const componentDir = join(libraryName, 'es', node.source.value).replace(/\\/g, '/');
             node.specifiers.forEach((item) => {
               if (isExportSpecifier(item) && isIdentifier(item.exported)) {
                 const _componentName = item.exported.name;
-                if (componentNameSet.has(_componentName)) {
+                // check whether it is a component
+                const isComponent = isPascalCase(_componentName);
+                if (isComponent) {
                   componentConfigRecord[libraryName][_componentName] = {
                     dir: libraryName,
                     styleDir: `${componentDir}/style`,
@@ -142,45 +127,17 @@ export function getComponentConfig(libraryName: string, componentName: string) {
           }
         },
       });
-      // 生成图标组件配置
-      try {
-        const iconComponentsDeclaration = readFileSync(
-          join(packageRootDir, 'es/icon/icon-components.d.ts'),
-          'utf8'
-        );
-        const iconComponentsDeclarationAst = parse(iconComponentsDeclaration, {
-          sourceType: 'module',
-          plugins: ['typescript'],
+      // generate icon component config
+      readdirSync(join(packageRootDir, 'es/icon'), { withFileTypes: true })
+        .filter((file) => file.isDirectory())
+        .map((file) => file.name)
+        .forEach((fileName) => {
+          // icon-github => IconGithub
+          const _componentName = kebabCaseToPascalCase(fileName);
+          componentConfigRecord[libraryName][_componentName] = {
+            dir: `${libraryName}/es/icon`,
+          };
         });
-        traverse(iconComponentsDeclarationAst, {
-          TSInterfaceDeclaration: ({ node }) => {
-            if (node.id.name === 'GlobalComponents') {
-              node.body.body.forEach((item) => {
-                if (isTSPropertySignature(item) && isIdentifier(item.key)) {
-                  const _componentName = item.key.name;
-                  componentConfigRecord[libraryName][_componentName] = {
-                    dir: `${libraryName}/es/icon`,
-                  };
-                }
-              });
-            }
-          },
-        });
-      } catch (error) {
-        // 旧版本组件库没有 icon-components.d.ts 声明文件，直接从目录中获取组件路径
-        readdirSync(join(packageRootDir, 'es/icon'), { withFileTypes: true })
-          .filter((file) => file.isDirectory())
-          .map((file) => file.name)
-          .forEach((fileName) => {
-            // icon-github => IconGithub
-            const _componentName = fileName.replace(/(^|-)[a-z]/g, (w) =>
-              w.replace('-', '').toUpperCase()
-            );
-            componentConfigRecord[libraryName][_componentName] = {
-              dir: `${libraryName}/es/icon`,
-            };
-          });
-      }
       // eslint-disable-next-line no-empty
     } catch (error) {}
   }
