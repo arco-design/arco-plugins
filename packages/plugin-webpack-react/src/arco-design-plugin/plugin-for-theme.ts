@@ -124,7 +124,7 @@ export class ThemePlugin {
           loaders.push({
             loader: appendLoader,
             options: {
-              additionContent: source,
+              additionContent: source.replace(/!/g, '__ARCO_PLACEHOLDER__'),
             },
             ident: null,
             type: null,

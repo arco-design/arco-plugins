@@ -9,7 +9,7 @@ export const AppendLoader: LoaderDefinitionFunction = function (source) {
 
   return `
     ${source}\n
-    ${additionContent}\n
+    ${additionContent.replace(/__ARCO_PLACEHOLDER__/g, '!')}\n
   `;
 };
 

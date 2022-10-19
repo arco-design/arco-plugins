@@ -1,3 +1,12 @@
+## 1.4.4
+
+`2022-10-19`
+
+🐛 BugFix
+
+- Fix `!` recognition issue in style loading
+
+
 ## 1.4.2
 
 `2022-09-28`
