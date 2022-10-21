@@ -28,18 +28,19 @@ export class ImportPlugin {
         const loaders = module.loaders;
         const babelLoaderIndex = getLoaderIndex(loaders, 'babel-loader');
         const tsLoaderIndex = getLoaderIndex(loaders, 'ts-loader');
+        const shouldModifyBabelLoader = this.options.modifyBabelLoader ?? babelLoaderIndex > -1;
         const options = {
           style: this.options.style,
           libraryDirectory: this.options.libraryDirectory,
           iconBox: this.options.iconBox,
           babelConfig: this.options.babelConfig,
         };
+        if (shouldModifyBabelLoader) {
+          modifyBabelLoader(loaders[babelLoaderIndex], options);
+          return;
+        }
         let insertIndex = loaders.length - 1;
         if (babelLoaderIndex > -1) {
-          if (this.options.modifyBabelLoader) {
-            modifyBabelLoader(loaders[babelLoaderIndex], options);
-            return;
-          }
           insertIndex = babelLoaderIndex + 1;
         } else if (tsLoaderIndex > -1) {
           insertIndex = (tsLoaderIndex || 1) - 1;
