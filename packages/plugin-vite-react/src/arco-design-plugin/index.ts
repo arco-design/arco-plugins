@@ -18,7 +18,6 @@ interface PluginOption {
 
 export default function vitePluginArcoImport(options: PluginOption = {}): Plugin {
   const { theme = '', iconBox = '', modifyVars = {}, style = true, varsInjectScope = [] } = options;
-  let styleOptimization: boolean;
   let iconBoxLib: any;
   let resolvedConfig: ResolvedConfig;
   let isDevelopment = false;
@@ -33,9 +32,8 @@ export default function vitePluginArcoImport(options: PluginOption = {}): Plugin
   return {
     name: pkg.name,
     config(config: UserConfig, { command }: ConfigEnv) {
+      // dev mode
       isDevelopment = command === 'serve';
-      // Lay load
-      styleOptimization = command === 'build';
 
       // css preprocessorOptions
       modifyCssConfig(pkg.name, config, theme, modifyVars, varsInjectScope);
@@ -72,7 +70,7 @@ export default function vitePluginArcoImport(options: PluginOption = {}): Plugin
         id,
         theme,
         style,
-        styleOptimization,
+        isDevelopment,
         sourceMaps: isDevelopment || Boolean(resolvedConfig?.build?.sourcemap),
       });
     },

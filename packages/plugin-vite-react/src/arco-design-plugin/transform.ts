@@ -45,19 +45,30 @@ export function transformJsFiles({
   id,
   theme,
   style,
-  styleOptimization,
+  isDevelopment,
   sourceMaps,
 }: {
   code: string;
   id: string;
   theme?: string;
   style: Style;
-  styleOptimization: boolean;
+  isDevelopment: boolean;
   sourceMaps: boolean;
 }): TransformedResult {
   if (style === false || !/\.(js|jsx|ts|tsx)$/.test(id)) {
     return undefined;
   }
+
+  const fullStyleFile = `${libraryName}/dist/css/${style === 'css' ? 'arco.css' : 'index.less'}`;
+
+  // edge case && dev faster
+  if (isDevelopment) {
+    return {
+      code: `${code}\nimport '${fullStyleFile}';`,
+      map: null,
+    };
+  }
+
   const ast = parser.parse(code, {
     sourceType: 'module',
     plugins: ['jsx'],
@@ -71,7 +82,7 @@ export function transformJsFiles({
         const { value } = node.source;
         if (value === libraryName) {
           // lazy load (css files don't support lazy load with theme)
-          if (styleOptimization && (style !== 'css' || !theme)) {
+          if (style !== 'css' || !theme) {
             node.specifiers.forEach((spec) => {
               if (types.isImportSpecifier(spec)) {
                 const importedName = (spec as Specifier).imported.name;
@@ -82,13 +93,9 @@ export function transformJsFiles({
               }
             });
           }
-          // import css bundle file
-          else if (style === 'css') {
-            addSideEffect(path, `${libraryName}/dist/css/arco.css`);
-          }
-          // import less bundle file
+          // import full less/css bundle file
           else {
-            addSideEffect(path, `${libraryName}/dist/css/index.less`);
+            addSideEffect(path, fullStyleFile);
           }
         }
       }
