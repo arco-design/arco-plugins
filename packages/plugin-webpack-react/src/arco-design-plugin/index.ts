@@ -23,6 +23,7 @@ export class ArcoDesignPlugin {
         extensions: ['js', 'jsx', 'ts', 'tsx'],
         style: true,
         libraryDirectory: 'es',
+        modifyBabelLoader: true,
       },
       options
     );

@@ -28,7 +28,7 @@ export class ImportPlugin {
         const loaders = module.loaders;
         const babelLoaderIndex = getLoaderIndex(loaders, 'babel-loader');
         const tsLoaderIndex = getLoaderIndex(loaders, 'ts-loader');
-        const shouldModifyBabelLoader = this.options.modifyBabelLoader ?? babelLoaderIndex > -1;
+        const shouldModifyBabelLoader = this.options.modifyBabelLoader && babelLoaderIndex > -1;
         const options = {
           style: this.options.style,
           libraryDirectory: this.options.libraryDirectory,
