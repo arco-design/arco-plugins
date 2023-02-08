@@ -1,3 +1,12 @@
+## 1.4.8
+
+`2023-02-08`
+
+🐛 BugFix
+
+- Fix babel custom configuration issues
+
+
 ## 1.4.4
 
 `2022-10-19`
