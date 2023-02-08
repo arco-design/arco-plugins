@@ -78,12 +78,42 @@ export function getBabelPlugins(options) {
   ];
 }
 
+function mergeBabelPresets(defaults, userPresets) {
+  const finalPresets = [...defaults];
+
+  userPresets.forEach((p) => {
+    const [presetName, presetOptions] = Array.isArray(p) ? p : [p];
+
+    const existedPresetIndex = finalPresets.findIndex((i) => {
+      const _presetName = Array.isArray(i) ? i[0] : i;
+      // Preset name can be passed in a file path or the name of an npm package,
+      // so we use resolved paths to determine whether two presets are the same.
+      if (require.resolve(presetName) === require.resolve(_presetName)) {
+        return true;
+      }
+      return false;
+    });
+
+    if (existedPresetIndex === -1) {
+      finalPresets.push(p);
+    } else {
+      let mergedPreset = finalPresets[existedPresetIndex];
+      mergedPreset = Array.isArray(mergedPreset) ? mergedPreset : [mergedPreset];
+      // merge preset options
+      mergedPreset[1] = { ...mergedPreset[1], ...presetOptions };
+      finalPresets.splice(existedPresetIndex, 1, mergedPreset);
+    }
+  });
+
+  return finalPresets;
+}
+
 export function transformImport(source, options) {
   const _options = getTransformOptions(options);
 
   const babelPlugins = getBabelPlugins(options);
 
-  const babelPresets = [...babelConfig.presets, ...(_options.babelConfig.presets || [])];
+  const babelPresets = mergeBabelPresets(babelConfig.presets, _options.babelConfig.presets || []);
 
   const transformResult = transformSync(
     source,
