@@ -19,7 +19,7 @@ npm i @arco-plugins/vite-react -D
 ```js
 // vite.config.js
 
-import vitePluginForArco from '@arco-plugins/vite-react'
+import { vitePluginForArco } from '@arco-plugins/vite-react'
 
 export default {
   ...
