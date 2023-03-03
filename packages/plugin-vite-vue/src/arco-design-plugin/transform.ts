@@ -96,6 +96,8 @@ export function transformJsFiles({
           // restore icon component name
           else if (iconComponentRegExp.test(componentName)) {
             componentName = componentName.replace(iconComponentRegExp, (match) => match.slice(-1));
+          } else {
+            return;
           }
         }
         if (

@@ -1,3 +1,11 @@
+## 1.4.3
+
+`2023-03-03`
+
+🐛 BugFix
+
+- Fix the problem of custom components replaced by Arco's with same name
+
 ## 1.4.2
 
 `2022-10-15`
