@@ -72,7 +72,7 @@ The plugin supports the following parameters:
 |      **`style`**      |   `{'css'\|Boolean}`   |    `true`     | Style import method                                                                 |
 | **`varsInjectScope`** | `{(string\|RegExp)[]}` |      `-`      | Scope of injection of less variables (modifyVars and the theme package's variables) |
 | **`componentPrefix`** |       `{String}`       |     `'a'`     | Component prefix                                                                    |
-|   **`iconPrefix`**    |       `{String}`       |      `-`      | Icon component prefix                                                               |
+|   **`iconPrefix`**    |       `{String}`       |      `icon`      | Icon component prefix                                                               |
 
 **Style import methods **
 
