@@ -1,3 +1,10 @@
+## 1.4.4
+
+`2023-03-13`
+
+🐛 BugFix
+
+- Fix the problem of icon not working
 ## 1.4.3
 
 `2023-03-03`
