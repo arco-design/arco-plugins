@@ -1,6 +1,6 @@
 {
   "name": "@arco-plugins/vite-vue",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "For Vite build, load Arco Design styles on demand",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
