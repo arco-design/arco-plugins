@@ -72,7 +72,7 @@ import { Button } from '@arco-design/web-vue';
 |      **`style`**      | `{'css'\|Boolean}` | `true` | 样式引入方式                                     |
 | **`varsInjectScope`** |     `string[]`     |  `-`   | less 变量（modifyVars 和主题包的变量）注入的范围 |
 | **`componentPrefix`** |     `{String}`     | `'a'`  | 组件前缀                                         |
-|   **`iconPrefix`**    |     `{String}`     |  `-`   | 图标组件前缀                                     |
+|   **`iconPrefix`**    |     `{String}`     |  `icon`   | 图标组件前缀                                     |
 
 **样式引入方式 **
 

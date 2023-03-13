@@ -26,7 +26,7 @@ export default function vitePluginArcoImport(options: PluginOption = {}): Plugin
     style = true,
     varsInjectScope = [],
     componentPrefix = 'a',
-    iconPrefix = '',
+    iconPrefix = 'icon',
   } = options;
   let styleOptimization: boolean;
   let iconBoxLib: any;
