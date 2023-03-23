@@ -136,7 +136,7 @@ export function modifyBabelLoader(loader, options) {
   loader.options = {
     ...loaderOptions,
     ...config,
-    presets: [...(loaderOptions.presets || []), ...(config?.presets || [])],
-    plugins,
+    presets: [...loaderOptions.presets, ...config?.presets],
+    plugins: [...loaderOptions.plugins, ...plugins],
   };
 }
