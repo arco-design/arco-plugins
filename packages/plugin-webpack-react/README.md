@@ -54,7 +54,7 @@ The plugin supports the following parameters:
 |**`defaultLanguage`**|`{string}`|`-`| Replace the default language，[language list](https://arco.design/react/docs/i18n#%E6%94%AF%E6%8C%81%E7%9A%84%E8%AF%AD%E8%A8%80)|
 |**`webpackImplementation`**|`{webpack}`|`-`| Specifying which webpack implementation to use |
 |**`varsInjectScope`**|`{(String\|RegExp)[]}`|`-`| Scope of injection of less variables (modifyVars and the theme package's variables) |
-|**`modifyBabelLoader`**|`{Boolean}`|`false`| Whether to inject babel-plugin-import for babel-loader or adding a new loader |
+|**`modifyBabelLoader`**|`{Boolean}`|`true`| Whether to inject babel-plugin-import for babel-loader or adding a new loader |
 
 **Style import methods **
 
