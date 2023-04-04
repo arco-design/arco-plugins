@@ -33,6 +33,7 @@
   "author": "arco-design",
   "license": "MIT",
   "devDependencies": {
+    "@types/babel__core": "^7.20.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "eslint": "^7.2.0",
