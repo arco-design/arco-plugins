@@ -1,6 +1,6 @@
 {
   "name": "@arco-plugins/webpack-react",
-  "version": "1.4.8",
+  "version": "1.4.9-next.0",
   "description": "arco webpack plugin",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
