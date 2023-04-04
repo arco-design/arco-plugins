@@ -1,4 +1,4 @@
-import { transformSync } from '@babel/core';
+import { TransformOptions, transformSync } from '@babel/core';
 import { merge } from 'lodash';
 import babelConfig from '../config/babel.config';
 
@@ -126,7 +126,14 @@ export function transformImport(source, options) {
   return transformResult.code;
 }
 
-export function modifyBabelLoader(loader, options) {
+export interface ModifyBabelLoaderOptions {
+  style: string | boolean;
+  libraryDirectory: string;
+  iconBox?: string;
+  babelConfig?: TransformOptions;
+}
+
+export function modifyBabelLoaderOverride(loader, options: ModifyBabelLoaderOptions) {
   const { options: loaderOptions } = loader;
   if (loaderOptions?.plugins?.some((item) => item[2]?.startsWith(babelPluginFlagPrefix))) {
     return;
@@ -138,5 +145,20 @@ export function modifyBabelLoader(loader, options) {
     ...config,
     presets: [...(loaderOptions.presets || []), ...(config?.presets || [])],
     plugins,
+  };
+}
+
+export function modifyBabelLoaderMerge(loader, options: ModifyBabelLoaderOptions) {
+  const { options: loaderOptions } = loader;
+  if (loaderOptions?.plugins?.some((item) => item[2]?.startsWith(babelPluginFlagPrefix))) {
+    return;
+  }
+  const { babelConfig: config } = options;
+  const plugins = getBabelPlugins(options);
+  loader.options = {
+    ...loaderOptions,
+    ...config,
+    presets: [...loaderOptions.presets, ...config?.presets],
+    plugins: [...loaderOptions.plugins, ...plugins],
   };
 }

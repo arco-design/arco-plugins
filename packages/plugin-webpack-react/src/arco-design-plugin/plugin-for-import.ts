@@ -1,6 +1,10 @@
 import { arrify, pathUtils } from '@arco-plugins/utils';
 import { Compiler } from 'webpack';
-import { getBabelPlugins, modifyBabelLoader } from './utils/transform-import';
+import {
+  getBabelPlugins,
+  modifyBabelLoaderMerge,
+  modifyBabelLoaderOverride,
+} from './utils/transform-import';
 import { getLoader, hookNormalModuleLoader, getLoaderIndex, getContext } from './utils';
 import { PLUGIN_NAME } from './config';
 import { ArcoDesignPluginOptions } from './interface';
@@ -36,7 +40,12 @@ export class ImportPlugin {
           babelConfig: this.options.babelConfig,
         };
         if (shouldModifyBabelLoader) {
-          modifyBabelLoader(loaders[babelLoaderIndex], options);
+          const _loader = loaders[babelLoaderIndex];
+          if (this.options.modifyBabelLoader === 'merge') {
+            modifyBabelLoaderMerge(_loader, options);
+          } else {
+            modifyBabelLoaderOverride(_loader, options);
+          }
           return;
         }
         let insertIndex = loaders.length - 1;
