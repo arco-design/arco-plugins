@@ -75,7 +75,7 @@ export class ThemePlugin {
   }
 
   /**
-   * 读取主题全局样式文件，利用 loader 添加到 style/index.less
+   * 读取主题全局样式文件，利用 loader 添加到 `@arco-design/web-react/{es,lib}/style/index.{css,less}`
    */
   hookForGlobalStyle() {
     if (!this.options.theme) return;
@@ -107,14 +107,22 @@ export class ThemePlugin {
     });
   }
 
-  // 将 filePath 中的内容添加到 match 的文件中
-  addAppendLoader(matcher, filePath, options?: { importLessPath: boolean }) {
+  /**
+   * 将 filePath 中的内容添加到 match 的文件中
+   * @param matcher
+   * @param filePath
+   * @param options
+   * @returns
+   */
+  addAppendLoader(matcher, filePath, options?: { importLessPath?: boolean }) {
     try {
-      let source = getFileSource(filePath);
-      if (!source) return;
-
-      if (options && options.importLessPath) {
+      let source: string;
+      if (options?.importLessPath) {
+        if (!source) return;
         source = `;\n@import '~${filePath}';`;
+      } else {
+        source = getFileSource(filePath);
+        if (!source) return;
       }
 
       const appendLoader = require.resolve('./loaders/append');
