@@ -1,22 +1,21 @@
-import { getOptions } from 'loader-utils';
 import type { LoaderDefinitionFunction } from 'webpack';
 
-// 替换Arco默认图标
-const ReplaceIconLoader: LoaderDefinitionFunction = function (content) {
-  const { iconBoxLib, iconBoxDirname } = getOptions(this) as unknown as {
-    iconBoxLib: Record<string, string>;
-    iconBoxDirname: string;
-  };
+export interface ReplaceIconLoaderOptions {
+  iconBoxLib: Record<string, string>;
+  iconBoxDirname: string;
+}
 
-  if (!iconBoxLib) {
-    return content;
-  }
+// 替换Arco默认图标
+const ReplaceIconLoader: LoaderDefinitionFunction<ReplaceIconLoaderOptions> = function (content) {
+  const { iconBoxLib, iconBoxDirname } = this.getOptions();
+
+  if (!iconBoxLib) return content;
 
   const matches = this.resourcePath.match(
     /@arco-design\/web-react\/icon\/react-icon\/([^/]+)\/index\.js$/
   );
   if (matches && iconBoxLib[matches[1]]) {
-    return `export {default} from '${iconBoxDirname}/esm/${matches[1]}/index.js';`;
+    return `export { default } from '${iconBoxDirname}/esm/${matches[1]}/index.js';`;
   }
   return content;
 };

@@ -1,18 +1,12 @@
-import type webpack from 'webpack';
-
 export interface ArcoDesignPluginOptions {
-  context?: string;
   include: (string | RegExp)[];
   extensions: string[];
   style: string | boolean;
   libraryDirectory: string;
   iconBox?: string;
-  babelConfig?: object;
-  removeFontFace?: boolean;
+  removeFontFace: boolean;
   defaultLanguage?: string;
   theme?: string;
-  modifyVars?: Record<string, string>;
-  webpackImplementation?: typeof webpack;
-  varsInjectScope?: (string | RegExp)[];
-  modifyBabelLoader?: boolean | 'merge' | 'override';
+  modifyVars: Record<string, string>;
+  varsInjectScope: (string | RegExp)[];
 }

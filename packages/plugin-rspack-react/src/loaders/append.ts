@@ -1,16 +1,16 @@
-import { getOptions } from 'loader-utils';
 import type { LoaderDefinitionFunction } from 'webpack';
 
-export const AppendLoader: LoaderDefinitionFunction = function (source) {
-  const options = getOptions(this);
+export interface AppendLoaderOptions {
+  additionContent: string;
+}
+
+export const AppendLoader: LoaderDefinitionFunction<AppendLoaderOptions> = function (source) {
+  const options = this.getOptions();
   const additionContent = `${options.additionContent}`;
 
   if (!additionContent) return source;
 
-  return `
-    ${source}\n
-    ${additionContent.replace(/__ARCO_PLACEHOLDER__/g, '!')}\n
-  `;
+  return [source, additionContent.replace(/__ARCO_PLACEHOLDER__/g, '!')].join('\n');
 };
 
 module.exports = AppendLoader;
