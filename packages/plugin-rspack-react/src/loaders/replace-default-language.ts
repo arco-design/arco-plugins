@@ -1,5 +1,4 @@
-import { transformSync, types } from '@babel/core';
-import { Visitor } from '@babel/traverse';
+import { Visitor, transformSync, types } from '@babel/core';
 import type { LoaderDefinitionFunction } from 'webpack';
 
 export interface ReplaceDefaultLanguageLoaderOptions {

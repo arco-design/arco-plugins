@@ -4,16 +4,18 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack serve"
+    "dev": "rspack dev",
+    "build": "rspack build"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@arco-plugins/rspack-react": "workspace:*",
-    "@rspack/core": "*"
+    "@rspack/cli": "^0.1.8"
   },
   "dependencies": {
-    "example-component-a": "^1.0.0",
+    "@arco-plugins/rspack-react": "workspace:*",
+    "@arco-themes/react-asuka": "^0.0.1",
+    "example-component-a": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }

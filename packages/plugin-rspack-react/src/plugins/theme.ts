@@ -27,7 +27,6 @@ export class ThemePlugin {
     const vars = { ...themeVars, ...modifyVars };
     // eslint-disable-next-line no-useless-return
     if (_.isEmpty(vars)) return;
-    // TODO;
   }
 
   handleGlobalStyle(compiler: Compiler) {

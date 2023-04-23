@@ -2,7 +2,7 @@ import assert from 'assert';
 import { makeRe } from 'minimatch';
 
 export const compileGlob = (expr: string) => {
-  const ret = makeRe(expr);
-  assert(ret);
-  return ret;
+  const regex = makeRe(expr);
+  assert(regex);
+  return (resource: string) => regex.test(resource);
 };
