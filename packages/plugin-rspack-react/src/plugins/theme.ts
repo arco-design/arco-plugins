@@ -22,11 +22,11 @@ export class ThemePlugin {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   handleVariables(compiler: Compiler) {
-    const themeVars = this.options.theme ? getThemeVars(this.options.theme) : {};
-    const modifyVars = this.options.modifyVars;
-    const vars = { ...themeVars, ...modifyVars };
-    // eslint-disable-next-line no-useless-return
-    if (_.isEmpty(vars)) return;
+    // const themeVars = this.options.theme ? getThemeVars(this.options.theme) : {};
+    // const modifyVars = this.options.modifyVars;
+    // const vars = { ...themeVars, ...modifyVars };
+    // // eslint-disable-next-line no-useless-return
+    // if (_.isEmpty(vars)) return;
   }
 
   handleGlobalStyle(compiler: Compiler) {

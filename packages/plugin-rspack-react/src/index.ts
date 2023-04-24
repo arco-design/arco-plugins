@@ -13,13 +13,9 @@ export class ArcoDesignPlugin {
 
   constructor(options: Partial<ArcoDesignPluginOptions> = {}) {
     this.options = {
-      include: ['src'],
-      extensions: ['js', 'jsx', 'ts', 'tsx'],
       style: true,
       libraryDirectory: 'es',
-      modifyVars: {},
       removeFontFace: false,
-      varsInjectScope: [],
       ...options,
     };
   }
