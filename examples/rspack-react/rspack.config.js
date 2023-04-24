@@ -37,6 +37,11 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    alias: {
+      '@arco-design/web-react': path.resolve(__dirname, 'node_modules/@arco-design/web-react'),
+    },
+  },
   devServer: {
     devMiddleware: {
       writeToDisk: true,
@@ -44,8 +49,10 @@ module.exports = {
   },
   plugins: [
     new ArcoDesignPlugin({
-      include: ['src', /\/components\//, '../component-a'],
       theme: '@arco-themes/react-asuka',
+      iconBox: '@arco-iconbox/react-partial-bits',
+      removeFontFace: true,
+      defaultLanguage: 'ja-JP',
     }),
   ],
 };
