@@ -53,14 +53,28 @@ function getIconBoxImportPlugins(iconBoxLibName) {
   ];
 }
 
+function getTransformOptions(options) {
+  return merge(
+    {
+      libraryDirectory: 'es',
+      style: true,
+      iconBox: '',
+      babelConfig: {},
+    },
+    options || {}
+  );
+}
+
 export function getBabelPlugins(options) {
+  const _options = getTransformOptions(options);
+
   return [
-    ...(options.babelConfig.plugins || []),
+    ...(_options.babelConfig.plugins || []),
     ...getArcoImportPlugins({
-      libraryDirectory: options.libraryDirectory,
-      style: options.style,
+      libraryDirectory: _options.libraryDirectory,
+      style: _options.style,
     }),
-    ...getIconBoxImportPlugins(options.iconBox),
+    ...getIconBoxImportPlugins(_options.iconBox),
   ];
 }
 
@@ -95,13 +109,15 @@ function mergeBabelPresets(defaults, userPresets) {
 }
 
 export function transformImport(source, options) {
+  const _options = getTransformOptions(options);
+
   const babelPlugins = getBabelPlugins(options);
 
-  const babelPresets = mergeBabelPresets(babelConfig.presets, options.babelConfig.presets || []);
+  const babelPresets = mergeBabelPresets(babelConfig.presets, _options.babelConfig.presets || []);
 
   const transformResult = transformSync(
     source,
-    merge({}, options.babelConfig, {
+    merge({}, _options.babelConfig, {
       presets: babelPresets,
       plugins: babelPlugins,
     })
