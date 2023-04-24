@@ -142,7 +142,7 @@ export function modifyBabelLoaderMerge(loader, options: ModifyBabelLoaderOptions
   loader.options = {
     ...loaderOptions,
     ...config,
-    presets: [...loaderOptions.presets, ...config?.presets],
-    plugins: [...loaderOptions.plugins, ...plugins],
+    presets: [...(loaderOptions.presets || []), ...(config?.presets || [])],
+    plugins: [...(loaderOptions.plugins || []), ...(plugins || [])],
   };
 }
