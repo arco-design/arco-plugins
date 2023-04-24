@@ -25,7 +25,7 @@ export class ReplaceIconPlugin {
       throw error;
     }
     const use: RuleSetUseItem = {
-      loader: path.resolve(__dirname, './loaders/replace-icon.js'),
+      loader: path.resolve(__dirname, '../loaders/replace-icon.js'),
       options: {
         iconBoxLib,
         iconBoxDirname,
