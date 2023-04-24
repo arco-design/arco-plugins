@@ -19,8 +19,9 @@ The main functions are as follows:
 The functions of different architectures are different due to different progress. Go to the plugin details page to find more useful functions:
 
 1. [webpack plugin for React](./packages/plugin-webpack-react/README.md)
-2. [vite plugin for React](./packages/plugin-vite-react/README.md)
-3. [vite plugin for Vue](./packages/plugin-vite-vue/README.md)
+2. [Rspack plugin for React](./packages/plugin-rspack-react/README.md)
+3. [vite plugin for React](./packages/plugin-vite-react/README.md)
+4. [vite plugin for Vue](./packages/plugin-vite-vue/README.md)
 
 ## Contributing
 
