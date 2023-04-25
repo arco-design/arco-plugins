@@ -16,26 +16,25 @@
 这个插件相比于 `@arco-plugins/webpack-react` 存在一些差异，这是由 Rspack 与 webpack 的底层差异决定的。
 
 ```diff
-  export interface ArcoDesignPluginOptions {
-    style?: string | boolean;
-    libraryDirectory?: string;
-    iconBox?: string;
-    removeFontFace?: boolean;
-    defaultLanguage?: string;
-    theme?: string;
--   context?: string;
--   include: (string | RegExp)[];
--   extensions: string[];
--   babelConfig?: object;
--   modifyVars?: Record<string, string>;
--   webpackImplementation?: typeof webpack;
--   varsInjectScope?: (string | RegExp)[];
--   modifyBabelLoader?: boolean | 'merge' | 'override';
-  }
+export interface ArcoDesignPluginOptions {
+  style?: string | boolean;
+  libraryDirectory?: string;
+  iconBox?: string;
+  removeFontFace?: boolean;
+  defaultLanguage?: string;
+  theme?: string;
+- context?: string;
+- include: (string | RegExp)[];
+- extensions: string[];
+- babelConfig?: object;
+- modifyVars?: Record<string, string>;
+- webpackImplementation?: typeof webpack;
+- varsInjectScope?: (string | RegExp)[];
+- modifyBabelLoader?: boolean | 'merge' | 'override';
+}
 ```
 
-相比 webpack 来说 Rspack 不再使用 Babel 来进行有限范围的代码转译，转而使用 SWC 对包括第三方依赖在内的所有代码，
-所以去除了对 `include` `extenstions` `babelConfig` `modifyBabelLoader` 配置的支持。
+相比 webpack 来说 Rspack 不再使用 Babel 来进行有限范围的代码转译，转而使用 SWC 处理包括第三方依赖在内的所有代码，所以去除了对 `include` `extenstions` `babelConfig` `modifyBabelLoader` 配置的支持。
 
 另外由于放弃了对 webpack@4 的支持并对内部实现做了改进，所以不再需要配置 `context` `webpackImplementation`。
 

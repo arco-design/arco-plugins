@@ -16,22 +16,22 @@ The functionality of the plugin is as follows:
 This plugin has some differences compared to `@arco-plugins/webpack-react`, which is determined by the underlying differences between Rspack and webpack.
 
 ```diff
-  export interface ArcoDesignPluginOptions {
-    style?: string | boolean;
-    libraryDirectory?: string;
-    iconBox?: string;
-    removeFontFace?: boolean;
-    defaultLanguage?: string;
-    theme?: string;
--   context?: string;
--   include: (string | RegExp)[];
--   extensions: string[];
--   babelConfig?: object;
--   modifyVars?: Record<string, string>;
--   webpackImplementation?: typeof webpack;
--   varsInjectScope?: (string | RegExp)[];
--   modifyBabelLoader?: boolean | 'merge' | 'override';
-  }
+export interface ArcoDesignPluginOptions {
+  style?: string | boolean;
+  libraryDirectory?: string;
+  iconBox?: string;
+  removeFontFace?: boolean;
+  defaultLanguage?: string;
+  theme?: string;
+- context?: string;
+- include: (string | RegExp)[];
+- extensions: string[];
+- babelConfig?: object;
+- modifyVars?: Record<string, string>;
+- webpackImplementation?: typeof webpack;
+- varsInjectScope?: (string | RegExp)[];
+- modifyBabelLoader?: boolean | 'merge' | 'override';
+}
 ```
 
 Unlike webpack, Rspack no longer uses Babel for limited-range code conversion, but instead uses SWC for all code, including third-party dependencies. Therefore, support for `include`, `extenstions`, `babelConfig`, and `modifyBabelLoader` configurations has been removed.
