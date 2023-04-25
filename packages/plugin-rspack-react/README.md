@@ -1,73 +1,98 @@
 # @arco-plugins/rspack-react
 
-`@arco-plugins/rspack-react` is a webpack plugin to help deal with arco usage issues. 
+`@arco-plugins/rspack-react` is a Rspack plugin that helps to deal with arco usage cases.
 
-## Feature
+## Features
 
+The functionality of the plugin is as follows:
 
-1. `Style lazy load`：Add babel-plugin-import to babel-loader to enable style lazy loading。*If there is a babel-plugin-import for arco-design/web-react, it will be replaced*。
-2. `Theme import`：Specify the theme package name, the plugin will read the variable content of the theme package and inject it into modifyVars of less-loader。
-3. `Remove the font package that comes with the component library`：Set `removeFontFace` to `true` to remove the font file that comes with the component library。
-4. `Icon replacement`：Specify the package name of the icon library, the plug-in will read the icon in the package and replace the icon with the same name used in the component library.。
-5. `Replace default language`：The default imported language pack of the component library is Chinese, which determines that Chinese will be included in the packaged product. If you don't want Chinese, you can use this parameter to replace it with the language you need.
-6. `Get lazy load babel plugin configuration`：The implementation of on-demand loading is achieved by injecting babel-plugin-import configuration into babel. These configurations are open for everyone to use and can be obtained through `(new ArcoWebpackPlugin()).pluginForImport().getBabelPlugins()`.
+1. `On-demand loading of styles`: Automatically configure `builtins.pluginImport` in `rspack.config.js` to achieve on-demand loading of styles.
+2. `Remove font package from component library`: Specifying `removeFontFace` as `true` removes the font files that come with the component library.
+3. `Icon replacement`: Specify the package name of the icon library, and the plugin will read the icons with the same name as those used in the component library and replace them.
+4. `Replace default language`: The default imported language package of the component library is Chinese, which means that Chinese must be included in the packaged product. If you do not want to include Chinese, you can use this parameter to replace it with the language you need.
 
-## Install
+## Differences
 
-Use npm/yarn to install the plugin:
+This plugin has some differences compared to `@arco-plugins/webpack-react`, which is determined by the underlying differences between Rspack and webpack.
+
+```diff
+  export interface ArcoDesignPluginOptions {
+    style?: string | boolean;
+    libraryDirectory?: string;
+    iconBox?: string;
+    removeFontFace?: boolean;
+    defaultLanguage?: string;
+    theme?: string;
+-   context?: string;
+-   include: (string | RegExp)[];
+-   extensions: string[];
+-   babelConfig?: object;
+-   modifyVars?: Record<string, string>;
+-   webpackImplementation?: typeof webpack;
+-   varsInjectScope?: (string | RegExp)[];
+-   modifyBabelLoader?: boolean | 'merge' | 'override';
+  }
+```
+
+Unlike webpack, Rspack no longer uses Babel for limited-range code conversion, but instead uses SWC for all code, including third-party dependencies. Therefore, support for `include`, `extenstions`, `babelConfig`, and `modifyBabelLoader` configurations has been removed.
+
+In addition, because support for webpack@4 has been abandoned and internal improvements have been made, configuring `context` and `webpackImplementation` is no longer necessary.
+
+Finally, for maintainability reasons, `@arco-plugins/rspack-react` no longer supports the `modifyVars` and `varsInjectScope` configuration items, and you can achieve the same functionality by manually configuring the `less-loader` configuration.
+
+## Installation
+
+Install this tool using package managers:
 
 ```shell
 # npm
-$ npm install -D @arco-plugins/webpack-react
+$ npm install -D @arco-plugins/rspack-react
 
 # yarn
-$ yarn add @arco-plugins/webpack-react
+$ yarn add -D @arco-plugins/rspack-react
+
+# pnpm
+$ pnpm add -D @arco-plugins/rspack-react
 ```
 
 ## Usage
 
-To to the plugin, add the following code in webpack config:
+The usage method is to add the following content to the `rspack.config.js` file:
 
 ```js
-const ArcoWebpackPlugin = require('@arco-plugins/webpack-react');
+const { ArcoDesignPlugin } = require('@arco-plugins/rspack-react');
 
-// webpack config
-{
+module.exports = {
+  module: {
+    rules: [
+      {
+        type: 'css',
+        test: /\.less$/,
+        use: [{ loader: 'less-loader' }],
+      },
+    ],
+  },
   plugins: [
-    new ArcoWebpackPlugin(options)
-  ]
-}
+    new ArcoDesignPlugin({
+      theme: '@arco-themes/react-asuka',
+      iconBox: '@arco-iconbox/react-partial-bits',
+      removeFontFace: true,
+    }),
+  ],
+};
 ```
-## options
+
+You can also find an actual usable sample project in [example-rspack-react](../../examples/rspack-react/).
+
+## Options
 
 The plugin supports the following parameters:
 
-|Params|Type|Default Value|Description|
+| Parameter | Type | Default | Description |
 |:--:|:--:|:-----:|:----------|
-|**`include`**|`{(String\|RegExp)[]}`|`['src']`|File directory used by bebel-plugin-import|
-|**`extensions`**|`{String[]}`|`['js', 'jsx', 'ts', 'tsx']`| File suffix used by bebel-plugin-import |
 |**`theme`**|`{String}`|`-`|Theme package name|
 |**`iconBox`**|`{String}`|`-`|Icon library package name|
-|**`modifyVars`**|`{Object}`|`{}`|Less variables|
+|**`libraryDirectory`**|`{'es'\|'lib'}`|`'es'`|Export format|
 |**`style`**|`{String\|Boolean}`|`true`| Style import method|
-|**`removeFontFace`**|`{Boolean}`|`false`| Whether to remove the font file that comes with the component library |
-|**`defaultLanguage`**|`{string}`|`-`| Replace the default language，[language list](https://arco.design/react/docs/i18n#%E6%94%AF%E6%8C%81%E7%9A%84%E8%AF%AD%E8%A8%80)|
-|**`webpackImplementation`**|`{webpack}`|`-`| Specifying which webpack implementation to use |
-|**`varsInjectScope`**|`{(String\|RegExp)[]}`|`-`| Scope of injection of less variables (modifyVars and the theme package's variables) |
-|**`modifyBabelLoader`**|`{Boolean}`|`true`| Whether to inject babel-plugin-import for babel-loader or adding a new loader |
-
-**Style import methods **
-
-`style: true` will import less file
-
-```js
-import '@arco-design/web-react/Affix/style'
-```
-
-`style: 'css'` will import css file
-
-```js
-import '@arco-design/web-react/Affix/style/css'
-```
-
-`style: false` will not import any style file
+|**`removeFontFace`**|`{Boolean}`|`false`| Remove the font files that come with the component library |
+|**`defaultLanguage`**|`{string}`|`-`| Replace the default language, [language list](https://arco.design/react/docs/i18n#%E6%94%AF%E6%8C%81%E7%9A%84%E8%AF%AD%E8%A8%80) |

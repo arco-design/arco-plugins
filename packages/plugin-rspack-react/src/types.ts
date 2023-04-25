@@ -10,6 +10,7 @@ export interface ArcoDesignPluginOptions {
   defaultLanguage?: string;
   theme?: string;
 }
+
 export type LoaderContext<T> =
   | WebpackLoaderContext<T>
   | (Omit<RspackLoaderContext, 'getOptions'> & { getOptions(schema?: any): T });
