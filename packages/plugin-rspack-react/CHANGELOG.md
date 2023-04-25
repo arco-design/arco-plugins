@@ -1,3 +1,5 @@
 ## 1.0.0
 
-TODO
+`2023-04-25`
+
+- Release first version.
