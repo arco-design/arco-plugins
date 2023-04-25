@@ -1,5 +1,4 @@
 import type { Compiler } from '@rspack/core';
-import _ from 'lodash';
 import { ARCO_DESIGN_COMPONENT_NAME, ARCO_DESIGN_ICON_NAME } from '../config';
 import { ArcoDesignPluginOptions } from '../types';
 
@@ -14,9 +13,8 @@ export class ImportPlugin {
     compiler.options.builtins.pluginImport ||= [];
 
     compiler.options.builtins.pluginImport.push({
-      libraryDirectory: 'es',
-      style: true,
-      ..._.pick(this.options, ['libraryDirectory', 'style']),
+      libraryDirectory: this.options.libraryDirectory || 'es',
+      style: this.options.style ?? true,
       libraryName: ARCO_DESIGN_COMPONENT_NAME,
       camelToDashComponentName: false,
     });

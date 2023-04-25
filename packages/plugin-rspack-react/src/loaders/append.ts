@@ -1,10 +1,10 @@
-import type { LoaderDefinitionFunction } from 'webpack';
+import { LoaderDefinition } from '../types';
 
 export interface AppendLoaderOptions {
   additionContent: string;
 }
 
-export const AppendLoader: LoaderDefinitionFunction<AppendLoaderOptions> = function (source) {
+export const AppendLoader: LoaderDefinition<AppendLoaderOptions> = function (source) {
   const options = this.getOptions();
   const additionContent = `${options.additionContent}`;
 

@@ -1,15 +1,26 @@
+/* eslint-disable @typescript-eslint/ban-types */
+import type { LoaderContext as WebpackLoaderContext } from 'webpack';
+import type { LoaderContext as RspackLoaderContext } from '@rspack/core';
+
 export interface ArcoDesignPluginOptions {
-  // /** @deprecated The pluginImport feature of Rspack will affect all files. */
-  // include?: (string | RegExp)[];
-  // extensions?: string[];
   style?: string | boolean;
   libraryDirectory?: string;
   iconBox?: string;
   removeFontFace?: boolean;
   defaultLanguage?: string;
   theme?: string;
-  // /** @deprecated `modifyVars` should be config in options of less-loader manually. */
-  // modifyVars?: Record<string, string>;
-  // /** @deprecated `varsInjectScope` should be config in options of less-loader manually. */
-  // varsInjectScope?: (string | RegExp)[];
 }
+export type LoaderContext<T> =
+  | WebpackLoaderContext<T>
+  | (Omit<RspackLoaderContext, 'getOptions'> & { getOptions(schema?: any): T });
+
+export interface LoaderDefinitionFunction<OptionsType = {}, ContextAdditions = {}> {
+  (
+    this: LoaderContext<OptionsType> & ContextAdditions,
+    content: string,
+    sourceMap?: unknown,
+    additionalData?: Record<string, unknown>
+  ): string | void | Buffer | Promise<string | Buffer>;
+}
+
+export type LoaderDefinition<OptionsType = {}> = LoaderDefinitionFunction<OptionsType>;

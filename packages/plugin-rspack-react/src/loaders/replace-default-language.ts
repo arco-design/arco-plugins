@@ -1,5 +1,5 @@
 import { Visitor, transformSync, types } from '@babel/core';
-import type { LoaderDefinitionFunction } from 'webpack';
+import { LoaderDefinition } from '../types';
 
 export interface ReplaceDefaultLanguageLoaderOptions {
   type: 'es' | 'lib';
@@ -7,7 +7,7 @@ export interface ReplaceDefaultLanguageLoaderOptions {
 }
 
 // 替换默认语言包
-const ReplaceDefaultLanguageLoader: LoaderDefinitionFunction<ReplaceDefaultLanguageLoaderOptions> =
+export const ReplaceDefaultLanguageLoader: LoaderDefinition<ReplaceDefaultLanguageLoaderOptions> =
   function (resource) {
     const { type = 'es', defaultLanguage } = this.getOptions();
 

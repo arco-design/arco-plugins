@@ -1,4 +1,4 @@
-import type { LoaderDefinitionFunction } from 'webpack';
+import type { LoaderDefinition } from '../types';
 
 export interface ReplaceIconLoaderOptions {
   iconBoxLib: Record<string, string>;
@@ -6,7 +6,7 @@ export interface ReplaceIconLoaderOptions {
 }
 
 // 替换Arco默认图标
-const ReplaceIconLoader: LoaderDefinitionFunction<ReplaceIconLoaderOptions> = function (content) {
+export const ReplaceIconLoader: LoaderDefinition<ReplaceIconLoaderOptions> = function (content) {
   const { iconBoxLib, iconBoxDirname } = this.getOptions();
 
   if (!iconBoxLib) return content;

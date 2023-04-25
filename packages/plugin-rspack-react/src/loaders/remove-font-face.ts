@@ -1,8 +1,8 @@
-import type { LoaderDefinitionFunction } from 'webpack';
+import type { LoaderDefinition } from '../types';
 
 const fontFaceRegex = /@font-face(.*)?{[^}]*?}/g;
 
-export const RemoveFontFaceLoader: LoaderDefinitionFunction = function (source) {
+export const RemoveFontFaceLoader: LoaderDefinition = function (source) {
   return source.replace(fontFaceRegex, '');
 };
 

@@ -1,10 +1,10 @@
 import type { Compiler } from '@rspack/core';
-import { ArcoDesignPluginOptions } from './types';
-import { ThemePlugin } from './plugins/theme';
 import { ImportPlugin } from './plugins/import';
 import { RemoveFontFacePlugin } from './plugins/remove-font-face';
-import { ReplaceIconPlugin } from './plugins/replace-icon';
 import { ReplaceDefaultLanguagePlugin } from './plugins/replace-default-language';
+import { ReplaceIconPlugin } from './plugins/replace-icon';
+import { ThemePlugin } from './plugins/theme';
+import { ArcoDesignPluginOptions } from './types';
 
 export type { ArcoDesignPluginOptions };
 

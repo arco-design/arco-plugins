@@ -1,11 +1,10 @@
 import { getFileSource } from '@arco-plugins/utils';
 import type { Compiler, RuleSetUseItem } from '@rspack/core';
-import _ from 'lodash';
 import path from 'path';
 import { ARCO_DESIGN_COMPONENT_NAME } from '../config';
 import { ArcoDesignPluginOptions } from '../types';
 import { compileGlob } from '../utils';
-import { getThemeComponents, getThemeVars } from '../utils/theme';
+import { getThemeComponents } from '../utils/theme';
 
 export class ThemePlugin {
   options: ArcoDesignPluginOptions;
@@ -16,17 +15,7 @@ export class ThemePlugin {
 
   apply(compiler: Compiler) {
     this.handleGlobalStyle(compiler);
-    // this.handleVariables(compiler);
     this.handleComponentStyle(compiler);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-  handleVariables(compiler: Compiler) {
-    // const themeVars = this.options.theme ? getThemeVars(this.options.theme) : {};
-    // const modifyVars = this.options.modifyVars;
-    // const vars = { ...themeVars, ...modifyVars };
-    // // eslint-disable-next-line no-useless-return
-    // if (_.isEmpty(vars)) return;
   }
 
   handleGlobalStyle(compiler: Compiler) {
