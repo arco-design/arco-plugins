@@ -38,8 +38,7 @@ export interface ArcoDesignPluginOptions {
 
 另外由于放弃了对 webpack@4 的支持并对内部实现做了改进，所以不再需要配置 `context` `webpackImplementation`。
 
-最后出于可维护性的考虑，`@arco-plugins/rspack-react` 不再支持 `modifyVars` `varsInjectScope` 配置项，
-你可以通过手动配置 `less-loader` 的配置来实现相同的功能。
+出于可维护性的考虑，`@arco-plugins/rspack-react` 不再支持 `modifyVars` `varsInjectScope` 配置项，你可以通过手动配置 `less-loader` 的配置来实现相同的功能。
 
 ## 安装
 
