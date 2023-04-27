@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const { ArcoDesignPlugin } = require('@arco-plugins/rspack-react');
+const { ArcoDesignPlugin } = require('@arco-plugins/unplugin-react');
 const path = require('path');
 
 /** @type {import('@rspack/core').Configuration} */

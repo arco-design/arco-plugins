@@ -1,19 +1,40 @@
-# @arco-plugins/rspack-react
+# @arco-plugins/unplugin-react
 
-`@arco-plugins/rspack-react` is a Rspack plugin that helps to deal with arco usage cases.
+`@arco-plugins/unplugin-react` is a build plugin that helps with arco problems.
+
+It implements cross-bundler build capabilities based on unplugin.
 
 ## Features
 
-The functionality of the plugin is as follows:
+The features of the plugin are as follows:
 
-1. `On-demand loading of styles`: Automatically configure `builtins.pluginImport` in `rspack.config.js` to achieve on-demand loading of styles.
-2. `Remove font package from component library`: Specifying `removeFontFace` as `true` removes the font files that come with the component library.
-3. `Icon replacement`: Specify the package name of the icon library, and the plugin will read the icons with the same name as those used in the component library and replace them.
-4. `Replace default language`: The default imported language package of the component library is Chinese, which means that Chinese must be included in the packaged product. If you do not want to include Chinese, you can use this parameter to replace it with the language you need.
+1. `On-demand loading of styles`: Automatically configure import conversion plugins to implement on-demand loading of styles.
+2. `Removal of font packages included in component libraries`: Specify `removeFontFace` as `true` to remove the font files included in the component library.
+3. `Icon replacement`: Specify the package name of the icon library, and the plugin will read the icons in the package and replace them with the same-named icons used in the component library.
+4. `Default language replacement`: The default imported language package of the component library is Chinese, which means that the packaging will definitely include Chinese. If you don't want Chinese, you can use this parameter to replace it with the language you need.
 
-## Differences
+## Support
 
-This plugin has some differences compared to `@arco-plugins/webpack-react`, which is determined by the underlying differences between Rspack and webpack.
+| Configuration item | Webpack | Rspack | Vite |
+|:---------------------:|:-------:|:------:|:----:|
+| style                 | ⚪      | 🟢     | ⚪   |
+| libraryDirectory      | ⚪      | 🟢     | ⚪   |
+| iconBox               | ⚪      | 🟢     | ⚪   |
+| removeFontFace        | ⚪      | 🟢     | ⚪   |
+| defaultLanguage       | ⚪      | 🟢     | ⚪   |
+| theme                 | ⚪      | 🟢     | ⚪   |
+| context               | ⚪      | ⚪     | ⚪   |
+| include               | ⚪      | ⚪     | ⚪   |
+| extensions            | ⚪      | ⚪     | ⚪   |
+| babelConfig           | ⚪      | ⚪     | ⚪   |
+| modifyVars            | ⚪      | ⚪     | ⚪   |
+| webpackImplementation | ⚪      | ⚪     | ⚪   |
+| varsInjectScope       | ⚪      | ⚪     | ⚪   |
+| modifyBabelLoader     | ⚪      | ⚪     | ⚪   |
+
+### Rspack
+
+Compared to `@arco-plugins/webpack-react`, there are some differences when using it in conjunction with Rspack. This is due to the underlying differences between Rspack and webpack.
 
 ```diff
 export interface ArcoDesignPluginOptions {
@@ -34,33 +55,33 @@ export interface ArcoDesignPluginOptions {
 }
 ```
 
-Unlike webpack, Rspack no longer uses Babel for limited-range code conversion, but instead uses SWC for all code, including third-party dependencies. Therefore, support for `include`, `extenstions`, `babelConfig`, and `modifyBabelLoader` configurations has been removed.
+Unlike webpack, Rspack no longer uses Babel for limited-range code conversion, but instead uses SWC to process all code, including third-party dependencies. Therefore, support for `include`, `extensions`, `babelConfig`, and `modifyBabelLoader` configurations has been removed.
 
-In addition, because support for webpack@4 has been abandoned and internal improvements have been made, configuring `context` and `webpackImplementation` is no longer necessary.
+In addition, because support for webpack@4 has been abandoned and internal implementation has been improved, `context` and `webpackImplementation` configuration is no longer required.
 
-Finally, for maintainability reasons, `@arco-plugins/rspack-react` no longer supports the `modifyVars` and `varsInjectScope` configuration items, and you can achieve the same functionality by manually configuring the `less-loader` configuration.
+For maintainability reasons, `@arco-plugins/unplugin-react` no longer supports the `modifyVars` and `varsInjectScope` configuration items. You can achieve the same function by manually configuring the `less-loader`.
 
-## Installation
+## Install
 
-Install this tool using package managers:
+Install this tool via package manager:
 
 ```shell
 # npm
-$ npm install -D @arco-plugins/rspack-react
+$ npm install -D @arco-plugins/unplugin-react
 
 # yarn
-$ yarn add -D @arco-plugins/rspack-react
+$ yarn add -D @arco-plugins/unplugin-react
 
 # pnpm
-$ pnpm add -D @arco-plugins/rspack-react
+$ pnpm add -D @arco-plugins/unplugin-react
 ```
 
 ## Usage
 
-The usage method is to add the following content to the `rspack.config.js` file:
+Take Rspack for example, the usage is to add the following content to the `rspack.config.js` file:
 
 ```js
-const { ArcoDesignPlugin } = require('@arco-plugins/rspack-react');
+const { ArcoDesignPlugin } = require('@arco-plugins/unplugin-react');
 
 module.exports = {
   module: {
@@ -82,17 +103,17 @@ module.exports = {
 };
 ```
 
-You can also find an actual usable sample project in [example-rspack-react](../../examples/rspack-react/).
+You can also find an actual available example project in [example-rspack-react](../../examples/rspack-react/).
 
-## Options
+## options
 
 The plugin supports the following parameters:
 
-| Parameter | Type | Default | Description |
+|Parameter |Type|Default|Description|
 |:--:|:--:|:-----:|:----------|
-|**`theme`**|`{String}`|`-`|Theme package name|
-|**`iconBox`**|`{String}`|`-`|Icon library package name|
+|**`theme`**|`{string}`|`-`|Theme package name|
+|**`iconBox`**|`{string}`|`-`|Icon library package name|
 |**`libraryDirectory`**|`{'es'\|'lib'}`|`'es'`|Export format|
-|**`style`**|`{String\|Boolean}`|`true`| Style import method|
-|**`removeFontFace`**|`{Boolean}`|`false`| Remove the font files that come with the component library |
-|**`defaultLanguage`**|`{string}`|`-`| Replace the default language, [language list](https://arco.design/react/docs/i18n#%E6%94%AF%E6%8C%81%E7%9A%84%E8%AF%AD%E8%A8%80) |
+|**`style`**|`{string\|boolean}`|`true`|Style import method|
+|**`removeFontFace`**|`{boolean}`|`false`|Removes the font file included in the component library|
+|**`defaultLanguage`**|`{string}`|`-`|Replace default language, [language list](https://arco.design/react/docs/i18n#%E6%94%AF%E6%8C%81%E7%9A%84%E8%AF%AD%E8%A8%80)|

@@ -15,7 +15,7 @@
   "dependencies": {
     "@arco-design/web-react": "^2.47.1",
     "@arco-iconbox/react-partial-bits": "^0.0.3",
-    "@arco-plugins/rspack-react": "workspace:*",
+    "@arco-plugins/unplugin-react": "workspace:*",
     "@arco-themes/react-asuka": "^0.0.1",
     "example-component-a": "workspace:*",
     "ky": "^0.33.3",

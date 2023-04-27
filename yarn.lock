@@ -89,9 +89,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arco-plugins/rspack-react@workspace:*, @arco-plugins/rspack-react@workspace:packages/plugin-rspack-react":
+"@arco-plugins/unplugin-react@workspace:*, @arco-plugins/unplugin-react@workspace:packages/plugin-rspack-react":
   version: 0.0.0-use.local
-  resolution: "@arco-plugins/rspack-react@workspace:packages/plugin-rspack-react"
+  resolution: "@arco-plugins/unplugin-react@workspace:packages/plugin-rspack-react"
   dependencies:
     "@arco-plugins/utils": ^1.2.1
     "@babel/core": 7.21.4
@@ -7507,7 +7507,7 @@ __metadata:
   dependencies:
     "@arco-design/web-react": ^2.47.1
     "@arco-iconbox/react-partial-bits": ^0.0.3
-    "@arco-plugins/rspack-react": "workspace:*"
+    "@arco-plugins/unplugin-react": "workspace:*"
     "@arco-themes/react-asuka": ^0.0.1
     "@rspack/cli": ^0.1.8
     example-component-a: "workspace:*"

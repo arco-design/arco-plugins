@@ -1,7 +1,7 @@
 {
-  "name": "@arco-plugins/rspack-react",
+  "name": "@arco-plugins/unplugin-react",
   "version": "1.0.0",
-  "description": "arco rspack plugin",
+  "description": "arco plugin",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
@@ -10,7 +10,7 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:arco-design/arco-plugins.git",
-    "directory": "packages/plugin-rspack-react"
+    "directory": "packages/plugin-unplugin-react"
   },
   "scripts": {
     "build": "rm -rf lib && tsc",
@@ -23,7 +23,8 @@
     "arco-plugin",
     "plugin",
     "webpack",
-    "rspack"
+    "rspack",
+    "unplugin"
   ],
   "author": "arco-design",
   "license": "MIT",
