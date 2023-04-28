@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./lib",
+    "declaration": true,
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "target": "es2017",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "types": ["node"],
+    "lib": ["esnext"],
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "@arco-plugins/unplugin-react",
+  "version": "1.0.0",
+  "description": "arco plugin",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:arco-design/arco-plugins.git",
+    "directory": "packages/plugin-unplugin-react"
+  },
+  "scripts": {
+    "build": "rm -rf lib && tsc",
+    "dev": "tsc -w --sourceMap",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "arco",
+    "arco-design",
+    "arco-plugin",
+    "plugin",
+    "webpack",
+    "rspack",
+    "unplugin"
+  ],
+  "author": "arco-design",
+  "license": "MIT",
+  "dependencies": {
+    "@arco-plugins/utils": "^1.2.1",
+    "@babel/core": "7.21.4",
+    "minimatch": "^9.0.0"
+  },
+  "devDependencies": {
+    "@rspack/core": "^0.1.8",
+    "@types/node": "^14",
+    "typescript": "^5.0.4"
+  },
+  "peerDependencies": {
+    "@rspack/core": "*"
+  }
+}

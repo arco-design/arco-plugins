@@ -1,0 +1,25 @@
+{
+  "name": "example-rspack-react",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "rspack dev",
+    "build": "rspack build"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rspack/cli": "^0.1.8"
+  },
+  "dependencies": {
+    "@arco-design/web-react": "^2.47.1",
+    "@arco-iconbox/react-partial-bits": "^0.0.3",
+    "@arco-plugins/unplugin-react": "workspace:*",
+    "@arco-themes/react-asuka": "^0.0.1",
+    "example-component-a": "workspace:*",
+    "ky": "^0.33.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
