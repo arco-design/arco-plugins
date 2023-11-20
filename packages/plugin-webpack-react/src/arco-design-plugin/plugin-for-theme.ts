@@ -174,7 +174,7 @@ export class ThemePlugin {
         .replace(/\/\/.*/g, '') // ‘//’ 之后的所有内容（以一行为结束）
         .replace(/\/\*[\s\S]*?\*\//g, ''); // ‘/**/’ 之间的所有内容
     if (!str.length) return;
-
+    const cssVarsPrefix = this.options.modifyVars['arco-cssvars-prefix'];
     const obj = {};
     str
       .match(/(?=@)([\s\S]+?)(?=;)/g) // 匹配变量定义，结果为 ‘@变量名: 变量值’
@@ -182,8 +182,11 @@ export class ThemePlugin {
       .filter((item) => item && item.length === 2)
       .forEach((item) => {
         const key = item[0].replace(/^@/, '').trim();
-        const value = item[1].trim();
+        let value = item[1].trim();
         if (key && value) {
+          if (cssVarsPrefix && value.includes('--')) {
+            value = value.replace('--', `${cssVarsPrefix}-`);
+          }
           obj[key] = value;
         }
       });
