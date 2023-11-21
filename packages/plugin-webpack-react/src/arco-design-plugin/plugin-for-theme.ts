@@ -174,7 +174,7 @@ export class ThemePlugin {
         .replace(/\/\/.*/g, '') // ‘//’ 之后的所有内容（以一行为结束）
         .replace(/\/\*[\s\S]*?\*\//g, ''); // ‘/**/’ 之间的所有内容
     if (!str.length) return;
-    const cssVarsPrefix = this.options.modifyVars['arco-cssvars-prefix'];
+    const cssVarsPrefix = this.options.modifyVars?.['arco-cssvars-prefix'];
     const obj = {};
     str
       .match(/(?=@)([\s\S]+?)(?=;)/g) // 匹配变量定义，结果为 ‘@变量名: 变量值’
