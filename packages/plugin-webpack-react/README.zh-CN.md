@@ -62,13 +62,13 @@ const ArcoWebpackPlugin = require('@arco-plugins/webpack-react');
 `style: true` 将引入 less 文件
 
 ```js
-import '@arco-design/web-react/Affix/style'
+import '@arco-design/web-react/lib/Affix/style'
 ```
 
 `style: 'css'` 将引入 css 文件
 
 ```js
-import '@arco-design/web-react/Affix/style/css'
+import '@arco-design/web-react/lib/Affix/style/css'
 ```
 
 `style: false` 不引入样式
