@@ -68,7 +68,7 @@ export class ThemePlugin {
     };
     compiler.options.module.rules.push({
       test: compileGlob(glob),
-      type: null,
+      type: undefined,
       use: [use],
     });
   }
