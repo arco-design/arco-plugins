@@ -22,7 +22,7 @@ function App() {
       <ol>
         <Space direction="vertical" size="large">
           <li>
-            <p>The color of button should be orange (theme: '@arco-themes/react-asuka'):</p>
+            <p>The button should be the Christmas style (theme: '@arco-design/theme-christmas'):</p>
             <Button type="primary">Button</Button>
           </li>
           <li>
