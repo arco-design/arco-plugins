@@ -47,6 +47,7 @@ export function hookNormalModuleLoader(
   };
   const webpackImplementation =
     (global.arcoDesignPlugin.options.webpackImplementation as typeof webpack | undefined) ||
+    compiler.webpack ||
     webpack;
   compiler.hooks.compilation.tap(pluginName, (compilation) => {
     if (
