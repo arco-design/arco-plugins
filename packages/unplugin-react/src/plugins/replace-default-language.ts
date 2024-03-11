@@ -23,7 +23,7 @@ export class ReplaceDefaultLanguagePlugin {
         test: compileGlob(
           `**/node_modules/${ARCO_DESIGN_COMPONENT_NAME}/${type}/locale/default.js`
         ),
-        type: null,
+        type: undefined,
         use: [use],
       });
     }
