@@ -51,7 +51,8 @@ export function hookNormalModuleLoader(
   compiler.hooks.compilation.tap(pluginName, (compilation) => {
     if (
       webpackImplementation.NormalModule &&
-      webpackImplementation.NormalModule.getCompilationHooks
+      webpackImplementation.NormalModule.getCompilationHooks &&
+      compilation instanceof webpack.Compilation
     ) {
       // for webpack 5
       webpackImplementation.NormalModule.getCompilationHooks(compilation).loader.tap(
