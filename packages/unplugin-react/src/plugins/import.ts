@@ -10,27 +10,38 @@ export class ImportPlugin {
   }
 
   apply(compiler: Compiler) {
-    compiler.options.builtins.pluginImport ||= [];
+    compiler.options.module.rules ||= [];
 
-    compiler.options.builtins.pluginImport.push({
-      libraryDirectory: this.options.libraryDirectory || 'es',
-      style: this.options.style ?? true,
-      libraryName: ARCO_DESIGN_COMPONENT_NAME,
-      camelToDashComponentName: false,
-    });
+    const rule = {
+      test: /@arco-design\/web-react/,
+      exclude: [/node_modules/],
+      loader: 'builtin:swc-loader',
+      options: {
+        rspackExperiments: {
+          import: [
+            {
+              libraryDirectory: this.options.libraryDirectory || 'es',
+              style: ![null, undefined].includes(this.options.style) ? this.options.style : true,
+              libraryName: ARCO_DESIGN_COMPONENT_NAME,
+              camelToDashComponentName: false,
+            },
+            {
+              libraryName: ARCO_DESIGN_ICON_NAME,
+              libraryDirectory: 'react-icon',
+              camelToDashComponentName: false,
+            },
+            {
+              libraryName: this.options.iconBox,
+              libraryDirectory: 'esm',
+              camelToDashComponentName: false,
+            },
+          ],
+        },
+      },
+    };
 
-    compiler.options.builtins.pluginImport.push({
-      libraryName: ARCO_DESIGN_ICON_NAME,
-      libraryDirectory: 'react-icon',
-      camelToDashComponentName: false,
-    });
-
-    if (this.options.iconBox) {
-      compiler.options.builtins.pluginImport.push({
-        libraryName: this.options.iconBox,
-        libraryDirectory: 'esm',
-        camelToDashComponentName: false,
-      });
-    }
+    compiler.options.module.rules.push(rule);
   }
 }
+
+exports.ImportPlugin = ImportPlugin;
