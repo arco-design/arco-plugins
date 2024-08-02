@@ -73,5 +73,3 @@ export class ImportPlugin {
     }
   }
 }
-
-exports.ImportPlugin = ImportPlugin;
