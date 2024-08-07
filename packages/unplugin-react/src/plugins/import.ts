@@ -42,27 +42,24 @@ export class ImportPlugin {
       compiler.options.module.rules ||= [];
 
       const rule = {
-        test: /@arco-design\/web-react/,
-        exclude: [/node_modules/],
-        loader: 'builtin:swc-loader',
+        use: 'builtin:swc-loader',
         options: {
           rspackExperiments: {
             import: [
               {
-                libraryDirectory: this.options.libraryDirectory || 'es',
-                style: ![null, undefined].includes(this.options.style) ? this.options.style : true,
+                customName: `${ARCO_DESIGN_COMPONENT_NAME}/${
+                  this.options.libraryDirectory || 'es'
+                }/{{member}}`,
+                style: this.options.style ?? true,
                 libraryName: ARCO_DESIGN_COMPONENT_NAME,
-                camelToDashComponentName: false,
               },
               {
                 libraryName: ARCO_DESIGN_ICON_NAME,
-                libraryDirectory: 'react-icon',
-                camelToDashComponentName: false,
+                customName: `${ARCO_DESIGN_ICON_NAME}/react-icon/{{member}}`,
               },
               {
                 libraryName: this.options.iconBox,
-                libraryDirectory: 'esm',
-                camelToDashComponentName: false,
+                customName: `${this.options.iconBox}/esm/{{member}}`,
               },
             ],
           },
