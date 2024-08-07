@@ -42,7 +42,8 @@ export class ImportPlugin {
       compiler.options.module.rules ||= [];
 
       const rule = {
-        use: 'builtin:swc-loader',
+        test: /(jsx?|tsx?)$/,
+        loader: 'builtin:swc-loader',
         options: {
           rspackExperiments: {
             import: [

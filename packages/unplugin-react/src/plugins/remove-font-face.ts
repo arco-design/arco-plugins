@@ -10,7 +10,6 @@ export class RemoveFontFacePlugin {
     };
     compiler.options.module.rules.push({
       test: compileGlob(`**/node_modules/${ARCO_DESIGN_COMPONENT_NAME}/{es,lib}/style/index.less`),
-      type: null,
       use: [use],
     });
   }
