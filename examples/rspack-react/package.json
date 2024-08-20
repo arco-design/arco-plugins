@@ -5,12 +5,21 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "rspack dev",
-    "build": "rspack build"
+    "dev:rsbuild": "rsbuild dev",
+    "dev:modern": "modern dev",
+    "build": "rspack build",
+    "build:rsbuild": "rsbuild build",
+    "build:modern": "rspack:modern build"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@rspack/cli": "^0.1.8"
+    "@modern-js/app-tools": "2.58.1",
+    "@rsbuild/core": "1.0.1-beta.13",
+    "@rsbuild/plugin-less": "1.0.1-beta.13",
+    "@rsbuild/plugin-react": "1.0.1-beta.13",
+    "@rspack/cli": "1.0.0-beta.4",
+    "less-loader": "^12.2.0"
   },
   "dependencies": {
     "@arco-design/web-react": "^2.47.1",

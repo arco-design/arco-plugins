@@ -1,4 +1,4 @@
-import type { LoaderDefinition } from '../types';
+import type { LoaderDefinition } from '@rspack/core';
 
 const fontFaceRegex = /@font-face(.*)?{[^}]*?}/g;
 

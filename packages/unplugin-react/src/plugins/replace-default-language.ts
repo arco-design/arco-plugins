@@ -1,7 +1,14 @@
-import type { Compiler, RuleSetUseItem } from '@rspack/core';
+import { Compiler, rspack } from '@rspack/core';
+import { makeRe } from 'minimatch';
 import { ARCO_DESIGN_COMPONENT_NAME } from '../config';
-import { compileGlob } from '../utils';
 import { ArcoDesignPluginOptions } from '../types';
+
+function replaceLanguage(originPath: string, language: string) {
+  return originPath.replace(
+    /default(\.js)?$/,
+    language.endsWith('.js') ? language : `${language}.js`
+  );
+}
 
 export class ReplaceDefaultLanguagePlugin {
   options: ArcoDesignPluginOptions;
@@ -11,21 +18,17 @@ export class ReplaceDefaultLanguagePlugin {
   }
 
   apply(compiler: Compiler) {
-    for (const type of ['es', 'lib']) {
-      const use: RuleSetUseItem = {
-        loader: require.resolve('../loaders/replace-default-language'),
-        options: {
-          defaultLanguage: this.options.defaultLanguage,
-          type,
-        },
-      };
-      compiler.options.module.rules.push({
-        test: compileGlob(
-          `**/node_modules/${ARCO_DESIGN_COMPONENT_NAME}/${type}/locale/default.js`
-        ),
-        type: undefined,
-        use: [use],
-      });
-    }
+    new rspack.NormalModuleReplacementPlugin(
+      makeRe(`**/node_modules/${ARCO_DESIGN_COMPONENT_NAME}/{es,lib}/locale/default.js`) as RegExp,
+      (result) => {
+        result.request = replaceLanguage(result.request, this.options.defaultLanguage);
+        if (result.createData.resource) {
+          result.createData.resource = replaceLanguage(
+            result.createData.resource,
+            this.options.defaultLanguage
+          );
+        }
+      }
+    ).apply(compiler);
   }
 }
