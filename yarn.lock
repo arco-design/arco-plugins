@@ -98,7 +98,7 @@ __metadata:
     minimatch: ^9.0.0
     typescript: ^5.0.4
   peerDependencies:
-    "@rspack/core": ^1.0.0
+    "@rspack/core": ^1.0.0 || ^1.0.0-alpha.0 || ^1.0.0-beta.0
   languageName: unknown
   linkType: soft
 
