@@ -58,10 +58,14 @@ export class ImportPlugin {
                 libraryName: ARCO_DESIGN_ICON_NAME,
                 customName: `${ARCO_DESIGN_ICON_NAME}/react-icon/{{member}}`,
               },
-              {
-                libraryName: this.options.iconBox,
-                customName: `${this.options.iconBox}/esm/{{member}}`,
-              },
+              ...(this.options.iconBox
+                ? [
+                    {
+                      libraryName: this.options.iconBox,
+                      customName: `${this.options.iconBox}/esm/{{member}}`,
+                    },
+                  ]
+                : []),
             ],
           },
         },
