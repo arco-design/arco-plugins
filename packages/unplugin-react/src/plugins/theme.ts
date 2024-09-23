@@ -2,7 +2,7 @@ import type { Compiler } from '@rspack/core';
 import { ARCO_DESIGN_COMPONENT_NAME } from '../config';
 import { ArcoDesignPluginOptions } from '../types';
 import { compileGlob } from '../utils';
-import { getThemeComponents } from '../utils/theme';
+import { getThemeComponents, getThemeTokens, patchLessOptions } from '../utils/theme';
 
 export class ThemePlugin {
   options: ArcoDesignPluginOptions;
@@ -12,6 +12,8 @@ export class ThemePlugin {
   }
 
   apply(compiler: Compiler) {
+    if (!this.options.theme) return;
+
     compiler.options.module.rules.push({
       test: compileGlob(
         `**/node_modules/${ARCO_DESIGN_COMPONENT_NAME}/{es,lib}{/*,}/style/index.{css,less}`
@@ -26,6 +28,15 @@ export class ThemePlugin {
           },
         },
       ],
+    });
+
+    const themeTokens = getThemeTokens(this.options.theme);
+    patchLessOptions(compiler.options.module.rules, (originOptions = {}) => {
+      if (!originOptions.lessOptions) originOptions.lessOptions = {};
+      originOptions.lessOptions.modifyVars = {
+        ...themeTokens,
+        ...originOptions.lessOptions.modifyVars,
+      };
     });
   }
 }
