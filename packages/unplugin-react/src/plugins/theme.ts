@@ -31,10 +31,27 @@ export class ThemePlugin {
     });
 
     const themeTokens = getThemeTokens(this.options.theme);
+    const prefixThemeTokensCache = new Map<string | undefined, Record<string, string>>([
+      [undefined, themeTokens],
+    ]);
     patchLessOptions(compiler.options.module.rules, (originOptions = {}) => {
       if (!originOptions.lessOptions) originOptions.lessOptions = {};
+      const prefix = originOptions.lessOptions.modifyVars?.['arco-cssvars-prefix'];
+
+      if (prefix && !prefixThemeTokensCache.has(prefix)) {
+        prefixThemeTokensCache.set(
+          prefix,
+          Object.fromEntries(
+            Object.entries(themeTokens).map(([key, value]) => [
+              key,
+              value.includes('--') ? value.replace('--', `${prefix}-`) : value,
+            ])
+          )
+        );
+      }
+
       originOptions.lessOptions.modifyVars = {
-        ...themeTokens,
+        ...prefixThemeTokensCache.get(prefix),
         ...originOptions.lessOptions.modifyVars,
       };
     });
