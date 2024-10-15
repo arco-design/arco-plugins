@@ -45,6 +45,12 @@ export class ImportPlugin {
         test: /(jsx?|tsx?)$/,
         loader: 'builtin:swc-loader',
         options: {
+          jsc: {
+            parser: {
+              syntax: 'typescript',
+              tsx: true,
+            },
+          },
           rspackExperiments: {
             import: [
               {
