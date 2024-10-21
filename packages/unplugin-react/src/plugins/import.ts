@@ -4,26 +4,32 @@ import { ArcoDesignPluginOptions } from '../types';
 
 function applySwcOptions(
   options: ArcoDesignPluginOptions,
-  rule: { options?: string | Record<string, any> }
+  rule: { options?: string | Record<string, any> },
+  externals: string[]
 ) {
   if (typeof rule.options !== 'object') return;
   const swcLoaderOptions = rule.options as SwcLoaderOptions;
   swcLoaderOptions.rspackExperiments ||= {};
   swcLoaderOptions.rspackExperiments.import ||= [];
-  swcLoaderOptions.rspackExperiments.import.push(
-    {
+
+  if (!externals.includes(ARCO_DESIGN_COMPONENT_NAME)) {
+    swcLoaderOptions.rspackExperiments.import.push({
       libraryDirectory: options.libraryDirectory || 'es',
       style: options.style ?? true,
       libraryName: ARCO_DESIGN_COMPONENT_NAME,
       camelToDashComponentName: false,
-    },
-    {
+    });
+  }
+
+  if (!externals.includes(ARCO_DESIGN_ICON_NAME)) {
+    swcLoaderOptions.rspackExperiments.import.push({
       libraryName: ARCO_DESIGN_ICON_NAME,
       libraryDirectory: 'react-icon',
       camelToDashComponentName: false,
-    }
-  );
-  if (options.iconBox) {
+    });
+  }
+
+  if (options.iconBox && !externals.includes(options.iconBox)) {
     swcLoaderOptions.rspackExperiments.import.push({
       libraryName: options.iconBox,
       customName: `${options.iconBox}/esm/{{member}}`,
@@ -39,6 +45,7 @@ export class ImportPlugin {
   }
 
   apply(compiler: Compiler) {
+    const externals = Object.keys(compiler.options.externals);
     /**
      * Compatible with the new rspack version
      * due to since 0.63 removed options.builtins of compiler
@@ -49,22 +56,26 @@ export class ImportPlugin {
       // @ts-expect-error removed
       compiler.options.builtins.pluginImport ||= [];
 
-      // @ts-expect-error removed
-      compiler.options.builtins.pluginImport.push({
-        libraryDirectory: this.options.libraryDirectory || 'es',
-        style: this.options.style ?? true,
-        libraryName: ARCO_DESIGN_COMPONENT_NAME,
-        camelToDashComponentName: false,
-      });
+      if (!externals.includes(ARCO_DESIGN_COMPONENT_NAME)) {
+        // @ts-expect-error removed
+        compiler.options.builtins.pluginImport.push({
+          libraryDirectory: this.options.libraryDirectory || 'es',
+          style: this.options.style ?? true,
+          libraryName: ARCO_DESIGN_COMPONENT_NAME,
+          camelToDashComponentName: false,
+        });
+      }
 
-      // @ts-expect-error removed
-      compiler.options.builtins.pluginImport.push({
-        libraryName: ARCO_DESIGN_ICON_NAME,
-        libraryDirectory: 'react-icon',
-        camelToDashComponentName: false,
-      });
+      if (!externals.includes(ARCO_DESIGN_ICON_NAME)) {
+        // @ts-expect-error removed
+        compiler.options.builtins.pluginImport.push({
+          libraryName: ARCO_DESIGN_ICON_NAME,
+          libraryDirectory: 'react-icon',
+          camelToDashComponentName: false,
+        });
+      }
 
-      if (this.options.iconBox) {
+      if (this.options.iconBox && !externals.includes(this.options.iconBox)) {
         // @ts-expect-error removed
         compiler.options.builtins.pluginImport.push({
           libraryName: this.options.iconBox,
@@ -80,13 +91,13 @@ export class ImportPlugin {
       rules.forEach((rule) => {
         if (typeof rule !== 'object') return;
         if (rule.loader === 'builtin:swc-loader') {
-          applySwcOptions(this.options, rule);
+          applySwcOptions(this.options, rule, externals);
           return;
         }
         if (Array.isArray(rule.use)) {
           rule.use.forEach((ruleUse) => {
             if (typeof ruleUse === 'object' && ruleUse.loader === 'builtin:swc-loader') {
-              applySwcOptions(this.options, ruleUse);
+              applySwcOptions(this.options, ruleUse, externals);
             }
           });
         }
