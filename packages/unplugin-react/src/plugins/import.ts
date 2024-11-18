@@ -45,7 +45,7 @@ export class ImportPlugin {
   }
 
   apply(compiler: Compiler) {
-    const externals = Object.keys(compiler.options.externals);
+    const externals = Object.keys(compiler?.options?.externals ?? {});
     /**
      * Compatible with the new rspack version
      * due to since 0.63 removed options.builtins of compiler
