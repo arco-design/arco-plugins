@@ -65,8 +65,8 @@ export const AppendLoader: LoaderDefinition<AppendLoaderOptions> = function (sou
         null,
         [
           source,
-          `@import '~${options.theme}/theme.less';`,
-          `@import '~${options.theme}/tokens.less';`,
+          `@import (reference) '~${options.theme}/theme.less';`,
+          `@import (reference) '~${options.theme}/tokens.less';`,
           `@import '~${themeResource}';`,
         ].join('\n')
       );
