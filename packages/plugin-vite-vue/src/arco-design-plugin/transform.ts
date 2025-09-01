@@ -104,7 +104,7 @@ export function transformJsFiles({
         }
         if (
           !componentName ||
-          !['_resolveComponent', '_resolveDynamicComponent'].includes(funcName)
+          !/(_resolveComponent|_resolveDynamicComponent)/.test(funcName)
         ) {
           return;
         }
