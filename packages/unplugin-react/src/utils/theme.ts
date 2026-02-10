@@ -59,24 +59,27 @@ export function getThemeTokens(theme: string): Record<string, string> {
   }
 }
 
-export function patchLessOptions(rules: RuleSetRules, updater: (originOptions: any) => void) {
+export function patchLoaderOptions(
+  rules: RuleSetRules | undefined,
+  loader: string,
+  updater: (originOptions: any) => void
+) {
+  if (!rules) return;
   function patchSingleUse(use: any) {
-    if (
-      typeof use === 'object' &&
-      'loader' in use &&
-      typeof use.loader === 'string' &&
-      use.loader.includes('less-loader')
-    ) {
-      if (!use.options) use.options = {};
-      updater(use.options);
-      return true;
+    if (typeof use?.loader !== 'string' || !use.loader.includes(loader)) {
+      return false;
     }
-    return false;
+    if (!use.options) use.options = {};
+    updater(use.options);
+    return true;
   }
 
-  rules.forEach((rule) => {
+  function traverseRuleSet(rule: RuleSetRules[number]) {
     if (!rule || rule === '...' || patchSingleUse(rule)) return;
+    if (Array.isArray(rule.oneOf)) return rule.oneOf.forEach((subRule) => traverseRuleSet(subRule));
     if (!rule.use || patchSingleUse(rule.use)) return;
     if (Array.isArray(rule.use)) rule.use.forEach((ruleUse) => patchSingleUse(ruleUse));
-  });
+  }
+
+  rules.forEach((rule) => traverseRuleSet(rule));
 }

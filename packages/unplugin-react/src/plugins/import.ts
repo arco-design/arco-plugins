@@ -1,14 +1,15 @@
 import type { Compiler, SwcLoaderOptions } from '@rspack/core';
 import { ARCO_DESIGN_COMPONENT_NAME, ARCO_DESIGN_ICON_NAME } from '../config';
 import { ArcoDesignPluginOptions } from '../types';
+import { patchLoaderOptions } from '../utils/theme';
 
 function applySwcOptions(
   options: ArcoDesignPluginOptions,
-  rule: { options?: string | Record<string, any> },
+  ruleOptions: string | Record<string, any>,
   externals: string[]
 ) {
-  if (typeof rule.options !== 'object') return;
-  const swcLoaderOptions = rule.options as SwcLoaderOptions;
+  if (typeof ruleOptions !== 'object') return;
+  const swcLoaderOptions = ruleOptions as SwcLoaderOptions;
   swcLoaderOptions.rspackExperiments ||= {};
   swcLoaderOptions.rspackExperiments.import ||= [];
 
@@ -88,19 +89,8 @@ export class ImportPlugin {
 
       const rules = compiler.options.module.rules;
 
-      rules.forEach((rule) => {
-        if (typeof rule !== 'object') return;
-        if (rule.loader === 'builtin:swc-loader') {
-          applySwcOptions(this.options, rule, externals);
-          return;
-        }
-        if (Array.isArray(rule.use)) {
-          rule.use.forEach((ruleUse) => {
-            if (typeof ruleUse === 'object' && ruleUse.loader === 'builtin:swc-loader') {
-              applySwcOptions(this.options, ruleUse, externals);
-            }
-          });
-        }
+      patchLoaderOptions(rules, 'builtin:swc-loader', (options) => {
+        applySwcOptions(this.options, options, externals);
       });
     }
   }

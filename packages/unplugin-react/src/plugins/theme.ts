@@ -2,7 +2,7 @@ import type { Compiler } from '@rspack/core';
 import { ARCO_DESIGN_COMPONENT_NAME } from '../config';
 import { ArcoDesignPluginOptions } from '../types';
 import { compileGlob } from '../utils';
-import { getThemeComponents, getThemeTokens, patchLessOptions } from '../utils/theme';
+import { getThemeComponents, getThemeTokens, patchLoaderOptions } from '../utils/theme';
 
 export class ThemePlugin {
   options: ArcoDesignPluginOptions;
@@ -34,7 +34,7 @@ export class ThemePlugin {
     const prefixThemeTokensCache = new Map<string | undefined, Record<string, string>>([
       [undefined, themeTokens],
     ]);
-    patchLessOptions(compiler.options.module.rules, (originOptions = {}) => {
+    patchLoaderOptions(compiler.options.module.rules, 'less-loader', (originOptions = {}) => {
       if (!originOptions.lessOptions) originOptions.lessOptions = {};
       const prefix = originOptions.lessOptions.modifyVars?.['arco-cssvars-prefix'];
 

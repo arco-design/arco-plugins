@@ -1,6 +1,6 @@
 {
   "name": "@arco-plugins/unplugin-react",
-  "version": "2.0.0-beta.5",
+  "version": "2.0.0-beta.6",
   "description": "arco plugin",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -37,6 +37,6 @@
     "typescript": "^5.0.4"
   },
   "peerDependencies": {
-    "@rspack/core": "^1.0.0 || ^1.0.0-alpha.0 || ^1.0.0-beta.0"
+    "@rspack/core": "^1.0.0 || ^2.0.0 || ^2.0.0-alpha.0 || ^2.0.0-beta.0"
   }
 }
