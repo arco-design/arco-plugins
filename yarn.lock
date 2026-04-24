@@ -7487,7 +7487,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"example-component-a@^1.0.0, example-component-a@workspace:*, example-component-a@workspace:examples/component-a":
+"example-component-a@workspace:*, example-component-a@workspace:examples/component-a":
   version: 0.0.0-use.local
   resolution: "example-component-a@workspace:examples/component-a"
   dependencies:
@@ -7534,7 +7534,7 @@ __metadata:
     "@babel/preset-react": ^7.13.13
     babel-loader: ^8.2.5
     css-loader: ^6.7.1
-    example-component-a: ^1.0.0
+    example-component-a: "workspace:*"
     html-webpack-plugin: ^5.5.0
     less: ^4.1.3
     less-loader: ^11.0.0
