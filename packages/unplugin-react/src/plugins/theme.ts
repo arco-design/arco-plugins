@@ -55,7 +55,7 @@ export class ThemePlugin {
     if (ext === '.css') {
       source = getFileSource(request);
     } else if (ext === '.less') {
-      source = `;\n@import '~${request}';`;
+      source = `;\n@import '${request}';`;
     } else {
       throw new Error('Only accept to match css or less files.');
     }

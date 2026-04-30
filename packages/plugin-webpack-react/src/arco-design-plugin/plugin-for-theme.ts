@@ -114,7 +114,7 @@ export class ThemePlugin {
       if (!source) return;
 
       if (options && options.importLessPath) {
-        source = `;\n@import '~${filePath}';`;
+        source = `;\n@import '${filePath}';`;
       }
 
       const appendLoader = require.resolve('./loaders/append');
