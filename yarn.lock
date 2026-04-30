@@ -34,6 +34,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@arco-design/theme-christmas@npm:^0.0.18":
+  version: 0.0.18
+  resolution: "@arco-design/theme-christmas@npm:0.0.18"
+  peerDependencies:
+    "@arco-design/web-react": ^2.26.0
+  checksum: 4f4e4da648c1cee14bafc5e434dfa8d92b1a966dabbcd83090d80a3e4da4c4dfe219866257bbb3d493dccd49612d00b55bc0a39cee4e6ed9f53e02a2658d63a6
+  languageName: node
+  linkType: hard
+
 "@arco-design/web-react@npm:^2.35.1":
   version: 2.35.1
   resolution: "@arco-design/web-react@npm:2.35.1"
@@ -193,15 +202,6 @@ __metadata:
     webpack: ^4.0.0 || ^5.0.0
   languageName: unknown
   linkType: soft
-
-"@arco-themes/react-asuka@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "@arco-themes/react-asuka@npm:0.0.1"
-  peerDependencies:
-    "@arco-design/web-react": ^2.47.1
-  checksum: 051970e604273a997988bb9723d55df070b06ab19c605beaf98d91d25d9f632d575de9d6d06774d2570839d74665c7b5807802a6c43ae04e22e473251c725f51
-  languageName: node
-  linkType: hard
 
 "@arco-themes/react-plugin-test@npm:^0.0.1":
   version: 0.0.1
@@ -7505,10 +7505,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "example-rspack-react@workspace:examples/rspack-react"
   dependencies:
+    "@arco-design/theme-christmas": ^0.0.18
     "@arco-design/web-react": ^2.47.1
     "@arco-iconbox/react-partial-bits": ^0.0.3
     "@arco-plugins/unplugin-react": "workspace:*"
-    "@arco-themes/react-asuka": ^0.0.1
     "@rspack/cli": ^0.1.8
     example-component-a: "workspace:*"
     ky: ^0.33.3

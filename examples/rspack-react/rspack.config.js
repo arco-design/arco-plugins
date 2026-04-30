@@ -49,7 +49,7 @@ module.exports = {
   },
   plugins: [
     new ArcoDesignPlugin({
-      theme: '@arco-themes/react-asuka',
+      theme: path.resolve(__dirname, 'node_modules/@arco-design/theme-christmas'),
       iconBox: '@arco-iconbox/react-partial-bits',
       removeFontFace: true,
       defaultLanguage: 'ja-JP',
