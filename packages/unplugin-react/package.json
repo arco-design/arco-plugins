@@ -9,8 +9,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:arco-design/arco-plugins.git",
-    "directory": "packages/plugin-unplugin-react"
+    "url": "git+https://github.com/arco-design/arco-plugins.git",
+    "directory": "packages/unplugin-react"
   },
   "scripts": {
     "build": "rm -rf lib && tsc",
